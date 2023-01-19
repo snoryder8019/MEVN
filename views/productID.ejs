@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <%- include('./config/head.ejs')%>
+<body onload="bodyLoader()">
+    
+    <div class="mainStyle">
+        
+        <%- include('partials/cart.ejs')%>
+        <%- include('../views/config/bkgdImg.ejs')%>
+        <%- include('../views/config/header.ejs')%>
+        <%- include('config/loadScreen.ejs')%>
+  <div class="eventBody">
+    <h2 class="h1Span"> <%= title%> :  <%= data.name%></h2>
+</div>
+
+        <!----LANDING PAGE CLASS IS GRID DISPLAY-->
+        <!----LARGE SCREEN 4 GRID !!!! MEDIUM SCREEN 3 GRID !!!!! SMALL 2 and single GRID-->
+ <%if(typeof data == 'object'&& data.imgName){%>
+        <div id="imgPrev"onclick="enlarge()" class="imgPreviewDiv"><img class="imgPreview" src="/<%= data.imgName%>" alt=""></div>
+ <%}%>
+        <div class="landingPage">
+            <div class="eventBody">
+        <div onclick="enlarge()" style="background-image:url('/<%= data.imgName%>');" class="imgBox"></div> 
+
+        <div class="invPrice"><%= data.price%></div> 
+        <div >
+            <h3><%= data.details%></h3>
+            <h3>Orders are shipped within 4 business days of order being placed. Metal art design will be NON-painted raw steel</h3>
+            <h3> Not the right size for your application? Custom Colors, designs, sizes, and modifications available, <a href="/register"><span class="alert"> Contact Us </span></a>for a quote!!!
+            </h3>
+            <br>
+            <div class="eventBody">
+            <h3>Sizing</h3>
+            <%if(typeof data.shipping == "object"&& data.shipping){%>
+            <h3>Height: <%= data.shipping.height%> inches</h3>
+            <h3>Width: <%= data.shipping.width%> inches</h3>
+            <h3>Depth: <%= data.shipping.depth%> inches</h3>
+            <h3>Weight: <%= data.shipping.weight%></h3>
+            <%}else{%>
+                <h3>No sizing for this product available</h3>
+                <%}%>
+        </div>
+        </div> 
+        
+    </div>
+
+
+
+
+    <div>
+        <form action="/addToCart" method="post">
+            <input name="prodId" hidden="true" value="<%= data._id%>"></label>
+            <input name="prodName" hidden="true" value="<%= data.name%>"></label>
+            <input name="prodPrice" hidden="true" value="<%= data.price%>"></label>
+            <input name="prodImg" hidden="true" value="<%= data.imgName%>"></label>
+            <% if (typeof user == 'object' && user || typeof session.user == 'object' && session.user) { %>
+                <button onclick="loading('adding to cart')" id="productAddButton" type="submit" value="submit()" ><h2>add to cart</h2></button>
+                <%}else{%>
+                    <a href="/login"><div class="navBox">sign in to add to cart</div></a>
+                    <%}%>
+                </form>   
+                <a onclick="loading('...loading previous page'), goBack()"><div class="navBox">back</div></a>
+                <a onclick="loading('getting blogs and inventory')" href="/"><div  class="navBox">home</div></a>
+    </div>
+    <div class="indexSpacerBottom"></div>
+</div>
+      <%- include('../views/config/footer.ejs')%>
+
+    </div>
+
+<script src="/javascripts/cart.js"></script>
+<script src="/javascripts/imgPrev.js"></script>
+<%- include('./config/baseScripts.ejs')%>
+
+</body>
+ </html>

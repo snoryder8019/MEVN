@@ -1,0 +1,17 @@
+    <% if (typeof user == 'object' && user) { %>
+    <div><h2><%= user.firstName%></h2>
+   <br> <h2><%= user.email%></h2>
+   <br> <h2><%= user%></h2></div>
+   
+    <% if(typeof user.cart == 'array' && user.cart){%>
+    <div>cart items: </div>
+
+    <div>total</div>
+    <%- include('paypal.ejs')%>
+    <%}else{%>
+        <h2>no cart items</h2>
+        <%}%>
+     <%}else{%>
+        <h2>sign in to use this feature</h2>
+      
+    <%}%>

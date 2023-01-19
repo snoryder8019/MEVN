@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <body >
+           
+    <canvas id="bkgdCanvas"></canvas>  
+    <div id="backgroundFX">
+    <%- include('config/head.ejs')%>
+    <%- include('config/header.ejs')%>
+    <%- include('config/bkgdImg.ejs')%>
+    <%- include('config/loadScreen.ejs')%>
+
+    <div class="mainStyle">
+        <div class="landingPage">
+    <h1><%=title%></h1>
+
+<div class="mainStyle">
+  <div class="eventBody">
+      <h3>registrants name: </h3><h2><%=data.name%></h2>
+   <h3>email address: </h3><p><%=data.email%></p>
+
+   <h3>signed up as: </h3><p><%=data.type%></p>
+   <div class="messagebox">
+      <h3>message: </h3><p><%=data.message%></p>
+
+    </div>
+    </div>
+
+
+
+
+<button class="details"> <a style="text-decoration:none;color:black" href="mailto:<%=data.email%>">email <%= data.name%> </a></button>
+<form method="post" action="/adminHit"><button class="details"> Back to Admin Page</button></form>
+<button class="details" id="delButt<%= data.email%>">Remove</button>
+<form method="post" action="/delRegister"><button class="delButton" id="delComfirm<%= data.email%>" name="delConfirm" value="<%= data.email%>">Delete Visitor</button></form>
+</div>
+</div>
+</div>
+    </div>
+    <%- include('config/footer.ejs')%> 
+    <%- include('./config/baseScripts.ejs')%>
+    </body> </html>

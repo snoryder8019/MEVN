@@ -1,0 +1,31 @@
+<script src="/javascripts/cart.js"></script>
+<script src="/javascripts/burgBtn.js"></script>
+<div id="menu" class="menu">
+    <div id="burgBtn" onclick="menuOpen()" class="hamburger">
+<div id="hmTop" class="hm"></div>
+<div id="hmMid" class="hm"></div>
+<div id="hmBot" class="hm"></div>
+</div>
+</div>
+
+<div id="menuPage">
+    <div class="menuContent">
+        <p><a href="/">Home</a></p>
+        <p><a href="/market">Market</a></p>
+        <p><a href="/register">Contact</a></p>
+    <% if (typeof user == 'object' && user) { %>
+        <p> <a onclick="loading('logging out')" href="/auth/logout">Logout</a></p>
+        <div><img onclick="getCart()" class="cartIcon" src="/images/icons/cart.png"></div>
+        <%}else{%>
+            <p><a href="/login">Sign in</a></p>
+            <div><a href="/login"><img class="cartIcon" src="/images/icons/cart1.png"></a></div>
+    
+    <%}%>
+
+</div>
+</div>
+
+
+ 
+
+

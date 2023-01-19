@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <body>
+           
+<canvas id="bkgdCanvas"></canvas>  
+<div id="backgroundFX">
+    <%- include('config/head.ejs')%>
+    <%- include('config/header.ejs')%>
+    <%- include('config/bkgdImg.ejs')%>
+    <%- include('config/loadScreen.ejs')%>
+<div class="eventBody">
+<h1 class="h1Span"><%=title%></h1>
+</div>
+<div class="eventBody">
+    <div class="mainStyle">
+        <h1 class="h1Span">Add FAQ</h1>
+            <div class="eventBody">        
+              <form action="/newFAQ"  method="post">    
+                <h2>Step 1: Add Details</h2>              
+                  <input placeholder="FAQ Question"  type="text" name="faq">
+                  <h2>product details</h2>
+                  <textarea placeholder="FAQ Answer" type="text" name="faqAnswer"></textarea>                
+                  <h2>Step 2: Submit</h2> 
+                    <button onclick="loading('adding New FAQ Entry')" type="submit" >Submit</button>
+               </form>
+            </div>
+          </div>
+  </div>
+
+  <div class="eventBody">
+    <div class="mainStyle">
+        <h1 class="h1Span">Delete FAQs</h1>
+       
+            <%for(let i=0;i<faqs.length;i++){%>
+               Question: <p><%=faqs[i].faqQ%></p>        
+               answer: <p><%=faqs[i].faqA%></p>
+               <form action="/delFaq" method="post">
+                <input hidden name="faqId" value="<%=faqs[i]._id%>">
+                <button type="submit">delFaq</button>
+            </form>
+            <%}%>
+   
+    </div>
+  </div>
+
+
+
+<%- include('./config/adminNav.ejs')%>
+
+
+
+<%- include('./config/baseScripts.ejs')%>
+<%- include('config/footer.ejs')%> 
+    </div>
+
+    </body> </html>

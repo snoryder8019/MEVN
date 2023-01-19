@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+    <%- include('config/head.ejs')%>
+
+<body onload="bodyLoader()">
+    <canvas id="bkgdCanvas"></canvas>  
+    
+ 
+        <div id="mainBody" class="">
+            
+            <%- include('config/bkgdImg.ejs')%>
+            
+            <%- include('config/loadScreen.ejs')%>
+            <%- include('config/header.ejs')%>
+            <%- include('partials/cart.ejs')%>
+    <%- include('config/intro.ejs')%>
+ 
+    <div class="eventBody">
+       <div class="indexSpacer"></div>
+        <h1 class="h1Span">W2 Marketing Packages</h1>
+        <div class="invGrid">
+            <% for(var i=0;i<data.length;i++){%>
+                <div class="gridContain">
+                    <div>
+                        <h2><%=data[i].name%></h2>
+                        <h3>$<%=data[i].price%>.00</h3>
+                    </div>
+                    <div class="imgCont">
+                           <a onclick="loading('getting product details')" href="/productID/<%= data[i]._id%>"> 
+                         <img class="invImg" src=" <%= data[i].imgName%>" alt="">
+                        </a>
+                       </div>
+                </div>                
+                 <%}%>
+            </div>
+            <div class="indexSpacerBottom"></div>
+        </div>
+     
+     
+        
+        <div class="midBar">
+            <div class="midLeft">
+                <div class="landingPage0">
+            <a href="/market">     <div class="navBox">
+                W2's Home Website
+            </div></a>
+        </div>
+<div class="landingPage0">
+   <a href="/about"> <div class="navBox">
+        about this webapp
+    </div></a>
+</div>
+<div class="landingPage0">
+    <a href="/faqs">   <div class="navBox">
+        F.A.Q.s
+    </div></a>
+</div>
+</div>
+<div class="midRight">
+    
+    <%- include('config/icons/icon_set.ejs')%>
+</div>
+</div>
+//////////////////
+<h1 class="h1Span">Latest Developments</h1>
+<div class="landingPage">   
+    <% for(var i=0;i<blogs.length;i++){%>
+        <div class="eventBody">
+                    <h1><%= blogs[i].bTitle%></h1>
+                    <h2><%= blogs[i].bSubtitle%></h2>
+                    <p><%= blogs[i].bDetails%></p>
+                    <div style="background-image:url('<%= blogs[i].imgName%>');" class="imgBox"></div>
+                </div>
+                    <%}%>
+        </div>
+        <div class="indexSpacerBottom"></div>
+      <%- include('config/footer.ejs')%>
+
+    </div>
+
+
+<%- include('./config/baseScripts.ejs')%>
+</body>
+ </html>

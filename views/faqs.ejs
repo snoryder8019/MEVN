@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+    <%- include('config/head.ejs')%>
+
+<body onload="bodyLoader()">   
+ 
+        <div class="mainStyle"> 
+            <%- include('config/bkgdImg.ejs')%>
+            <%- include('config/header.ejs')%>
+            
+            
+            <div class="midLeft">
+                <div class="eventBody">
+              <h1>Frequently Asked Questions</h1>
+              <ul>
+              <%for(let i=0;i<faqs.length;i++){%>
+                <div class="eventBody">
+                    <ul>
+                        <li><span class="alert"> Q: </span><%=faqs[i].faqQ%></li>
+                    <li><span class="alert"> A: </span><%=faqs[i].faqA%></li>
+                    </ul>
+              
+              
+            </div>
+              <%}%>
+              </ul>
+            </div>
+            </div>
+        
+        <div class="midBar">
+            <div class="midLeft">
+                <div class="landingPage0">
+            <a href="/market">     <div class="navBox">
+                marketplace
+            </div></a>
+        </div>
+<div class="landingPage0">
+   <a href="/about"> <div class="navBox">
+        about
+    </div></a>
+</div>
+<div class="landingPage0">
+    <a href="/">   <div class="navBox">
+       home
+    </div></a>
+</div>
+</div>
+
+
+
+
+</div>
+
+
+      <%- include('config/footer.ejs')%>
+
+    </div>
+
+
+<%- include('./config/baseScripts.ejs')%>
+</body>
+ </html>

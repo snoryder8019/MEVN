@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<body>
+   
+    <canvas id="bkgdCanvas"></canvas>  
+<div id="backgroundFX">
+    <%- include('head.ejs')%>
+    <%- include('header.ejs')%>
+    <%- include('bkgdImg.ejs')%>
+    <div class="mainStyle">
+<div class="eventBody">
+    <h2><%= title%></h2>
+</div>
+    <h1>thats a 404 page!!</h1>
+</div>
+
+<div class="landingPage0">
+    <a onclick="goBack()"><div class="navBox">back</div></a>
+    <a href="/">   <div class="navBox">
+        home
+    </div></a>
+
+</div>
+<%- include('footer.ejs')%>
+</div>
+<%- include('baseScripts.ejs')%>
+<!--script src="javascripts/backgroundFX1.js"></script-->
+</body>
+ </html>

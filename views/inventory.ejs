@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+    <body>
+           
+<canvas id="bkgdCanvas"></canvas>  
+<div id="backgroundFX">
+    <%- include('config/head.ejs')%>
+    <%- include('config/header.ejs')%>
+    <%- include('config/bkgdImg.ejs')%>
+    <%- include('config/loadScreen.ejs')%>
+<div class="eventBody">
+<h1 class="h1Span"><%=title%></h1>
+</div>
+<div class="mainStyle">
+
+
+
+<div class="eventBody">
+        <h1>Inventory Home</h1>
+  
+
+    <div class="updateDiv">
+
+            <%for(let i=0;i<inventory.length;i++){%>
+            <form action="/updateInv" method="post">
+        <input name="name" required placeholder="<%=inventory[i].name%>">         
+        <input hidden name="ogPost" value="<%=inventory[i].postDate%>">
+        <input name="price" required placeholder="<%=inventory[i].price%>">    
+      
+        <select required name="catRef">
+       <option value=""><%=inventory[i].catRef%></option>
+            <%for(let i =0;i<catagory.length;i++){%>
+                <option value="<%=catagory[i].catName%>"><%=catagory[i].catName%></option>
+                <%}%>
+        </select>
+    
+    <div class="updateImgDiv"><img class="updateImg" src="<%=inventory[i].imgName%>"></div>
+
+    <div>
+    <input name="invId" value="<%=inventory[i]._id%>" hidden>
+       <button class="updateBtn" type="submit">Update</button>
+     </form>
+
+    <form action="/deleteInv" method="post"> 
+        <input name="invId" value="<%=inventory[i]._id%>" hidden>
+        <button class="updateBtn" type="submit">Delete Item</button>
+      </div>
+    </form>
+     <%}%>
+    </div>
+  
+</div>
+
+<%- include('./config/adminNav.ejs')%>
+</div>
+
+
+
+
+
+<div class="eventBody">
+  <div class="mainStyle">
+      <h1 class="h1Span">Add Inventory</h1>
+          <div class="eventBody" id="inv0">
+      
+            <form action="/newItem" enctype="multipart/form-data" method="post">
+  
+              <h2>Step 1: Add Details</h2>
+              <p>Category Type:</p>
+              <select name="catSelect"  id="">
+                 <option value="">Select a Category</option>
+                 <%if(typeof blogs == 'object' && blogs[0]){%>
+                 <% for(let i=0;i<catagory.length;i++){%>
+                 <option  value="<%= catagory[i].catName%>"><%= catagory[i].catName%></option>
+                
+                 <%}%>
+                 <%}%>
+                </select>
+        
+                <input placeholder="Item Name"  type="text" name="inventoryName">
+                <input placeholder="Price w/ Shipping" type="text" name="inventoryPrice">
+                <h2>shipping details</h2>
+               Width in inches <input placeholder="Item Width"  type="text" name="inventoryWidth">
+               Height in inches <input placeholder="Item Height"  type="text" name="inventoryHeight">
+               Depth in inches <input placeholder="Item Depth"  type="text" name="inventoryDepth">
+               Weight in pounds <input placeholder="Item Weight"  type="text" name="inventoryWeight">
+                <h2>product details</h2>
+                <textarea placeholder="Item Details" type="text" name="inventoryDetails"></textarea>
+               
+                <h2 style="margin: 0;">Step 2: Attach One Image</h2> 
+                <input type="file" accept="image/*" name="photo">
+                <h2>Step 3: Submit</h2> 
+                  <button onclick="loading('adding New Inventory Item')" type="submit" >Submit</button>
+             </form>
+          </div>
+        </div>
+</div>
+
+
+<div class="mainStyle">
+  <h1 class="h1Span">Configure Categories</h1>
+
+  
+  
+  <div class="eventBody" id="admin0">
+  
+    <form action="/newCat"method="post">
+    
+      <h2><span class="alert"> Add:</span> New Category Name</h2>
+      <input placeholder="New Name"  type="text" name="catName">
+             <button type="submit" >Submit</button>
+          </form>
+  <form action="/delCat"method="post">
+      <h2><span class="alert">Delete:</span>  A Category Name</h2>
+   
+      <select placeholder="categories from db" name="catDel" id="">
+        <option value="">Select a Category</option>
+        <% for(let i=0;i<catagory.length;i++){%>
+
+          <option value="<%= catagory[i].catName%>"><%= catagory[i].catName%></option>
+          <%}%>
+      </select>
+      <button type="submit" >Delete</button>
+       </form>
+</div>
+
+</div>
+<div class="mainStyle">
+  <h1 class="h1Span">update product details</h1>
+  <div class="eventBody">
+<div class="detailsBlock">
+
+  <% for(let i=0;i<inventory.length;i++){%>
+   <h2><span class="alert"> details for:</span> <%=inventory[i].name%></h2>
+    <input value="<%= inventory[i].details%>">
+    <form action=""><button>update</button></form>
+    <%}%>
+
+</div>
+</div>
+</div>
+<%- include('./config/baseScripts.ejs')%>
+ 
+
+<%- include('config/footer.ejs')%> 
+    </div>
+
+    </body> </html>

@@ -1,0 +1,5 @@
+
+function bodyLoader(){
+  logoSlide()
+ //  loadScreen()
+}

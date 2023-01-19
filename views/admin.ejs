@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  
+    <%- include('config/head.ejs')%>
+
+<!--GOOGLE-->
+<meta name="google-site-verification" content="Pvp74_YXTw6uwsBP-6pTFmbwnjXD7_zXP-WUG4FpWU8" />
+<!--end-->
+</head>
+    <body>
+           
+<canvas id="bkgdCanvas"></canvas>  
+<div id="backgroundFX">
+    <%- include('config/header.ejs')%>  
+    <%- include('config/bkgdImg.ejs')%>
+    <%- include('config/loadScreen.ejs')%>
+<div class="eventBody">
+<h1 class="h1Span"><%=title%></h1>
+</div>
+<div class="mainStyle">
+  <div class="landingPage">
+
+    <div class="mainStyle">
+      <h1 class="h1Span">Post</h1>
+        <div class="eventBody" id="admin0">
+          <form action="/upload" enctype="multipart/form-data" method="post" >
+            <h2>Step 1: Add Details</h2>
+              <input placeholder="Event Title"  type="text" name="title">
+              <input placeholder="Date or Subtitle" type="text" name="subtitle">
+              <textarea placeholder="Event Details" type="text" name="details">
+               </textarea>
+            <h2 style="margin: 0;">Step 2: Attach One Image</h2> 
+              <input type="file" accept="image/*" name="photo">
+            <h2>Step 3: Submit</h2> 
+              <button onclick="loading('adding post to home page')" type="submit" >Submit</button>
+          </form>
+        </div>
+     </div>
+   
+
+  <div class="mainStyle">
+      <h1 class="h1Span">Live Posts</h1>
+      <div class="eventBody" id="admin2">
+      <table>
+        <thead>
+      <th>Blog Title</th><th>Date or Subtitle</th><th>Remove</th>
+        </thead>
+        <tbody>
+          <%if(typeof blogs == 'object' && blogs[0]){%>
+          <% for(var i=0; i<blogs.length;i++){%>
+          <tr>
+              <td><%= blogs[i].bTitle %></td>
+              <td><%= blogs[i].bSubtitle%></td>
+              <td><img src="<%= blogs[i].imgName%>" alt=""></td>             
+              <td><form action="/delBlog" method="post">
+                  <button onclick="loading('deleting blog')" name="blogDelete" value="<%= blogs[i]._id%>"> delete</button>
+                   </form></td>
+           </tr>
+          <% } %>
+          <%}%>
+        </tbody>
+      </table>
+     </div>
+   </div>
+
+<div class="mainStyle">
+<h1 class="h1Span">Add Inventory</h1>
+    <div class="eventBody" id="admin0">
+
+    <form action="/newItem" enctype="multipart/form-data" method="post">
+    
+      <h2>Step 1: Add Details</h2>
+      <p>Category Type:</p>
+      <select name="catSelect"  id="">
+         <option value="">Select a Category</option>
+         <%if(typeof blogs == 'object' && blogs[0]){%>
+         <% for(let i=0;i<catagory.length;i++){%>
+         <option  value="<%= catagory[i].catName%>"><%= catagory[i].catName%></option>
+        
+         <%}%>
+         <%}%>
+        </select>
+
+        <input placeholder="Item Name"  type="text" name="inventoryName">
+        <input placeholder="Price w/ Shipping" type="text" name="inventoryPrice">
+        <h2>shipping details</h2>
+        <input placeholder="Item Width"  type="text" name="inventoryWidth">
+        <input placeholder="Item Height"  type="text" name="inventoryHeight">
+        <input placeholder="Item Depth"  type="text" name="inventoryDepth">
+        <input placeholder="Item Weight"  type="text" name="inventoryWeight">
+        <h2>product details</h2>
+        <textarea placeholder="Item Details" type="text" name="inventoryDetails"></textarea>
+       
+        <h2 style="margin: 0;">Step 2: Attach One Image</h2> 
+        <input type="file" accept="image/*" name="photo">
+        <h2>Step 3: Submit</h2> 
+          <button onclick="loading('adding New Inventory Item')" type="submit" >Submit</button>
+     </form>
+    </div>
+
+
+
+  </div>
+<div class="evnetBody"><h1 class="h1Span"><a href="/options">Options</a></h1></div>
+<div class="evnetBody"><h1 class="h1Span"><a href="/inventory">Inventory</a></h1></div>
+
+
+</div>
+
+
+</div>
+<%- include('./config/baseScripts.ejs')%>
+ 
+
+<%- include('config/footer.ejs')%> 
+    </div>
+
+    </body> </html>
