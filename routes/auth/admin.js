@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const client = require('../../config/mongo');
 const dbName= 'w2Apps';
-const imageFP = 'w2Apps';
+const imageFP = 'MEVN';
 const fs = require('fs');
 const multer = require('multer');
 const upload =multer({dest:"uploads/"});
@@ -17,7 +17,7 @@ if(req.user.isAdmin==true){
 ////////////////////////////////////
 
 //////////////////////////////////
-router.get('/admin',isAddy, (req,res) =>{
+router.get('/admin', (req,res) =>{
     // eslint-disable-next-line no-inner-declarations
     async function gettingEmails(){
       try {
@@ -40,7 +40,7 @@ router.get('/admin',isAddy, (req,res) =>{
   } 
   })
 //////////////////////////////////
-router.get('/inventory',isAddy, (req,res) =>{ 
+router.get('/inventory', (req,res) =>{ 
     // eslint-disable-next-line no-inner-declarations
     async function gettingEmails(){
      try {

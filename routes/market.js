@@ -46,10 +46,10 @@ if(req.user){
                    console.log(cartTotal)
             console.log(cartArray)
          ////END CART TOTALS  
- return res.render('market', {title:"Custom Metalworkz",cartTotal:cartTotal,cart:cart,user:user, data:data, catagory:catagory, session:session})
+ return res.render('market', {title:"W2 Marketing Services",cartTotal:cartTotal,cart:cart,user:user, data:data, catagory:catagory, session:session})
   } else{
     console.log('no user or session user')
-   return res.render('market', {title:"Custom Metalworkz",user:user, data:data, catagory:catagory, session:session})
+   return res.render('market', {title:"W2 Marketing Services",user:user, data:data, catagory:catagory, session:session})
 
   }
   }
@@ -172,7 +172,7 @@ router.get('/productID/:_id', (req,res)=>{
                console.log(cartTotal)
         console.log(cartArray)
      ////END CART TOTALS
-        return res.render('productID',{title:"Product Page for " ,cartTotal:cartTotal,cart:cart,user:user, data:data,session:req.session})
+        return res.render('productID',{title:"Service Details: " ,cartTotal:cartTotal,cart:cart,user:user, data:data,session:req.session})
         }
         else if (req.session.user) {
           const cart = await client.db(dbName).collection('users').findOne({"_id":ObjectId(req.session.user._id)});
@@ -190,13 +190,13 @@ router.get('/productID/:_id', (req,res)=>{
                   console.log(cartTotal)
            console.log(cartArray)
         ////END CART TOTALS
-     return res.render('productID', {title:"Product Page for ",cartTotal:cartTotal,cart:cart,user:req.session.user, data:data, session:req.session})
+     return res.render('productID', {title:"Service Details: ",cartTotal:cartTotal,cart:cart,user:req.session.user, data:data, session:req.session})
       
         }
         
         
         else{
-         return res.render('productID',{title:"Product Page for " ,user:user, data:data,session:req.session})
+         return res.render('productID',{title:"Service Details: " ,user:user, data:data,session:req.session})
           
         }
       }})

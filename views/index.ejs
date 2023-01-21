@@ -18,7 +18,7 @@
  
     <div class="eventBody">
        <div class="indexSpacer"></div>
-        <h1 class="h1Span">W2 Marketing Packages</h1>
+        <h1 class="h1Span">W2 Marketing Services</h1>
         <div class="invGrid">
             <% for(var i=0;i<data.length;i++){%>
                 <div class="gridContain">
@@ -67,10 +67,10 @@
 <div class="landingPage">   
     <% for(var i=0;i<blogs.length;i++){%>
         <div class="eventBody">
-                    <h1><%= blogs[i].bTitle%></h1>
-                    <h2><%= blogs[i].bSubtitle%></h2>
-                    <p><%= blogs[i].bDetails%></p>
+                    <h1 maxlength="20"><%= blogs[i].bTitle%></h1>
+                    <h2 maxlength="20"><%= blogs[i].bSubtitle%></h2>
                     <div style="background-image:url('<%= blogs[i].imgName%>');" class="imgBox"></div>
+                    <p><%= blogs[i].bDetails%></p>
                 </div>
                     <%}%>
         </div>

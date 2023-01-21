@@ -12,16 +12,16 @@ $grey:rgba(97,97,97,.95);
 //TYPEFACE
 @font-face {
   font-family:"combo" ;
-  src: url('../fonts/Combo/Combo-Regular.ttf');
-  src: url('../fonts/Combo/Combo-Regular.ttf');
+  src: url('../fonts/Grotesque/DarkerGrotesque-Light.ttf');
+ // src: url('../fonts/Combo/Combo-Regular.ttf');
 }
 @font-face {
   font-family:"kScript" ;
-  src: url('../fonts/Kaushan_Script/KaushanScript-Regular.ttf');
+  src: url('../fonts/Vujahday/VujahdayScript-Regular.ttf');
 }
 @font-face {
   font-family:"righteous" ;
-  src: url('../fonts/Righteous/Righteous-Regular.ttf');
+  src: url('../fonts/Combo/Combo-Regular.ttf');
 }
 $fontMain:"combo";
 $fontSecondary:"righteous";
@@ -48,7 +48,7 @@ $textAltColor:white;
     
     margin: 0;
     padding: 0;
-    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    //font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
     background-color:black;
     color: $textAltColor;
   }
@@ -63,32 +63,34 @@ $textAltColor:white;
     display: flex;
   }
   .introImgDiv{
-     margin: 0 0 15% 0 ;  
-     transform-style: preserve-3d;
-     transition-duration: .6s;
+    z-index: 2;
+    margin: 0 0 15% 0 ;  
+    transform-style: preserve-3d;
+    transition-duration: .6s;
      &_L:hover{
       transform-style: preserve-3d;
       transition-duration: 1.2s;
-transform: rotate3d(0,1,0,90deg);
-backface-visibility: visible;
-
-background-color: red;
+      transform: rotate3d(0,1,0,90deg);
+      backface-visibility: visible;
+      
+      background-color: red;
      }
      &_T{
-      padding: 5%;
-      margin: 0;
-      height: 100vh;
-      width: 90%;
-      background-color: rgba(0, 0, 0, 0.81);
-     }
-  }
-  .introImg{
-width: 100%;
-
-&_head{
-  width: 100%;
- // height: 100vh;
-  margin-top: 20vh;
+       padding: 5%;
+       margin: 0;
+       height: 100vh;
+       width: 90%;
+       background-color: rgba(0, 0, 0, 0.81);
+      }
+    }
+    .introImg{
+      width: 100%;
+      z-index: 2;
+      
+      &_head{
+        width: 100%;
+        // height: 100vh;
+  //margin-top: 20vh;
   margin-bottom: 60vh;
 
 @media screen and(min-width:900px) {
@@ -574,6 +576,10 @@ width:100%;
   0%{background-position-y:top;}
   50%{background-position-y:bottom;}
   100%{background-position-y:top;}
+}
+.innerDetails{
+  position: absolute;
+  z-index: 0;
 }
 .menu{
   position: fixed;
