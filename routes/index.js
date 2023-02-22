@@ -2,14 +2,16 @@
 var express = require('express');
 var router = express.Router();
 var client = require('../config/mongo');
-
+const request = require('request')
 const ObjectId = require('mongodb').ObjectId;
 const dbName = 'w2Apps'
+const fs = require('fs')
 
 
 router.get('/service-agreements',(req,res)=>{
   return res.render('service-agreements')
  })   
+ /////////////
 /* GET home page. */
 router.get('/',(req, res)=> {
   async function gettingBlogs(){
@@ -23,16 +25,13 @@ router.get('/',(req, res)=> {
     finally{
     await client.close();
   }}
+  //////////
   gettingBlogs().catch(console.error);
+  //////////
   async function getBlogs(client){
-const user= req.user
-
-
-
-
-
-
+   const user= req.user
     const blogs = await client.db(dbName).collection('blogs').find().toArray();
+    const intro = await client.db(dbName).collection('intro_content').find().toArray();
     const data = await client.db(dbName).collection('nm_inventory').find().toArray();
     if(user){
     const cart = await client.db(dbName).collection('users').findOne({"_id":ObjectId(req.user._id)});
@@ -49,7 +48,7 @@ const user= req.user
                     console.log(cartTotal)
              console.log(cartArray)
           ////END CART TOTALS
-    res.render('index', {title:'Welcome',cartTotal:cartTotal,cart:cart,user:user, data:data, blogs:blogs})
+    res.render('index', {title:'Welcome',cartTotal:cartTotal,cart:cart,user:user, data:data,intro:intro, blogs:blogs})
   }else if (req.session.user){
   const cart = await client.db(dbName).collection('users').findOne({"_id":ObjectId(req.session.user._id)});
   //////total cart items
@@ -66,12 +65,12 @@ const user= req.user
           console.log(cartTotal)
    console.log(cartArray)
 ////END CART TOTALS
-res.render('index', {title:'Welcome',cartTotal:cartTotal,cart:cart,user:user, data:data, blogs:blogs})
+res.render('index', {title:'Welcome',cartTotal:cartTotal,cart:cart,user:user, data:data,intro:intro, blogs:blogs})
 
 
 }
   else{
-      res.render('index', {title:'Welcome',user:null, data:data, blogs:blogs})
+      res.render('index', {title:'Welcome',user:null, data:data,intro:intro, blogs:blogs})
 
     }
     }
@@ -93,5 +92,6 @@ res.render('faqs',{faqs:faqs})
 router.get('/about',(req,res)=>{
   res.render('about')
 })
+
 
 module.exports = router;

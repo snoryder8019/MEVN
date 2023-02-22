@@ -9,7 +9,11 @@
     <%- include('bkgdImg.ejs')%>
     <div class="mainStyle">
 <div class="eventBody">
+    <%if(title=='object'&& title){%>
     <h2><%= title%></h2>
+    <%}else{%>
+        Error not returned
+        <%}%>
 </div>
     <h1>thats a 404 page!!</h1>
 </div>

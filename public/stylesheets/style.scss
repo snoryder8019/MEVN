@@ -45,13 +45,14 @@ $textAltColor:white;
   
   //***********************MAIN APP STYLES****************//
   body {
-    
+    text-align: center;
     margin: 0;
     padding: 0;
     //font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
     background-color:black;
     color: $textAltColor;
   }
+
   @keyframes slidein{
     0%{opacity:0;transform:translateX(-45px)}
     100%{opacity:1;transform:translateX(0px)}
@@ -66,36 +67,32 @@ $textAltColor:white;
     z-index: 2;
     margin: 0 0 15% 0 ;  
     transform-style: preserve-3d;
-    transition-duration: .6s;
-     &_L:hover{
-      transform-style: preserve-3d;
-      transition-duration: 1.2s;
-      transform: rotate3d(0,1,0,90deg);
-      backface-visibility: visible;
-      
-      background-color: red;
-     }
+    transition-duration: .6s;   
      &_T{
        padding: 5%;
-       margin: 0;
-       height: 100vh;
+       margin: 0; 
        width: 90%;
        background-color: rgba(0, 0, 0, 0.81);
+      @media (min-width:900px) {
+        width: 100%;
+       // margin-left: 30%;
+        padding: 0;
+      }
       }
     }
     .introImg{
       width: 100%;
       z-index: 2;
-      
+      position: relative;
+      transform-style: preserve-3d;
+      transition-duration: .6s;
       &_head{
-        width: 100%;
-        // height: 100vh;
-  //margin-top: 20vh;
-  margin-bottom: 60vh;
-
+        width: 26%;
+       margin-top: 20%;
+  @media (min-width:400px){margin-top:5%} 
 @media screen and(min-width:900px) {
-  width:40%;
-  margin-left:30%
+//  width:40%;
+ // margin-left:30%
 }}
   }
   .introHead{
@@ -103,9 +100,9 @@ min-width: 100%;
 min-height: 50%;
   }
   $typeSize:5rem;
-
   .introType{
-    font-family: 'combo';
+    font-family: 'kScript';
+    font-weight: 100;
     animation: none;
     width: 100%;
     font-size: 5rem;
@@ -131,7 +128,7 @@ min-height: 50%;
     &::after, &::before{
       width: 100%;
       animation: none;
-    content:'  NoCo Metalworkz';
+
     position: absolute;
    left: 3%;
    top:8%;
@@ -161,6 +158,7 @@ button{
   text-align: center;
   width: 92;
   margin-left: 3%;
+border-radius: 5%;
   margin: 1%;
   min-height: 28%;
   font-family: 'combo';
@@ -443,6 +441,8 @@ width:100%;
 
 }
 .navBox{
+  font-family: 'kScript';
+  font-weight: 100;
   background-color: black;
   color: white;
   text-align: center;
@@ -450,7 +450,7 @@ width:100%;
   margin-left: 3%;
   margin: 1%;
  
-  font-family: 'combo';
+  //font-family: 'combo';
   font-size: 3rem;
 
   &:hover{
@@ -578,8 +578,16 @@ width:100%;
   100%{background-position-y:top;}
 }
 .innerDetails{
-  position: absolute;
-  z-index: 0;
+ position: absolute;
+  z-index: 2;
+  background-color: rgba(128, 128, 128, 0.572);
+ text-align: center;
+display: flex;
+align-items: center;
+
+  //transform: translateY(-50%);
+  //width: 100%;
+  //height:60%;
 }
 .menu{
   position: fixed;

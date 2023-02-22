@@ -12,15 +12,15 @@
       <div class="landingPage"> 
         <div></div>
         <div>
-        <h1><%=title%></h1>
-        <p>*We keep info private and do not sell information about our customers</p>
-    <div class="eventBody">
+        <h1 class="h1Span"><%=title%></h1>
+        <div class="eventBody">
+      <p>*We keep info private and do not sell information about our customers</p>
   <form action="/contactform" method="POST">
     <br><h2>name</h2>
       <input id="regName" type="text" name="fname"  pattern=".{3,}" title="three or more charachters" >
       <br><h2>email address</h2>
       <input id="regEmail" type="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="valid email characters not recognized">
-      <h2>I'm interested in: </h2>
+
       <select name="regType" id="">
         <option name ="vendor" value="being a vendor"><h2>Have a Question</h2></option>
         <option name ="member" value="member"><h2>Commission a Design</h2></option>
@@ -29,7 +29,7 @@
         <option name ="feedback" value="feedback"><h2>I want to pitch an idea</h2></option>
 
       </select>
-      <p>Opt in to receive messages from Noco Metalworkz</p>
+      <p>Opt in to receive messages from W2 Marketing</p>
       
       <input id="regBox" type="checkbox" name="agree"><br>
       <h2 class="validateError" id="regValidateError">*please fill out all fields and "Opt In" to submit</h2>

@@ -38,7 +38,23 @@
         </div>
      </div>
    
-
+<!---->
+<div class="mainStyle">
+  <h1 class="h1Span">Add Intro Content</h1>
+    <div class="eventBody" id="admin0">
+      <form action="/uploadIntro" enctype="multipart/form-data" method="post" >
+        <h2>Step 1: Add Details</h2>
+          <input placeholder="Event Title"  type="text" name="introHeader">
+          <input placeholder="Date or Subtitle" type="text" name="introDetails">
+  
+        <h2 style="margin: 0;">Step 2: Attach One Image</h2> 
+          <input type="file" accept="image/*" name="photo">
+        <h2>Step 3: Submit</h2> 
+          <button onclick="loading('adding post to home page')" type="submit" >Submit</button>
+      </form>
+    </div>
+ </div>
+<!---->
   <div class="mainStyle">
       <h1 class="h1Span">Live Posts</h1>
       <div class="eventBody" id="admin2">
@@ -98,7 +114,25 @@
           <button onclick="loading('adding New Inventory Item')" type="submit" >Submit</button>
      </form>
     </div>
-
+<!---->
+<div class="mainStyle">
+  <h1 class="h1Span">Post to Facebook</h1>
+      <div class="eventBody" id="admin0">
+  
+      <form action="/ptf" enctype="multipart/form-data" method="get">
+      
+        <h2>Step 1: Add Details</h2>     
+  
+          <input placeholder="Headline"  type="text" name="headline">
+          <input placeholder="link" type="text" name="ahref">
+       
+          <h2 style="margin: 0;">Step 2: Attach One Image</h2> 
+          <input type="text" name="imgUrl">
+          <h2>Step 3: Submit</h2> 
+            <button onclick="loading('adding New Inventory Item')" type="submit" >Submit</button>
+       </form>
+      </div>
+<!---->
 
 
   </div>

@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const env = require('dotenv').config()
 const client = require('../../config/mongo');
 const dbName= 'w2Apps';
+const request = require('request')
 const imageFP = 'MEVN';
 const fs = require('fs');
 const multer = require('multer');
@@ -144,6 +146,49 @@ if(err){
  saveBlog(bImgName).catch(console.error);
    async function createBlog(client,newBlog){
     const result = await client.db(dbName).collection('blogs').insertOne(newBlog);
+    res.redirect('admin');
+    }
+   }
+)
+//////////
+router.post('/uploadIntro',upload.single('photo'), function(req,res){
+  /*isolate file extention*/
+  const imageData= req.file;
+  const ogStr=0;
+  const str = imageData.originalname;
+  const str2 = imageData.filename;
+  const strSplit= str.split('.');
+  const ext = strSplit[1];
+  const oldFilepath = "../"+imageFP+"/uploads/";
+  const newFilepath = "../"+imageFP+"/public/images/intro/"
+  const newName = 'intro_Image_'+ Date.now()+"."+ext;
+/*^^end^^*/
+  const bImgName = "images/intro/"+newName;
+  fs.rename(oldFilepath+str2,newFilepath+newName,(err)=>{
+if(err){
+  console.log(err);
+}
+ })
+  async function saveBlog(bImgName,data){
+    try {
+      await client.connect();
+      await createBlog(client,{
+        introHeader:req.body.introHeader,
+        postDate:Date.now(),
+        introDetails:req.body.introDetails,
+        order:0,
+        imgName:bImgName
+      });
+     }
+     catch(err){
+       console.log(err);
+     }
+     finally{
+     await client.close();
+   }}
+ saveBlog(bImgName).catch(console.error);
+   async function createBlog(client,newBlog){
+    const result = await client.db(dbName).collection('intro_content').insertOne(newBlog);
     res.redirect('admin');
     }
    }
@@ -382,4 +427,36 @@ router.post('/delFaq', (req,res)=>{
   res.redirect('options')
 }
 })
+
+//first graph api to facebook
+//refactor in its own file and build out from w2 mongo microsvc
+router.get('/ptf', (req, res) => { 
+  const ahref = req.body.ahref
+  const headline = req.body.headline
+  const accessToken = process.env.FBPAT
+  const message = `heres a message`;
+ const imgUrl = req.body.imgUrl
+ let image = null;
+  const options = {
+    method: 'POST',
+    url: `https://graph.facebook.com/v16.0/115893380202482/photos`,
+    qs: {access_token: 'EAAHWXokkDBABAEpWhAvZAMY12JPMMe81pE5qCyvR0olHbyZARgfeoE9vtuWbhb3oz1JcfPJOJUXGRdbm299esSt5r1Jsik9wLfWKT4HRFYA3FkRZBZBE9DpqZA5FrtwnUUozSkfPeGOBQnZBiOZAgg5i02XoXQVaCtUrao1OeAbtpFBmwQqCzfdzx2DJlZCDfVlmR989Grv6ZCuZCHQmwqRPvJP1sgzMkZClzgZD'},  
+  message:"message to graph api with photo"
+  };
+
+  request(options, (error, response, body) => {
+    if (error) {
+      console.log(`Error: ${error}`);
+      res.status(500).send(`Error: ${error}`);
+    } else {
+      console.log(`Response: ${response.statusCode} ${response.statusMessage}`);
+      console.log(`Body: ${JSON.stringify(body)}`);
+    
+      res.redirect('admin')
+    }
+  });
+  
+});
+
+
 module.exports = router;

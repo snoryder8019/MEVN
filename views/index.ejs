@@ -4,18 +4,13 @@
     <%- include('config/head.ejs')%>
 
 <body onload="bodyLoader()">
-    <canvas id="bkgdCanvas"></canvas>  
-    
- 
-        <div id="mainBody" class="">
-            
-            <%- include('config/bkgdImg.ejs')%>
-            
+    <canvas id="bkgdCanvas"></canvas>   
+        <div id="mainBody" class="">            
+            <%- include('config/bkgdImg.ejs')%>            
             <%- include('config/loadScreen.ejs')%>
             <%- include('config/header.ejs')%>
             <%- include('partials/cart.ejs')%>
-    <%- include('config/intro.ejs')%>
- 
+    <%- include('config/intro.ejs')%> 
     <div class="eventBody">
        <div class="indexSpacer"></div>
         <h1 class="h1Span">W2 Marketing Services</h1>
@@ -35,10 +30,7 @@
                  <%}%>
             </div>
             <div class="indexSpacerBottom"></div>
-        </div>
-     
-     
-        
+        </div>        
         <div class="midBar">
             <div class="midLeft">
                 <div class="landingPage0">
@@ -62,7 +54,7 @@
     <%- include('config/icons/icon_set.ejs')%>
 </div>
 </div>
-//////////////////
+
 <h1 class="h1Span">Latest Developments</h1>
 <div class="landingPage">   
     <% for(var i=0;i<blogs.length;i++){%>

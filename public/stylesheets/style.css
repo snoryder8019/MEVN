@@ -205,6 +205,7 @@
   src: url("../fonts/Combo/Combo-Regular.ttf");
 }
 body {
+  text-align: center;
   margin: 0;
   padding: 0;
   background-color: black;
@@ -234,43 +235,43 @@ body {
   transform-style: preserve-3d;
   transition-duration: 0.6s;
 }
-.introImgDiv_L:hover {
-  transform-style: preserve-3d;
-  transition-duration: 1.2s;
-  transform: rotate3d(0, 1, 0, 90deg);
-  backface-visibility: visible;
-  background-color: red;
-}
 .introImgDiv_T {
   padding: 5%;
   margin: 0;
-  height: 100vh;
   width: 90%;
   background-color: rgba(0, 0, 0, 0.81);
+}
+@media (min-width: 900px) {
+  .introImgDiv_T {
+    width: 100%;
+    padding: 0;
+  }
 }
 
 .introImg {
   width: 100%;
   z-index: 2;
+  position: relative;
+  transform-style: preserve-3d;
+  transition-duration: 0.6s;
 }
 .introImg_head {
-  width: 100%;
-  margin-bottom: 60vh;
+  width: 26%;
+  margin-top: 20%;
 }
-@media screen and (min-width: 900px) {
+@media (min-width: 400px) {
   .introImg_head {
-    width: 40%;
-    margin-left: 30%;
+    margin-top: 5%;
   }
 }
-
 .introHead {
   min-width: 100%;
   min-height: 50%;
 }
 
 .introType {
-  font-family: "combo";
+  font-family: "kScript";
+  font-weight: 100;
   animation: none;
   width: 100%;
   font-size: 5rem;
@@ -298,7 +299,6 @@ body {
 .introType::after, .introType::before {
   width: 100%;
   animation: none;
-  content: "  NoCo Metalworkz";
   position: absolute;
   left: 3%;
   top: 8%;
@@ -328,6 +328,7 @@ button {
   text-align: center;
   width: 92;
   margin-left: 3%;
+  border-radius: 5%;
   margin: 1%;
   min-height: 28%;
   font-family: "combo";
@@ -1031,13 +1032,14 @@ img.mainImg {
 }
 
 .navBox {
+  font-family: "kScript";
+  font-weight: 100;
   background-color: black;
   color: white;
   text-align: center;
   width: 92;
   margin-left: 3%;
   margin: 1%;
-  font-family: "combo";
   font-size: 3rem;
 }
 .navBox:hover {
@@ -1179,7 +1181,11 @@ img.mainImg {
 }
 .innerDetails {
   position: absolute;
-  z-index: 0;
+  z-index: 2;
+  background-color: rgba(128, 128, 128, 0.572);
+  text-align: center;
+  display: flex;
+  align-items: center;
 }
 
 .menu {
