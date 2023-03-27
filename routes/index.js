@@ -2,96 +2,57 @@
 var express = require('express');
 var router = express.Router();
 var client = require('../config/mongo');
+const axios = require('axios')
 const request = require('request')
 const ObjectId = require('mongodb').ObjectId;
-const dbName = 'w2Apps'
+
 const fs = require('fs')
-
-
-router.get('/service-agreements',(req,res)=>{
-  return res.render('service-agreements')
- })   
  /////////////
 /* GET home page. */
-router.get('/',(req, res)=> {
-  async function gettingBlogs(){
-    try {
-     await client.connect();
-     await getBlogs(client);
-    }
-    catch(err){
-      console.log(err)
-    }
-    finally{
-    await client.close();
-  }}
-  //////////
-  gettingBlogs().catch(console.error);
-  //////////
-  async function getBlogs(client){
-   const user= req.user
-    const blogs = await client.db(dbName).collection('blogs').find().toArray();
-    const intro = await client.db(dbName).collection('intro_content').find().toArray();
-    const data = await client.db(dbName).collection('nm_inventory').find().toArray();
-    if(user){
-    const cart = await client.db(dbName).collection('users').findOne({"_id":ObjectId(req.user._id)});
-            //////total cart items
-            const cartArray = []
-            var cartTotal=0;     
-            function cartGather(){
-             for (let i=0;i<cart.cart.length;i++){
-                 cartArray.push(parseInt(cart.cart[i].price))
-                 cartTotal +=cartArray[i]
-             }
-           }
-             cartGather()
-                    console.log(cartTotal)
-             console.log(cartArray)
-          ////END CART TOTALS
-    res.render('index', {title:'Welcome',cartTotal:cartTotal,cart:cart,user:user, data:data,intro:intro, blogs:blogs})
-  }else if (req.session.user){
-  const cart = await client.db(dbName).collection('users').findOne({"_id":ObjectId(req.session.user._id)});
-  //////total cart items
-  const cartArray = []
-  var cartTotal=0;
-
-  function cartGather(){
-   for (let i=0;i<cart.cart.length;i++){
-       cartArray.push(parseInt(cart.cart[i].price))
-       cartTotal +=cartArray[i]
-   }
- }
-   cartGather()
-          console.log(cartTotal)
-   console.log(cartArray)
-////END CART TOTALS
-res.render('index', {title:'Welcome',cartTotal:cartTotal,cart:cart,user:user, data:data,intro:intro, blogs:blogs})
-
-
-}
-  else{
-      res.render('index', {title:'Welcome',user:null, data:data,intro:intro, blogs:blogs})
-
-    }
-    }
+router.get('/',async (req, res)=> {
+  const clientIp = req.headers['x-forwarded-for'] || req.ip;
+  console.log(clientIp)
+  try {
+const data={
+        subpath:config.COLLECTION_SUBPATH,
+        dbName:config.DB_NAME,
+        collections:{
+        [0]:"_blogs",
+        [1]:"_inventory",
+        [2]:"_intro_content",
+        [3]:"_users"    
+}};
+      const response = await axios.get(config.DB_URL+'/api/readManyD',{params:data});
+  console.log(response.data)
+   res.render('index',{data:response.data});
+  } catch (error) {
+      res.status(500).json({ error: error.message});
+  }
 });
 
 router.get('/faqs',(req,res)=>{
-  async function faqFe(){
-    try{await client.connect()
-    await faqGetter(client)}
-    catch(err){console.log(err)}
-    finally{client.close()}
-  }
-  faqFe().catch(console.error);
-  async function faqGetter(client){
-const faqs = await client.db(dbName).collection('nm_faqs').find().toArray()
-res.render('faqs',{faqs:faqs})
-  }
+    const options = {
+      url:config.DB_URL+"/api/read",
+      method:'GET',
+      json:{
+        subpath:config.COLLECTION_SUBPATH,
+        dbName:config.DB_NAME,
+        findParam:"_faqs"
+      }      
+     }
+      request(options, (error,response, body)=>{
+        if (error){
+          console.log(error)
+        }else{
+          let faqs=body
+          res.render('faqs',{faqs:faqs})      
+       }
+   })  
 })
 router.get('/about',(req,res)=>{
   res.render('about')
 })
-
-
+router.get('/service-agreements',(req,res)=>{
+  return res.render('service-agreements')
+ })   
 module.exports = router;

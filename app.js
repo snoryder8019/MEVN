@@ -15,13 +15,14 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const url = require('url');
 const flash = require('express-flash')
-
+const config = require('./config/config')
 //views to individual pages
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
+const accountsRouter = require('./routes/auth/accounts');
+
 const registerRouter = require('./routes/register');
 const adminRouter =require('./routes/auth/admin');
-const visitorRouter =require('./routes/visitor');
+
 const apiRouter =require('./routes/api');
 const marketRouter =require('./routes/market');
 const auth = require('./routes/auth');
@@ -31,7 +32,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs',{async:true});
 
 //MIDDLEWARES
-
+global.config = config
 //hit DB before middlewares
 connectDB();
 //possible apache dependancies
@@ -71,11 +72,12 @@ app.use(passport.session())
 app.use("/auth",auth);
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+
 app.use(registerRouter);
 app.use(adminRouter);
+app.use(accountsRouter);
 app.use(apiRouter);
-app.use(visitorRouter);
+
 app.use(marketRouter);
 
 app.use((req,res,next)=>{

@@ -1,30 +1,27 @@
 <!DOCTYPE html>
 <html>
     <%- include('./config/head.ejs')%>
-<body onload="bodyLoader()">
-    
-    <div class="mainStyle">
-        
-        <%- include('partials/cart.ejs')%>
+<body onload="bodyLoader()">    
+    <div class="mainStyle">       
         <%- include('../views/config/bkgdImg.ejs')%>
         <%- include('../views/config/header.ejs')%>
         <%- include('config/loadScreen.ejs')%>
   <div class="eventBody">
-    <h2 class="h1Span"> <%= title%> :  <%= data.name%></h2>
+    <h2 class="h1Span"> Service Details :  <%= data[1][0].name%></h2>
 </div>
 
         <!----LANDING PAGE CLASS IS GRID DISPLAY-->
         <!----LARGE SCREEN 4 GRID !!!! MEDIUM SCREEN 3 GRID !!!!! SMALL 2 and single GRID-->
- <%if(typeof data == 'object'&& data.imgName){%>
-        <div id="imgPrev"onclick="enlarge()" class="imgPreviewDiv"><img class="imgPreview" src="/<%= data.imgName%>" alt=""></div>
+ <%if(typeof data[1][0] == 'object'&& data[1][0].imgName){%>
+        <div id="imgPrev"onclick="enlarge()" class="imgPreviewDiv"><img class="imgPreview" src="/<%= data[1][0].imgName%>" alt=""></div>
  <%}%>
         <div class="landingPage">
             <div class="eventBody">
-        <div onclick="enlarge()" style="background-image:url('/<%= data.imgName%>');" class="imgBox"></div> 
+        <div onclick="enlarge()" style="background-image:url('/<%= data[1][0].imgName%>');" class="imgBox"></div> 
 
-        <div class="invPrice"><%= data.price%></div> 
+        <div class="invPrice"><%= data[1][0].price%></div> 
         <div >
-            <h3><%= data.details%></h3>
+            <h3><%= data[1][0].details%></h3>
             <h3>Social Media Services initiate upon payment.</h3>
             <h3>Is there a service you need custom? <a href="/register"><span class="alert"> Contact Us </span></a>for a quote!!!
             </h3>
@@ -39,11 +36,11 @@
 
     <div>
         <form action="/addToCart" method="post">
-            <input name="prodId" hidden="true" value="<%= data._id%>"></label>
-            <input name="prodName" hidden="true" value="<%= data.name%>"></label>
-            <input name="prodPrice" hidden="true" value="<%= data.price%>"></label>
-            <input name="prodImg" hidden="true" value="<%= data.imgName%>"></label>
-            <% if (typeof user == 'object' && user || typeof session.user == 'object' && session.user) { %>
+            <input name="prodId" hidden="true" value="<%= data[1][0]._id%>"></label>
+            <input name="prodName" hidden="true" value="<%= data[1][0].name%>"></label>
+            <input name="prodPrice" hidden="true" value="<%= data[1][0].price%>"></label>
+            <input name="prodImg" hidden="true" value="<%= data[1][0].imgName%>"></label>
+            <% if (typeof data.ejsData1 == 'object' && data.ejsData1) { %>
                 <button onclick="loading('adding to cart')" id="productAddButton" type="submit" value="submit()" ><h2>add to cart</h2></button>
                 <%}else{%>
                     <a href="/login"><div class="navBox">sign in to add to cart</div></a>

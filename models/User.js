@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const config = require('../config/config')
 const UserSchema = new mongoose.Schema({
     googleId:{
         type: String,
@@ -54,4 +54,4 @@ const UserSchema = new mongoose.Schema({
          default:Date.now
             }
 })
-module.exports =  mongoose.model('User',UserSchema)
+module.exports =  mongoose.model('User',UserSchema, config.COLLECTION_SUBPATH+'_users')

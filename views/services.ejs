@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    
+    <%- include('config/head.ejs')%>
+<!--GOOGLE-->
+<meta name="google-site-verification" content="Pvp74_YXTw6uwsBP-6pTFmbwnjXD7_zXP-WUG4FpWU8" />
+<!--end-->
+</head>
+<body onload="minView()">   
+  <%- include('config/bkgdImg.ejs')%>            
+  <%- include('config/loadScreen.ejs')%>
+  <%- include('config/header.ejs')%>
+  <div id="backgroundFX">      
+      <h1 class="h1Span"> W2 SERVICES</h1>
+      <button onclick="switchView(svcGrid)">grid</button>
+      <button onclick="switchView(svcCard)">card</button>
+      <button onclick="switchView(svcNav)">nav</button>
+      <button onclick="switchView(svcAdd)">add</button>
+
+    <div id="svcCard" class="landingPage">
+    <%for(let i =0;i<data[0].length;i++){%>    
+      <div class="eventBody">
+        <span class="alert"><h2> <%= data[0][i].serviceName%></h2></span><br>
+       <p>       
+         <h3>  <%= data[0][i].serviceCategory%><br></h3>
+         <%= data[0][i].serviceDetail%><br>
+        </p>
+        <h1 class="span"><%= data[0][i].cost%></h1><%= data[0][i].terms%><br>
+        
+        <form action="/removeService">
+          <input type="text" id="collectionExtName" name="collectionExtName" value="_services" hidden required>
+          <input type="text" name="serviceId" hidden value="<%=data[0][i]._id%>">
+          <button type="submit">remove</button>
+        </form>
+      </div>
+      <%}%>
+      
+    </div>
+    <div id="svcNav">
+    
+      <%- include('./config/midbarAdmin.ejs')%>
+    </div>
+    
+    <div class="eventBody" id="svcAdd">
+      <h1>Add Service</h1>
+      <form action="/postToServices" method="post">
+        <label for="collection-ext-name">collection Ext Name:</label>
+        <input type="text" id="collectionExtName" name="collectionExtName" value="_services" hidden required>
+        <br><br>
+
+        <label for="service-name">Service Name:</label>
+        <input type="text" id="serviceName" name="serviceName" required>
+        <span class="alert">*Required*</span>
+        <br><br>
+        
+        <label for="cost">Cost:</label>
+        <input type="cost" id="cost" name="cost" required>
+        <br><br>
+        
+        <label for="terms">Terms:</label>
+        <input type="text" id="terms" name="terms" required>
+        <br><br>      
+        <label for="service-category">Service Category:</label>
+        <input type="text" id="serviceCategory" name="serviceCategory" required>
+        <br><br>      
+      
+
+        <label for="service-detail">Service Detail:</label>
+        <textarea id="serviceDetail" name="serviceDetail" rows="4" cols="50" required></textarea>
+        <br><br>
+        
+        <input type="submit" value="Add Service">
+      </form>
+    </div>
+ 
+
+
+    <div id="svcGrid" class="eventBody">
+      <table>
+        <thead>
+          <tr>
+            <th>Service Name</th>
+            <th>Cost</th>
+            <th>Terms</th>
+            <th>Service Category</th>
+            <th>Service Detail</th>
+            <th>Collection Ext. Name</th>
+            <th>Edit</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for(let i=0;i<data[0].length;i++){%>
+          <tr>
+            <td><%=data[0][i].serviceName%></td>
+            <td><%=data[0][i].cost%></td>
+            <td><%=data[0][i].terms%></td>
+            <td><%=data[0][i].serviceCategory%></td>
+            <td><%=data[0][i].serviceDetail%></td>
+         
+            <td><a href="#">Edit</a></td>
+            <td><a href="#">Delete</a></td>
+          </tr>
+      <%}%>
+          <!-- Add more rows as needed -->
+        </tbody>
+      </table>
+        </div>
+
+   
+    
+      
+      
+      
+      
+    
+    
+  </div>
+  
+  
+  
+</div>
+<script>
+const svcCard= document.getElementById('svcCard')
+const svcGrid= document.getElementById('svcGrid')
+const svcNav= document.getElementById('svcNav')
+const svcAdd= document.getElementById('svcAdd')
+function minView(){
+  const viewArray = [svcAdd,svcCard,svcGrid,svcNav]
+  console.log(viewArray)
+  for(let i=0;i<viewArray.length;i++){
+  viewArray[i].style.display = "none"
+}
+}
+function switchView(view){
+minView()
+if(view==svcCard){
+  view.style.display="grid"
+}else{
+view.style.display="block"
+}}
+
+</script>
+
+</body> </html>

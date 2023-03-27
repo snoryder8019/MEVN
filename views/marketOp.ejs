@@ -3,7 +3,7 @@
   <body >
       <%- include('config/head.ejs')%>
  
-        <%- include('partials/cart.ejs')%>
+
     <%- include('config/header.ejs')%>
     <%- include('config/bkgdImg.ejs')%>
     <%- include('config/loadScreen.ejs')%>
@@ -11,34 +11,34 @@
     <div class="mainStyle">
       
           <div class="eventBody">
-          <h1 class="h1Span"><%= title%></h1>
+          <h1 class="h1Span">Services Filtered</h1>
           <form action="/marketOp">
             <div class="marketFilter">
               <select onchange="loading('filtering inventory'), submit()"  name="catID" id="">
                 <option >filter by category</option>
-                <% for(var i=1;i<catagory.length;i++){%>
-                  <option value="<%= catagory[i].catName%>"><%= catagory[i].catName%></option>
+                <% for(var i=1;i<data[2].length;i++){%>
+                  <option value="<%= data[2][i].catName%>"><%= data[2][i].catName%></option>
                   <%}%>                  
                 </select>
               </div>              
             </form>
           </div>
                 <div class="eventBody">
-                <% if(data.length<1){%>
+                <% if(data[1].length<1){%>
                
                     <div class="eventBody">
                       <h1 class="h1Span">No inventory found for this Category</h1>
                       <%}%>
                       <div class="invGrid">
-                        <% for(var i=0;i<data.length;i++){%>
-                          <a onclick="loading('getting product details')" href="/productID/<%= data[i]._id%>"> 
+                        <% for(var i=0;i<data[1].length;i++){%>
+                          <a onclick="loading('getting product details')" href="/productID/<%= data[1][i]._id%>"> 
                             <div class="gridContain">
                               <div>
-                                <h2 class="prodHeadline"><%=data[i].name%></h2>
-                                <h3>$<%=data[i].price%>.00</h3>
+                                <h2 class="prodHeadline"><%=data[1][i].name%></h2>
+                                <h3>$<%=data[1][i].price%>.00</h3>
                               </div>
             <div class="imgCont">
-              <img class="invImg" src=" <%= data[i].imgName%>" alt="">
+              <img class="invImg" src=" <%= data[1][i].imgName%>" alt="">
             </div>
           </div>                
         </a>

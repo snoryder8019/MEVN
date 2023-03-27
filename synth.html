@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Soundwave Generator</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.26/Tone.js"></script>
+</head>
+<body>
+	<div>
+		<label for="note-select">Select a Note:</label>
+		<select id="note-select">
+			<option value="C4">C</option>
+			<option value="D4">D</option>
+			<option value="E4">E</option>
+			<option value="F4">F</option>
+			<option value="G4">G</option>
+			<option value="A4">A</option>
+			<option value="B4">B</option>
+		</select>
+	</div>
+	<div>
+		<label for="octave-select">Select an Octave:</label>
+		<select id="octave-select">
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+			<option value="6">6</option>
+		</select>
+	</div>
+	<button id="play-btn">Play</button>
+	<button id="stop-btn">Stop</button>
+	<script>
+		// Initialize the synth and the note variables
+		const synth = new Tone.Synth().toDestination();
+		let note = "C4";
+		let octave = "4";
+
+		// Add event listeners to the select elements
+		document.getElementById("note-select").addEventListener("change", (event) => {
+			note = event.target.value;
+		});
+
+		document.getElementById("octave-select").addEventListener("change", (event) => {
+			octave = event.target.value;
+		});
+
+		// Add event listeners to the play and stop buttons
+		document.getElementById("play-btn").addEventListener("click", () => {
+			synth.triggerAttack(note + octave);
+		});
+
+		document.getElementById("stop-btn").addEventListener("click", () => {
+			synth.triggerRelease();
+		});
+	</script>
+</body>
+</html>

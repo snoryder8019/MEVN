@@ -2,12 +2,12 @@
     <div class="eventBody">
         <h1>Cart Details</h1>
         
-        <%if(typeof user == 'object' && user){%>
+        <%if(typeof data.ejsData1 == 'object' && data.ejsData1){%>
             <!--THERE IS A USER-->
-            <h2>Welcome <%=user.name%></h2>
+            <h2>Welcome <%=data.ejsData1.name%></h2>
             <div><h2>Your Cart Total: $<%= cartTotal%>.00</h2></div>
             <div class="cartContain">
-    <%if(typeof cart.cart == 'object' && cart.cart[0]){%>
+    <%if(typeof data.ejsData1.cart == 'object' && data.ejsData1.cart[0]){%>
       <table>
         <thead>
 <td><h3> name</h3></td>
@@ -15,12 +15,12 @@
 <td><h3> price</h3></td>
         </thead>
 <tbody>
-    <%for(let i=0;i<cart.cart.length;i++){%>
-        <td> <h3>   <%=cart.cart[i].name%></h3></td>
+    <%for(let i=0;i<data.ejsData1.cart.length;i++){%>
+        <td> <h3>   <%=data.ejsData1.cart[i].name%></h3></td>
         <tr>       
-        <td>   <img alt="<%=cart.cart[i].name%>" src="/<%=cart.cart[i].img%>"></td>
-        <td> <h3> $  <%=cart.cart[i].price%>.00</h3></td>
-        <td><form action="/delCart"method="post"><button onclick="loading('deleting item from cart')" class="cartBtn" name="cartNum" type="submit" value="<%=cart.cart[i].name%>">delete Item</button></form> </td>
+        <td>   <img alt="<%=data.ejsData1.cart[i].name%>" src="/<%=data.ejsData1.cart[i].img%>"></td>
+        <td> <h3> $  <%=data.ejsData1.cart[i].price%>.00</h3></td>
+        <td><form action="/delCart"method="post"><button onclick="loading('deleting item from cart')" class="cartBtn" name="cartNum" type="submit" value="<%data.ejsData1.cart[i].name%>">delete Item</button></form> </td>
     </tr>
     <%}%>
 </tbody>

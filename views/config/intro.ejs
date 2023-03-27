@@ -6,12 +6,12 @@
 </div>
   
 <div class="landingPage">
-<%for(let i=0;i<intro.length;i++){%>
+<%for(let i=0;i<data[2].length;i++){%>
         <div style="margin-bottom:12%" class="eventBody">  
-        <h1 class="h1Span"><%=intro[i].introHeader%></h1>
+        <h1 class="h1Span"><%=data[2][i].introHeader%></h1>
         <div class="introImgDiv_L">     
-            <div class="innerDetails"><%=intro[i].introDetails%></div>
-            <div><img class="introImg" src="/<%=intro[i].imgName%>"></div>
+            <div class="innerDetails"><%=data[2][i].introDetails%></div>
+            <div><img class="introImg" src="/<%=data[2][i].imgName%>"></div>
             </div>
         </div>
         <%}%>

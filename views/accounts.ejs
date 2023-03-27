@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    
+    <%- include('config/head.ejs')%>
+<!--GOOGLE-->
+<meta name="google-site-verification" content="Pvp74_YXTw6uwsBP-6pTFmbwnjXD7_zXP-WUG4FpWU8" />
+<!--end-->
+</head>
+<body>
+   
+  <div id="backgroundFX">    
+   
+      <h1 class="h1Span">ACCOUNTS</h1>
+    <div class="landingPage">
+    <%for(let i =0;i<data[0].length;i++){%>
+    
+      <div class="eventBody">
+       <span class="alert"><h2> <%= data[0][i].companyName%></h2></span><br>
+    <%= data[0][i].contactName%><br>
+    <%= data[0][i].email%><br>
+    <%= data[0][i].phoneNumber%><br>
+    <%= data[0][i].businessAddress%>
+    </div>
+    <%}%>
+
+    <div class="eventBody" id="admin0">
+      <h1>Add Client</h1>
+      <form action="/postToClients" method="post">
+        <label for="collection-ext-name">collection Ext Name:</label>
+        <input type="text" id="collectionExtName" name="collectionExtName" value="_clients" hidden required>
+        <br><br>
+        <label for="contact-name">Contact Name:</label>
+        <input type="text" id="contact-name" name="contactName" required>
+        <br><br>
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <br><br>
+        
+        <label for="company-name">Company Name:</label>
+        <input type="text" id="company-name" name="companyName" required>
+        <br><br>
+        
+        <label for="phone-number">Phone Number:</label>
+        <input type="tel" id="phone-number" name="phoneNumber" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
+        <span class="alert">Format: 123-456-7890</span>
+        <br><br>
+
+        <label for="business-address">Business Address:</label>
+        <textarea id="businessAddress" name="businessAddress" rows="4" cols="50" required></textarea>
+        <br><br>
+        
+        <input type="submit" value="Add Client">
+      </form>
+    </div>
+
+    <div>
+      <span class="alert"><h2>navigation</h2>
+      </span>
+      <%- include('./config/midbarAdmin.ejs')%>
+    </div>
+
+
+    </div>
+    <div class="indexSpacerBottom"></div>
+
+    
+   
+    
+      
+      
+      
+      
+    
+    
+  </div>
+  
+  
+  
+</div>
+
+
+</body> </html>
