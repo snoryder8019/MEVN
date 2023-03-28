@@ -21,6 +21,7 @@
     "express-flash": "^0.0.2",
     "express-session": "^1.17.3",
     "http-errors": "^1.6.3",
+    "joi": "^17.9.1",
     "logger": "0.0.1",
     "mongodb": "^4.5.0",
     "mongoose": "^5.13.15",
