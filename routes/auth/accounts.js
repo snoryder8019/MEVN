@@ -11,10 +11,11 @@ const config = require('../../config/config')
 
 //////////////////middleware
 function isAddy(req,res,next){
+
   if(!req.user){res.redirect('login')}
 if(req.user.isAdmin==true){
   next()}
-    else{res.sendStatus(401)}
+    else{res.sendStatus(403)}
   }
   /////////////////~~~~~~~~~~~~~~~~~~~////////////////  
   /////////////////////ACCOUNTS.JS//////////////////
@@ -23,7 +24,7 @@ if(req.user.isAdmin==true){
 
   
   
-////////////////////////// MAIN .find() DYNAMIC FUNCTION /////////////////////////
+////////////// MAIN .find() DYNAMIC FUNCTION /////////////////////////
 /////////////////////////////////////////////////////////
 ///////GET FROM HTTPS://MONGO.W2MARKETING.BIZ////////////////
 function getHandler(collections,route) {
@@ -44,33 +45,21 @@ function getHandler(collections,route) {
     }
   };
 }  
-
-
-
-
-//////////////////////////////
 /////////////HANDLER ARGUMENTS/////////////////
-//////////////////////////////
-
-/////////////SERVICES.EJS/////////////////
+///~~~~~~~~~~~SERVICES.EJS~~~~~~~~~~~~~~///
 const svcCollections = {
   0: '_services',
 };
 const servicesHandler = getHandler(svcCollections,'services');
-router.get('/services', servicesHandler);
-
-////////////ACCOUNTS.EJS//////////////////
+router.get('/services',isAddy, servicesHandler);
+//~~~~~~~~~~~ACCOUNTS.EJS~~~~~~~~~~~////
   const clientsCollections = {
     0: '_clients',
   };  
   const clientsHandler = getHandler(clientsCollections,'accounts');
   router.get('/accounts', clientsHandler);
   
-  
-  
-  /////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////
+
   //////////// MAIN insertOne.() DYNAMIC FUNCTION ///////////////
   ////////////POST TO HTTPS://MONGO.W2MARKETING.BIZ////////////////
   // Define a function that takes the `ext` and `options` parameters and returns a request handler function
@@ -87,26 +76,30 @@ router.get('/services', servicesHandler);
     };
   }
 
-// Define the request handler using the `postToClientsHandler` function
+//////////////////////////////
+/////////////HANDLER ARGUMENTS/////////////////
+//////////////////////////////
+
+///~~~~~~~~~~~~~SERVICES.EJS~~~~~~~~~~~~~~~~~~////
 const postToClients = (req, res) => {
   const { collectionExtName, contactName, email, companyName, phoneNumber, businessAddress } = req.body;
   const options = {contactName,email,companyName,phoneNumber,businessAddress,
-    status: {active: true,delinquent: false,invoice_list: "",balance: ""}};
+    status: {active: true,delinquent: false,invoice_list: "",balance: ""}};    
+    const handler = postToHandler(collectionExtName, options, 'accounts');
+    handler(req, res);
+  };
+  router.post('/postToClients', postToClients);
 
-  const handler = postToHandler(collectionExtName, options, 'accounts');
-  handler(req, res);
-};
+  //~~~~~~~~~~~~~~~~~SERVICES.EJS~~~~~~~~~~/////
 const postToServices = (req, res) => {
   const { collectionExtName, serviceName, cost,terms,serviceCategory, serviceDetail } = req.body;
   const options = {serviceName,cost,terms,serviceCategory,serviceDetail};
-
   const handler = postToHandler(collectionExtName, options, 'services');
   handler(req, res);
 };
-
-// Map the `/postToClients` route to the `postToClients` request handler function
-router.post('/postToClients', postToClients);
 router.post('/postToServices', postToServices);
+
+
 
 
   /////////////////////////////////  
