@@ -156,54 +156,70 @@ res.redirect('invoice')
 
 
 router.post('/invSend/:_id',(req,res)=>{
+  console.log(req.url)
+///////////////////////////
+async function main(){  
+  try {      
+    await createUser(client,
+     { draft:false,
+      published:Date()
+    },
+      ObjectId(req.body.invId));
+}catch (err){
+  console.log(err)
+}}
+main().catch(console.error);  
+async function createUser(client,options,id){
+ const result = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+"_invoice").updateOne({"_id":id},{$set:options},{upsert:true});
+ console.log('new user id: '+result.insertedId)
+}
 
-    const emailSubject = " ~ email subject"
-   const emailList=['w2marketing.scott@gmail.com']
-   const emailList0=['w2marketing.scott@gmail.com,snoryder8019@gmail.com,m.scott.wallace@gmail.com']
- 
-      console.log("posts initiated")
-      let transporter = nodemailer.createTransport({
-        service: 'Gmail',
-        port:587,
-        auth:{user: process.env.EMAILNAME,pass:process.env.EMAILPASS}
-    })
-    const image = fs.readFileSync('./public/images/logoW2.png');
-        let mailOptions = {
-            from:"coach Scott of the Charlotte Independence" ,
-            to:emailList,
-            subject:config.COMPANY_NAME+emailSubject,
-            text: req.body.message,
-            html:'<body style="margin:2%;padding:1%;text-align:center;background-color:black;color:white"><h1><span>Charlotte Independence ~ U10 Soccer Club of Greeley</span></h1><br><h1>message: </h1><br><h2>message here</h2><img style="max-width:50%;transform:translateX(-50%);" src="cid:image1"><p>reply to email and let me know if you wish to unsubscribe to email alerts, thanks -scott</p></body>',
-            attachments:[{
-              filename:'logoW2.png',
-              content: image,
-              cid:'image1'
-        }]
-        };
-        transporter.sendMail(mailOptions,function(error,info){
-            if(error){
-                console.log("transporter "+error);
-    
-            }
-            else{
-            console.log('email sent'+ info.response)
-            }
-          
-        })
-        // const messagingServiceSid = 'MG3fbb6ed2b097681e40887cfd1074546a'
-        // const numbers = ['+16822414402','+16822305399','+13164612854','+19708159071','+19708045477','+19704059223','+19704056437','+19705766661','+17204292175','+19705902540','+19704054192']
-        // numbers.forEach(number => {
-        //   twiloClient.messages
-        //     .create({
-        //       body: 'from coach scott:  '+req.body.message,
-        //       messagingServiceSid: messagingServiceSid,
-        //       //from: '+18886174452',
-        //       to: number
-        //     })
-        //     .then(message => console.log(`SMS sent to ${message.to}`))
-        //     .catch(error => console.error(`Error sending SMS to ${number}:`, error));
-        // });
-        });
+//////////////////////////////
+
+    console.log("invoice initiated")
+    let transporter = nodemailer.createTransport({
+      service: 'Gmail',
+      port:587,
+      auth:{user: process.env.EMAILNAME,pass:process.env.EMAILPASS}
+  })
+  const image = fs.readFileSync('./public/images/logoW2.png');
+      let mailOptions = {
+          from:"W2 Marketing" ,
+          to:'w2marketing.scott@gmail.com',
+          subject:`${config.COMPANY_NAME} ~ Invoice`,
+        
+          html:`<body style="margin:2%;padding:1%;text-align:center;background-color:black;color:white"><h1><span>W2 Marketing ~ Invoice Availible</span></h1><br><h1>message: </h1><br><img style="max-width:50%;transform:translateX(-50%);" src="cid:image1"><p>you can view your invoice at: <a href="app.w2marketing.biz/invoiceViewer/${req.url}">app.w2marketing.biz/invoiceViewer/${req.url}</a>, thanks -scott</p></body>`,
+          attachments:[{
+            filename:'logoW2.png',
+            content: image,
+            cid:'image1'
+      }]
+      };
+      transporter.sendMail(mailOptions,function(error,info){
+          if(error){
+              console.log("transporter "+error);
+  
+          }
+          else{
+          console.log('email sent'+ info.response)
+          }
+        
+          res.send(info.response)
+      })
+      // const messagingServiceSid = 'MG3fbb6ed2b097681e40887cfd1074546a'
+      // const numbers = ['+16822414402','+16822305399','+13164612854','+19708159071','+19708045477','+19704059223','+19704056437','+19705766661','+17204292175','+19705902540','+19704054192']
+      // numbers.forEach(number => {
+      //   twiloClient.messages
+      //     .create({
+      //       body: 'from coach scott:  '+req.body.message,
+      //       messagingServiceSid: messagingServiceSid,
+      //       //from: '+18886174452',
+      //       to: number
+      //     })
+      //     .then(message => console.log(`SMS sent to ${message.to}`))
+      //     .catch(error => console.error(`Error sending SMS to ${number}:`, error));
+      // });
+      });
 
 
 

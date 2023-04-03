@@ -76,9 +76,8 @@
   <td> <%=new Date(data[2][i].date).toLocaleDateString()%></td>
 <td><a href="/invoiceViewer/<%=data[2][i]._id%>">preview</a></td>
 <td><form action="/invDelete" method="post"><input hidden name="invId"value="<%=data[2][i]._id%>"type="text"><button type="submit()">delete invoice</button></form></td>
-
-
 <td><form action="/invSend/<%=data[2][i]._id%>" method="post"><input hidden name="invId"value="<%=data[2][i]._id%>"type="text"><button type="submit()">send</button></form></td>
+
 
 </tr>
 <%}%>

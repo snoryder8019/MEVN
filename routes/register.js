@@ -3,9 +3,9 @@ var router = express.Router();
 const bcrypt = require('bcrypt');
 var client = require('../config/mongo');
 const nodemailer = require('nodemailer')
-const accountSid = process.env.TWILIO_ACCOUNT_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
-const twilioClient = require('twilio')(accountSid, authToken);//middleware
+// const accountSid = process.env.TWILIO_ACCOUNT_SID;
+// const authToken = process.env.TWILIO_AUTH_TOKEN;
+// const twilioClient = require('twilio')(accountSid, authToken);//middleware
 router.use((req,res,next)=>{
   next();
 //fs to read photo file length
@@ -72,19 +72,19 @@ router.post('/regUser', (req,res) => {
 })
 
 router.post('/contactform', (req,res) => {
-  const messagingServiceSid = 'MG3fbb6ed2b097681e40887cfd1074546a'
-  const numbers = ['+16822414402','+16822305399']
-  numbers.forEach(number => {
-    twilioClient.messages
-      .create({
-        body: 'from coach scott: test from w2',
-        messagingServiceSid: messagingServiceSid,
-       // from: '+18886174452',
-        to:number
-      })
-      .then(message => console.log(`SMS sent to ${message.to}`))
-      .catch(error => console.error(`Error sending SMS to ${number}:`, error));
-  });
+  // const messagingServiceSid = 'MG3fbb6ed2b097681e40887cfd1074546a'
+  // const numbers = ['+16822414402','+16822305399']
+  // numbers.forEach(number => {
+  //   twilioClient.messages
+  //     .create({
+  //       body: 'from coach scott: test from w2',
+  //       messagingServiceSid: messagingServiceSid,
+  //      // from: '+18886174452',
+  //       to:number
+  //     })
+  //     .then(message => console.log(`SMS sent to ${message.to}`))
+  //     .catch(error => console.error(`Error sending SMS to ${number}:`, error));
+  // });
 
 
 
