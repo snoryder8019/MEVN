@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    
+    <%- include('config/head.ejs')%>
+<!--GOOGLE-->
+<meta name="google-site-verification" content="Pvp74_YXTw6uwsBP-6pTFmbwnjXD7_zXP-WUG4FpWU8" />
+<!--end-->
+</head>
+<body onload="listeners()">   
+
+
+  <div id="backgroundFX">    
+      
+      <h1 class="h1Span">W2 Marketing Invoice</h1>
+
+      <div class="eventBody">
+        <h3>date: <%=new Date(data[2].date).toDateString()%><br></h3>
+ <h2 class="logoFont">invoice to: <span class="alert"><%= data[1].companyName%></h2></span>
+<p> <%= data[1].phoneNumber%><br>
+       attn: <%= data[1].contactName%><br>
+        <%= data[1].email%><br>
+        <%= data[1].businessAddress%></p>
+    
+         <h2> <span class="alert"> invoice total:  $ <%=data[2].invTotal%>.00</span><br>
+          invoice number: tbd<br>
+      </h2>
+       <div class="eventBody">
+       <% for(let i =0;i<data[0].length;i++){%>
+        <table>
+   <tr>
+    <td><h3><%=data[0][i].serviceName%></h3></td>
+    <td>  <h3>   <span class="alert">$<%=data[0][i].cost%>.00</h3></span></td>
+    <td> <%=data[0][i].terms%></td>
+  </tr>
+  
+  </table>
+  <strong>service details:</strong><br>
+    <%=data[0][i].serviceDetail%>
+    <%}%>
+  </div>
+
+  </div>
+     </div>   
+         
+  
+
+<script>
+    
+    function listeners(){
+        const servicesAdded = document.getElementById('servicesAdded')
+        const costsAdded = document.getElementById('costsAdded')
+        const namesAdded = document.getElementById('namesAdded')
+        const serviceAdd = document.getElementById('serviceAdd')
+        const clientAdd = document.getElementById('clientAdd')
+        const addSvcButton = document.getElementById('addSvcButton')
+        serviceAdd.addEventListener('change', svcChange)
+        addSvcButton.addEventListener('click', svcAdd)
+    }
+    
+    function svcChange(){
+        console.log(event.target.value)
+    }
+    function svcAdd(){
+    console.log(`added ${serviceAdd.value}`)
+    //ADD NAMES AND COSTS
+   const svcId =  serviceAdd.value.split('|')[0] 
+   const svcNamer =  serviceAdd.value.split('|')[1] 
+  const svcCost =  serviceAdd.value.split('|')[2] 
+  const svcData = {  }
+///////SERVICES TABLE///////
+const tRow = document.createElement('div')
+const totalcostEl= document.createElement('h3')
+const namesEl= document.createElement('h3')
+const costText = document.createTextNode(svcCost)
+const namesText = document.createTextNode(svcNamer)
+namesEl.appendChild(namesText)
+totalcostEl.appendChild(costText)
+tRow.appendChild(namesEl)
+tRow.appendChild(totalcostEl)
+   costsAdded.appendChild(tRow)
+   //////////
+   
+  
+   
+    //ADD INPUT ELEMENTS FOR SERVICES
+   const inputEl = document.createElement('input');
+   inputEl.setAttribute('type','text')
+   inputEl.setAttribute('name','serviceName')
+   inputEl.setAttribute('value', serviceAdd.value ) 
+   const hrefEl = document.createElement('button')
+   hrefEl.setAttribute('onclick',`remove(${serviceAdd.value})`)
+   servicesAdded.appendChild(inputEl, hrefEl)
+
+
+}
+</script>
+</body> </html>

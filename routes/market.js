@@ -6,12 +6,9 @@ const axios = require('axios')
 const dbName= 'w2Apps';
 const ObjectId = require('mongodb').ObjectId;
 //////////////////middleware
-router.use((req,res,next)=>{
 
-next();
-})
 //////////////////////////////////
-router.get('/market',async (req, res)=> {
+router.get('/',async (req, res)=> {
   const clientIp = req.headers['x-forwarded-for'] || req.ip;
   console.log(clientIp)
   try {
@@ -20,7 +17,7 @@ const data={
         dbName:config.DB_NAME,
         collections:{  
         [0]:"_users",
-              [1]:"_inventory",
+              [1]:"_services",
               [2]:"_categories"
              
 }};

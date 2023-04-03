@@ -81,63 +81,10 @@
    </div>
 
 <div class="mainStyle">
-<h1 class="h1Span">Add Inventory</h1>
-    <div class="eventBody" id="admin0">
 
-    <form action="/newItem" enctype="multipart/form-data" method="post">
-    
-      <h2>Step 1: Add Details</h2>
-      <p>Category Type:</p>
-      <select name="catSelect"  id="">
-         <option value="">Select a Category</option>
-         <%if(typeof blogs == 'object' && blogs[0]){%>
-         <% for(let i=0;i<catagory.length;i++){%>
-         <option  value="<%= catagory[i].catName%>"><%= catagory[i].catName%></option>
-        
-         <%}%>
-         <%}%>
-        </select>
-
-        <input placeholder="Item Name"  type="text" name="inventoryName">
-        <input placeholder="Price w/ Shipping" type="text" name="inventoryPrice">
-        <h2>shipping details</h2>
-        <input placeholder="Item Width"  type="text" name="inventoryWidth">
-        <input placeholder="Item Height"  type="text" name="inventoryHeight">
-        <input placeholder="Item Depth"  type="text" name="inventoryDepth">
-        <input placeholder="Item Weight"  type="text" name="inventoryWeight">
-        <h2>product details</h2>
-        <textarea placeholder="Item Details" type="text" name="inventoryDetails"></textarea>
-       
-        <h2 style="margin: 0;">Step 2: Attach One Image</h2> 
-        <input type="file" accept="image/*" name="photo">
-        <h2>Step 3: Submit</h2> 
-          <button onclick="loading('adding New Inventory Item')" type="submit" >Submit</button>
-     </form>
-    </div>
-<!---->
-<div class="mainStyle">
-  <h1 class="h1Span">Post to Facebook</h1>
-      <div class="eventBody" id="admin0">
-  
-      <form action="/ptf" enctype="multipart/form-data" method="get">
-      
-        <h2>Step 1: Add Details</h2>     
-  
-          <input placeholder="Headline"  type="text" name="headline">
-          <input placeholder="link" type="text" name="ahref">
-       
-          <h2 style="margin: 0;">Step 2: Attach One Image</h2> 
-          <input type="text" name="imgUrl">
-          <h2>Step 3: Submit</h2> 
-            <button onclick="loading('adding New Inventory Item')" type="submit" >Submit</button>
-       </form>
-      </div>
 <!---->
 
-
-  </div>
 <div class="evnetBody"><h1 class="h1Span"><a href="/options">Options</a></h1></div>
-<div class="evnetBody"><h1 class="h1Span"><a href="/inventory">Inventory</a></h1></div>
 <div class="evnetBody"><h1 class="h1Span"><a href="/services">Services</a></h1></div>
 <div class="evnetBody"><h1 class="h1Span"><a href="/accounts">Accounts</a></h1></div>
 

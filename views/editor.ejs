@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    
+    <%- include('config/head.ejs')%>
+<!--GOOGLE-->
+<meta name="google-site-verification" content="Pvp74_YXTw6uwsBP-6pTFmbwnjXD7_zXP-WUG4FpWU8" />
+<!--end-->
+</head>
+<body >   
+  <%- include('config/bkgdImg.ejs')%>            
+  <%- include('config/loadScreen.ejs')%>
+  <%- include('config/header.ejs')%>
+  <div id="backgroundFX">      
+      <h1 class="h1Span"> DB EDITOR</h1>
+      <a href="/services"><button>services</button></a>
+      <a href="/accounts"><button>accounts</button></a>
+      <a href="/admin"><button>admin</button></a>
+      <a href="/invoice"><button>invoice</button></a>
+
+    <div id="pageCard" >
+  <div class="eventBody">
+       
+       
+             <form method="post" action="/edit/<%=data._id%>">     
+                <input hidden name="<%= Object.keys(data)[0]%>"value ="<%= Object.values(data)[0]%>">           
+                <% for(let i=1;i<Object.keys(data).length-1;i++){%>  
+                    <%= Object.keys(data)[i]%>                  
+                    <input name="<%= Object.keys(data)[i]%>"value ="<%= Object.values(data)[i]%>">           
+                <%}%>
+               <%= Object.keys(data)[Object.keys(data).length-1]%>
+                <input name="<%= Object.keys(data)[Object.keys(data).length-1]%>" value="<%= Object.values(data)[Object.keys(data).length-1]%>">
+                <button type="submit()">update</button>
+            </form><br>
+            <form method="post" action="/delete/<%=data._id%>"><button type="submit">delete</button></form>
+    </div>
+    </div>
+    <div id="pageNav">
+    
+      <%- include('./config/midbarAdmin.ejs')%>
+    </div>
+    
+    <div class="eventBody" id="pageAdd">
+      <h1>Edit</h1>
+ 
+    </div>
+ 
+
+
+    <div id="pageGrid" class="eventBody">
+     pageGrid
+  
+        </div>
+
+   
+    
+      
+      
+      
+      
+    
+    
+  </div>
+  
+  
+  
+</div>
+
+
+</body> </html>

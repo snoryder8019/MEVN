@@ -19,7 +19,7 @@ router.get('/login', function(req, res) {
   const user = req.user
   res.render('login',{user:user});
   }); 
-router.get('/register', function(req, res) {
+router.get('/', function(req, res) {
   const user = req.user
   res.render('register', { title: 'Contact Us', user:user });
 });

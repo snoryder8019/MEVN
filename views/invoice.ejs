@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    
+    <%- include('config/head.ejs')%>
+<!--GOOGLE-->
+<meta name="google-site-verification" content="Pvp74_YXTw6uwsBP-6pTFmbwnjXD7_zXP-WUG4FpWU8" />
+<!--end-->
+</head>
+<body onload="listeners()">   
+  <%- include('config/bkgdImg.ejs')%>            
+  <%- include('config/loadScreen.ejs')%>
+  <%- include('config/header.ejs')%>
+
+  <div id="backgroundFX">    
+      
+      <h1 class="h1Span">INVOICE GEN</h1>
+      <a href="/services"><button>services</button></a>
+      <a href="/accounts"><button>accounts</button></a>
+      <a href="/admin"><button>admin</button></a>
+      <a href="/invoice"><button>invoice</button></a>
+      <select name="serviceNameDrop" id="serviceAdd">
+        <option name="" value="<%= data[0][0]._id%>|<%= data[0][0].serviceName%>|<%=data[0][0].cost%>">  <%= data[0][0].serviceName%></option>
+        <%for(let i =1;i<data[0].length;i++){%>        
+            <option value="<%= data[0][i]._id%>|<%=data[0][i].serviceName%>|<%=data[0][i].cost%>">  <%= data[0][i].serviceName%></option>
+            <%}%>
+        </select>
+      <button id="addSvcButton">add+</button>
+     
+     
+     
+     
+      <form action="/renderInvoice" method="post">
+
+          <select name="companyId" id="clientAdd">
+              <%for(let i =0;i<data[1].length;i++){%>
+                <option value="<%= data[1][i]._id%>|<%= data[1][i].companyName%>">  <%= data[1][i].companyName%></option>
+                <%}%>
+            </select>
+  
+
+ 
+        
+        
+        
+        <div class="eventBody">
+        <div id="servicesAdded">Services Added:</div>
+    </div>
+        
+         
+    <div class="mainStyle">
+        <div class="eventBody">     
+            Invoiced Services
+            <div id="costsAdded"></div>           
+        </div>
+        
+    
+    </div>
+    <button type="submit()">render Invoice</button>
+            </form>
+        <div>
+            
+            
+            
+     
+
+    <div class="eventBody">
+        <h2>Invoice Drafts</h2>
+<table>
+    <tr><th></th></tr>
+
+<%for(let i=0;i<data[2].length;i++){%>
+    <tr>
+<td> <%=  data[2][i].invData.companyId.split('|')[1]%></td>
+<td>$ <%= data[2][i].invTotal%>.00</td>
+  <td> <%=new Date(data[2][i].date).toLocaleDateString()%></td>
+<td><a href="/invoiceViewer/<%=data[2][i]._id%>">preview</a></td>
+<td><form action="/invDelete" method="post"><input hidden name="invId"value="<%=data[2][i]._id%>"type="text"><button type="submit()">delete invoice</button></form></td>
+
+
+<td><form action="/invSend/<%=data[2][i]._id%>" method="post"><input hidden name="invId"value="<%=data[2][i]._id%>"type="text"><button type="submit()">send</button></form></td>
+
+</tr>
+<%}%>
+    </div>
+        </div>
+        <!-- Add more rows as needed -->
+    </table>
+</div>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+</div>
+<script>
+    
+    function listeners(){
+        const servicesAdded = document.getElementById('servicesAdded')
+        const costsAdded = document.getElementById('costsAdded')
+        const namesAdded = document.getElementById('namesAdded')
+        const serviceAdd = document.getElementById('serviceAdd')
+        const clientAdd = document.getElementById('clientAdd')
+        const addSvcButton = document.getElementById('addSvcButton')
+        serviceAdd.addEventListener('change', svcChange)
+        addSvcButton.addEventListener('click', svcAdd)
+    }
+    
+    function svcChange(){
+        console.log(event.target.value)
+    }
+    function svcAdd(){
+    console.log(`added ${serviceAdd.value}`)
+    //ADD NAMES AND COSTS
+   const svcId =  serviceAdd.value.split('|')[0] 
+   const svcNamer =  serviceAdd.value.split('|')[1] 
+  const svcCost =  serviceAdd.value.split('|')[2] 
+  const svcData = {  }
+///////SERVICES TABLE///////
+const tRow = document.createElement('div')
+const totalcostEl= document.createElement('h3')
+const namesEl= document.createElement('h3')
+const costText = document.createTextNode(svcCost)
+const namesText = document.createTextNode(svcNamer)
+namesEl.appendChild(namesText)
+totalcostEl.appendChild(costText)
+tRow.appendChild(namesEl)
+tRow.appendChild(totalcostEl)
+   costsAdded.appendChild(tRow)
+   //////////
+   
+  
+   
+    //ADD INPUT ELEMENTS FOR SERVICES
+   const inputEl = document.createElement('input');
+   inputEl.setAttribute('type','text')
+   inputEl.setAttribute('name','serviceName')
+   inputEl.setAttribute('value', serviceAdd.value ) 
+   const hrefEl = document.createElement('button')
+   hrefEl.setAttribute('onclick',`remove(${serviceAdd.value})`)
+   servicesAdded.appendChild(inputEl, hrefEl)
+
+
+}
+</script>
+</body> </html>

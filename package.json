@@ -1,6 +1,6 @@
 {
-  "name": "noco_metalworkz",
-  "version": "1.0.9",
+  "name": "W2 Marketing App",
+  "version": "0.9.8",
   "private": true,
   "scripts": {
     "start": "nodemon --trace-warnings ./bin/www",
