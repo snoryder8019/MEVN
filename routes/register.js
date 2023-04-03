@@ -99,9 +99,9 @@ router.post('/contactform', (req,res) => {
         }
   })
       let mailOptions = {
-          from:'W2 MArketing WebApp ~ from '+ req.body.fname ,
-          to:'w2marketing.scott@gmail.com',        
-          subject:'W2 Marketing Contact Form',
+          from:`${config.COMAPNY_NAME} WebApp ~ from `+ req.body.fname ,
+          to:config.EMAIL,        
+          subject:`${config.COMAPNY_NAME} Contact Form`,
           text: req.body.message,
           html:'<head><style>body{background-color:black;color:white}</style></head><body><h1><span>You Received a message from a guest on your website about <h2>'+req.body.regType+'</h2></span> </h1><br><h1>'+req.body.fname+' says: </h1><br><h2>'+req.body.message+'</h2><br>'+req.body.email+'</body>'
       };

@@ -2,6 +2,7 @@
 /.env
 /config/mongo.js
 /config/config.js
+/config/config*
 /config/dbSetup.js
 /config/db.js
 /config/app.json

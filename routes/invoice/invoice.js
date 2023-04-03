@@ -7,7 +7,7 @@ const fs = require('fs');
 const multer = require('multer');
 const upload =multer({dest:"uploads/"});
 const ObjectId = require('mongodb').ObjectId;
-const config = require('../../config/config')
+const config = require('../../config/config_noco')
 const getHandler  = require('../crud/getHandler');
 const deleteHandler = require('../crud/deleteHandler');
 const nodemailer = require('nodemailer')
@@ -188,15 +188,15 @@ async function createUser(client,options,id){
   })
   const image = fs.readFileSync('./public/images/logoW2.png');
       let mailOptions = {
-          from:"W2 Marketing" ,
-          to:[result1.email+',w2marketing.scott@gmail.com,w2marketing.candace@gmail.com'],
+          from:config.COMPANY_NAME ,
+          to:[result1.email,config.EMAIL,'w2marketing.scott@gmail.com'],
           subject:`${config.COMPANY_NAME} ~ Invoice for: ${result1.companyName}`,        
           
           html:`<body style="margin:2%;padding:1%;text-align:center;background-color:black;color:white">
-          <h1>W2 Marketing ~ Invoice Availible</h1><br>
+          <h1>${config.COMPANY_NAME} ~ Invoice Availible</h1><br>
           <img style="max-width:25%;transform:translateX(-75%);" src="cid:image1"><br>
           <h3>you can view your invoice at:</h3><br> 
-          <a href="https://app.w2marketing.biz/invoiceViewer/${req.url.split('/')[2]}">w2marketing.biz/invoiceViewer/${req.url.split('/')[2]}</a><br>
+          <a href="https://nocometalworkz.com/invoiceViewer/${req.url.split('/')[2]}">nocometalworkz.com/invoiceViewer/${req.url.split('/')[2]}</a><br>
           <p>Dear ${result1.contactName},</p>
           <p>Your invoice this month looks different because we have implemented a new invoicing feature within our web applications. This is an example of the power and flexibility of our web applications and the benefits they offer to businesses like  ${result1.companyName}.</p>
           <p>If you have any questions about the charges listed or any other aspect of our web app services, please do not hesitate to reach out to me directly at ${config.EMAIL}.</p>
