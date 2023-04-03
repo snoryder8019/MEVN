@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<!---------------todos feb 6th 2024------------------->
+<!----------------auth and cart adding not working------------------>
+<!----------------class=imgPreiview is adversly ------------------>
+<!----------------affecting the ui/dom in the product details page------------------>
+<!----------------send message function confirmation reduce spam------------------>
+<!---------------------------------->
+<!---------------------------------->
+<!---------------------------------->
+<!-----------------expand message to hit all message links----------------->
+<!---------------------------------->
+<!---------------------------------->
+<!----------------live intro------------------>
+<!----------------upload multiple photos------------------>
+<!----------------edit change descriptions------------------>
+<!-----------------update the admin ----------------->
+<!------------------------------------------------->
+<!-----------------whats happening changed to facebook feed----------------->
+    <%- include('config/head.ejs')%>
+
+<body onload="bodyLoader()">
+    <canvas id="bkgdCanvas"></canvas>   
+        <div id="mainBody" class="">            
+            <%- include('config/bkgdImg.ejs')%>            
+            <%- include('config/loadScreen.ejs')%>
+            <%- include('config/header.ejs')%>
+            
+    <%- include('config/intro.ejs')%> 
+    <div class="eventBody">
+       <div class="indexSpacer"></div>
+        <h1 class="h1Span">Noco Metalworkz Services</h1>
+      
+        <div class="invGrid">
+            <% for(var i=0;i<data[1].length;i++){%>
+                <div class="gridContain">
+                    <div>
+                        <h2><%=data[1][i].name%></h2>
+                        <h3>$<%=data[1][i].price%>.00</h3>
+                    </div>
+                    <div class="imgCont">
+                           <a onclick="loading('getting product details')" href="/productID/<%= data[1][i]._id%>"> 
+                         <img class="invImg" src=" <%= data[1][i].imgName%>" alt="">
+                        </a>
+                       </div>
+                </div>                
+                 <%}%>
+
+               
+            </div>
+            <div class="indexSpacerBottom"></div>
+        </div>        
+        <div class="midBar">
+            <div class="midLeft">
+                <div class="landingPage0">
+            <a href="/market">     <div class="navBox">
+                W2's Home Website
+            </div></a>
+        </div>
+<div class="landingPage0">
+   <a href="/about"> <div class="navBox">
+        about this webapp
+    </div></a>
+</div>
+<div class="landingPage0">
+    <a href="/faqs">   <div class="navBox">
+        F.A.Q.s
+    </div></a>
+</div>
+</div>
+<div class="midRight">
+    
+</div>
+</div>
+
+<h1 class="h1Span">Latest Developments</h1>
+<div class="landingPage">  
+        <% for(var i=0;i<data[0].length;i++){%>
+            <div class="eventBody">
+                <h1 maxlength="20"><%= data[0][i].bTitle%></h1>
+                <h2 maxlength="20"><%= data[0][i].bSubtitle%></h2>
+                <div style="background-image:url('<%= data[0][i].imgName%>');" class="imgBox"></div>
+                <p><%= data[0][i].bDetails%></p>
+            </div>
+            <%}%>
+        </div>
+   
+        <div class="indexSpacerBottom"></div>
+        <%- include('config/footer.ejs')%>
+        
+    </div>
+    
+    
+    <%- include('./config/baseScripts.ejs')%>
+</body>
+ </html>

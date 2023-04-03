@@ -1,5 +1,5 @@
 <div class="introImgDiv_T">    
-        <img class="introImg_head" src="/images/logoW2.png">
+        <img class="introImg_head" src="/images/logo.png">
        <h2 class="introType">Northern Colorado's Welders and Workers</h2>
       
        <h2> On Site, Commission Plasma Cuts, Fencing , and More </h2>
@@ -7,7 +7,7 @@
   
 <div class="landingPage">
 <%for(let i=0;i<data[2].length;i++){%>
-        <div style="margin-bottom:12%" class="eventBody">  
+        <div onclick="goToIntroPage('<%=data[2][i]._id%>')" style="margin-bottom:12%" class="eventBody">  
         <h1 class="h1Span"><%=data[2][i].introHeader%></h1>
         <div class="introImgDiv_L">     
             <div class="innerDetails"><%=data[2][i].introDetails%></div>
@@ -16,3 +16,9 @@
         </div>
         <%}%>
     </div>
+    <script>
+     function goToIntroPage(arg) {
+    window.location.href = "/introDetails?id=" + arg;
+}
+
+    </script>

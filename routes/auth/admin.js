@@ -2,11 +2,11 @@ const express = require('express');
 const router = express.Router();
 const env = require('dotenv').config()
 const client = require('../../config/mongo');
+const ObjectId = require('mongodb').ObjectId;
 const request = require('request')
 const fs = require('fs');
 const multer = require('multer');
 const upload =multer({dest:"uploads/"});
-const ObjectId = require('mongodb').ObjectId;
 //////////////////middleware
 function isAddy(req,res,next){
   if(!req.user){res.redirect('login')}
@@ -24,8 +24,8 @@ router.get('/admin', (req,res) =>{
         await client.connect();
         await getEmails(client);
       }
-      catch(err){
-        console.log(err);
+      catch(error){
+        console.log(error);
       }
       finally{
       //  await client.close();
@@ -36,7 +36,9 @@ router.get('/admin', (req,res) =>{
        const user = req.user
         const blogs= await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_blogs').find().toArray();
         const catagory = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_categories').find().toArray();
-   return  res.render('admin',{title:'Admin Page', blogs:blogs,catagory:catagory, user:user})
+        const introContent = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_intro_content').find().toArray();
+  
+        return  res.render('admin',{title:'Admin Page', blogs:blogs,catagory:catagory, user:user, introContent:introContent})
   } 
   })
 //////////////////////////////////
@@ -47,8 +49,8 @@ router.get('/inventory', (req,res) =>{
       await client.connect();
       await getEmails(client);
      }
-     catch(err){
-       console.log(err);
+     catch(error){
+       console.log(error);
      }
      finally{
      await client.close();
@@ -69,8 +71,8 @@ router.post('/deleteInv', (req,res)=>{
     try{
       await client.connect()
       await invGetter(client)
-    }catch(err){
-      console.log(err)
+    }catch(error){
+      console.log(error)
     }finally{
    console.log('complete')
    await client.close()
@@ -95,7 +97,7 @@ originalPost:req.body.ogPost,
 price:req.body.price,
 catRef:req.body.catRef,
     })}
-    catch(err){console.log(err)}
+    catch(error){console.log(error)}
     finally{await client.close()}
   }
   updateInventory().catch(console.error);
@@ -119,9 +121,9 @@ return res.redirect('inventory')
   const newName = 'blog_Image_'+ Date.now()+"."+ext;
 /*^^end^^*/
   const bImgName = "images/blog/"+newName;
-  fs.rename(oldFilepath+str2,newFilepath+newName,(err)=>{
+  fs.rename(oldFilepath+str2,newFilepath+newName,(error)=>{
 if(err){
-  console.log(err);
+  console.log(error);
 }
  })
   async function saveBlog(bImgName,data){
@@ -135,8 +137,8 @@ if(err){
         imgName:bImgName
       });
      }
-     catch(err){
-       console.log(err);
+     catch(error){
+       console.log(error);
      }
      finally{
      await client.close();
@@ -149,48 +151,7 @@ if(err){
    }
 )
 //////////
-router.post('/uploadIntro',upload.single('photo'), function(req,res){
-  /*isolate file extention*/
-  const imageData= req.file;
-  const ogStr=0;
-  const str = imageData.originalname;
-  const str2 = imageData.filename;
-  const strSplit= str.split('.');
-  const ext = strSplit[1];
-  const oldFilepath = "../"+config.IMAGE_FP+"/uploads/";
-  const newFilepath = "../"+config.IMAGE_FP+"/public/images/intro/"
-  const newName = 'intro_Image_'+ Date.now()+"."+ext;
-/*^^end^^*/
-  const bImgName = "images/intro/"+newName;
-  fs.rename(oldFilepath+str2,newFilepath+newName,(err)=>{
-if(err){
-  console.log(err);
-}
- })
-  async function saveBlog(bImgName,data){
-    try {
-      await client.connect();
-      await createBlog(client,{
-        introHeader:req.body.introHeader,
-        postDate:Date.now(),
-        introDetails:req.body.introDetails,
-        order:0,
-        imgName:bImgName
-      });
-     }
-     catch(err){
-       console.log(err);
-     }
-     finally{
-     await client.close();
-   }}
- saveBlog(bImgName).catch(console.error);
-   async function createBlog(client,newBlog){
-    const result = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_intro_content').insertOne(newBlog);
-    res.redirect('admin');
-    }
-   }
-)
+
 //////////DELETE BLOGS
 router.post('/delBlog',(req,res)=>{
   async function deleteBlog(){
@@ -198,8 +159,8 @@ router.post('/delBlog',(req,res)=>{
       await client.connect();
       await getBlog(client);  
     }
-    catch(err){
-      console.log(err);
+    catch(error){
+      console.log(error);
     }
     finally{
       await client.close();
@@ -257,8 +218,8 @@ if(err){
      
       });
      }
-     catch(err){
-       console.log(err);
+     catch(error){
+       console.log(error);
      }
      finally{
      await client.close();
@@ -281,8 +242,8 @@ router.post('/newColor', function(req,res){
       colorTag:req.body.clrTag,
       });
      }
-     catch(err){
-       console.log(err);
+     catch(error){
+       console.log(error);
      }
      finally{
      await client.close();
@@ -302,8 +263,8 @@ router.post('/delColor',(req,res)=>{
       await client.connect();
       await getColor(client);  
     }
-    catch(err){
-      console.log(err);
+    catch(error){
+      console.log(error);
     }
     finally{
       await client.close();
@@ -330,8 +291,8 @@ router.post('/newCat', function(req,res){
       
       });
      }
-     catch(err){
-       console.log(err);
+     catch(error){
+       console.log(error);
      }
      finally{
      await client.close();
@@ -354,8 +315,8 @@ router.post('/delCat',(req,res)=>{
 "catRef":"Not_Categorized"
       });  
     }
-    catch(err){
-      console.log(err);
+    catch(error){
+      console.log(error);
     }
     finally{
       await client.close();
@@ -396,7 +357,7 @@ router.get('/options',(req,res)=>{
     try{
       await client.connect()
     await faqPopulate(client)}
-    catch(err){console.log(err)}
+    catch(error){console.log(error)}
     finally{client.close}
   }
   faqGetter().catch(console.error);
@@ -433,7 +394,7 @@ router.post('/delFaq', (req,res)=>{
       await client.connect()
       await faqDeleter(client)
     }
-    catch(err){console.log(err)}
+    catch(error){console.log(error)}
     finally{await client.close()}
   }
   delFaqs().catch(console.error);

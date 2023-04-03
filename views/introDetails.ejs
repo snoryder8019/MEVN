@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<!---------------todos feb 6th 2024------------------->
+<!----------------auth and cart adding not working------------------>
+<!----------------class=imgPreiview is adversly ------------------>
+<!----------------affecting the ui/dom in the product details page------------------>
+<!----------------send message function confirmation reduce spam------------------>
+<!---------------------------------->
+<!---------------------------------->
+<!---------------------------------->
+<!-----------------expand message to hit all message links----------------->
+<!---------------------------------->
+<!---------------------------------->
+<!----------------live intro------------------>
+<!----------------upload multiple photos------------------>
+<!----------------edit change descriptions------------------>
+<!-----------------update the admin ----------------->
+<!------------------------------------------------->
+<!-----------------whats happening changed to facebook feed----------------->
+    <%- include('config/head.ejs')%>
+
+<body onload="bodyLoader()">
+    <canvas id="bkgdCanvas"></canvas>   
+        <div id="mainBody" class="">            
+            <%- include('config/bkgdImg.ejs')%>            
+            <%- include('config/loadScreen.ejs')%>
+            <%- include('config/header.ejs',{data:data})%>
+       
+    <div class="eventBody">
+<div class="headNav">  
+    <h2 onclick="goToIntroPage('/')">←</h2>
+     <h2 class=""><%=data2.introHeader%></h2>
+
+</div>
+     
+
+<div class="introDeetsHeader">
+<div class="introDeetsDiv">  <img class="invImg" src=" <%= data2.imgName%>" alt=""></div>
+<div class="introDeetsDiv">  <h4 class="introDescription" ><%=data2.introDetails%></h4></div>
+
+</div>
+
+<h2><%=data2.introHeader%> Gallery</h2>
+<div class="introDetailsGallery">
+ <%for(let i=0;i<data2.gallery.length;i++){%>
+   <img id="galleryIndex_<%=i%>_id_<%=data2._id%>" class="galleryImage" src=" <%=data2.gallery[i].imageUrl%>" alt="<%=data2.gallery[i].galleryImageTitle%>">
+    <%}%>
+</div>
+
+
+        </div>
+        </div>
+        <div style="display:none" id="galleryWindow"> <%- include ('partials/galleryWindow')%></div>
+        <div class="indexSpacerBottom"></div>
+        <%- include('config/footer.ejs')%>
+
+        <script>
+            // Function to fetch gallery item data from the server
+// Function to fetch gallery item data from the server
+function fetchGalleryItem(index, introContentId) {
+    closeGalleryWindow();
+    // Add event listener to the background element to detect clicks
+    const backgroundElement = document.getElementById('menuPage');
+    backgroundElement.addEventListener('click', backgroundClickHandler);
+
+    fetch(`/galleryItem?introId=${introContentId}&galleryIndex=${index}`)
+    .then(response => response.json())
+    .then(data => {
+        // Create the gallery window element
+        const galleryWindow = document.createElement('div');
+        galleryWindow.classList.add('gallery-window');
+        galleryWindow.innerHTML = `
+            <div class="galleryGrid">
+                <span class="close-button" onclick="closeGalleryWindow()">&times;</span>
+               <div>
+                <h2 style="color:black;">${data.galleryImgName}</h2>
+                <p style="color:black;text-align:center;">${data.galleryImgDesc}</p>
+               </div>
+                <img class="galleryImagePop"src="${data.imageUrl}" alt="Gallery Image">
+            </div>
+        `;
+        
+        // Append the gallery window to the body
+        document.body.appendChild(galleryWindow);
+    })
+    .catch(error => console.error('Error fetching gallery item:', error));
+}
+
+// Function to handle clicks on the background element
+function backgroundClickHandler(event) {
+    // Check if the click occurred outside the gallery window
+    const galleryWindow = document.querySelector('.gallery-window');
+    if (galleryWindow && !galleryWindow.contains(event.target)) {
+        closeGalleryWindow();
+    }
+}
+
+// Function to close the gallery window
+function closeGalleryWindow() {
+    const galleryWindow = document.querySelector('.gallery-window');
+    if (galleryWindow) {
+        galleryWindow.remove();
+        // Remove the event listener from the background element
+        const backgroundElement = document.getElementById('menuPage');
+        backgroundElement.removeEventListener('click', backgroundClickHandler);
+    }
+}
+
+
+        
+            // Add event listeners to gallery images
+            document.addEventListener('DOMContentLoaded', function() {
+                const galleryImages = document.querySelectorAll('.galleryImage');
+                galleryImages.forEach(function(image) {
+                    image.addEventListener('click', function() {
+                        // Extract the index and introContentId from the id attribute
+                        const index = this.id.split('_')[1];
+                        const introContentId = this.id.split('_')[3];
+                        fetchGalleryItem(index, introContentId);
+                    });
+                });
+            });
+        
+            function goToIntroPage(arg) {
+                window.location.href = arg;
+            }
+        </script>
+        
+               </body>

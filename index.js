@@ -21,7 +21,7 @@ const data={
         [3]:"_users"    
 }};
       const response = await axios.get(config.DB_URL+'/api/readManyD',{params:data});
-  console.log(response.data)
+ // console.log(response.data)
    res.render('index',{data:response.data});
   } catch (error) {
     res.status(500).json({ error: error.message});

@@ -2,7 +2,9 @@ var express = require('express');
 var router = express.Router();
 const bcrypt = require('bcrypt');
 var client = require('../config/mongo');
+const axios = require('axios')
 const nodemailer = require('nodemailer')
+const config = require('../config/config')
 // const accountSid = process.env.TWILIO_ACCOUNT_SID;
 // const authToken = process.env.TWILIO_AUTH_TOKEN;
 // const twilioClient = require('twilio')(accountSid, authToken);//middleware
@@ -19,9 +21,23 @@ router.get('/login', function(req, res) {
   const user = req.user
   res.render('login',{user:user});
   }); 
-router.get('/', function(req, res) {
+router.get('/',async function(req, res) {
   const user = req.user
-  res.render('register', { title: 'Contact Us', user:user });
+  try{
+  const data={
+    subpath:config.COLLECTION_SUBPATH,
+    dbName:config.DB_NAME,
+    collections:{
+    [0]:"_blogs",
+    [1]:"_inventory",
+    [2]:"_intro_content",
+    [3]:"_users"    
+}};
+  const response = await axios.get(config.DB_URL+'/api/readManyD',{params:data});
+//console.log(response.data)
+  res.render('register', { title: 'Contact Us', user:user ,data:response.data});
+}
+catch(error){console.log(error)}
 });
 
 router.post('/regUser', (req,res) => {

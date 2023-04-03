@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<!---------------todos feb 6th 2024------------------->
+<!----------------auth and cart adding not working------------------>
+<!----------------class=imgPreiview is adversly ------------------>
+<!----------------affecting the ui/dom in the product details page------------------>
+<!----------------send message function confirmation reduce spam------------------>
+<!---------------------------------->
+<!---------------------------------->
+<!---------------------------------->
+<!-----------------expand message to hit all message links----------------->
+<!---------------------------------->
+<!---------------------------------->
+<!----------------live intro------------------>
+<!----------------upload multiple photos------------------>
+<!----------------edit change descriptions------------------>
+<!-----------------update the admin ----------------->
+<!------------------------------------------------->
+<!-----------------whats happening changed to facebook feed----------------->
+    <%- include('config/head.ejs')%>
+
+<body onload="bodyLoader()">
+    <canvas id="bkgdCanvas"></canvas>   
+        <div id="mainBody" class="">            
+            <%- include('config/bkgdImg.ejs')%>            
+            <%- include('config/loadScreen.ejs')%>
+            <%- include('config/header.ejs',{data:data})%>
+       
+    <div class="eventBody">
+<div class="headNav">  
+    <h2 onclick="goToIntroPage('/')">←</h2>
+     <h2 class=""><%=data2.introHeader%></h2>
+
+</div>
+     
+
+<div class="introDeetsHeader">
+<div class="introDeetsDiv">  <img class="invImg" src=" <%= data2.imgName%>" alt=""></div>
+<div class="introDeetsDiv">  <h4 class="introDescription" ><%=data2.introDetails%></h4></div>
+
+</div>
+
+<div class="introDetailsGallery">
+    <div>img1</div>
+    <div>img2</div>
+    <div>img3</div>
+    <div>img4</div>
+</div>
+
+
+        </div>
+        </div>
+        <div class="indexSpacerBottom"></div>
+        <%- include('config/footer.ejs')%>
+
+
+        <script>
+            function goToIntroPage(arg) {
+           window.location.href =  arg;
+       }
+       
+           </script>
+               </body>

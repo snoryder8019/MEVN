@@ -1,0 +1,36 @@
+<div class="mmainStyle">
+    <h1 class="h1Span">Add Intro Content</h1>
+      <div class="eventBody" id="admin0">
+        <form action="/uploadIntro" enctype="multipart/form-data" method="post" >
+          <h2>Step 1: Add Details</h2>
+            <input placeholder="Event Title"  type="text" name="introHeader">
+            <input placeholder="Date or Subtitle" type="text" name="introDetails">
+        
+    
+          <h2 style="margin: 0;">Step 2: Attach One Image</h2> 
+            <input type="file" accept="image/*" name="photo">
+          <h2>Step 3: Submit</h2> 
+            <button onclick="loading('adding post to home page')" type="submit" >Submit</button>
+        </form>
+      </div>
+   </div>
+   <div class="mmainStyle">
+   <h1 class="h1Span">Upload Gallery Images Placeholder</h1>
+   <div class="eventBody" id="admin0">
+     <form action="/uploadGalleryImages" enctype="multipart/form-data" method="post">
+       <h2>Step 1: Add Gallery Images</h2>
+       <select name="introCat" id="">
+           <% for(let i = 0;i<introContent.length;i++){ %>
+           <option value="<%=introContent[i]._id%>"><%=introContent[i].introHeader%></option>
+           <% } %>
+       </select>
+       <input placeholder="Img Title" type="text" name="galleryImgName">
+       <input placeholder="decription of work" type="text" name="galleryImgDesc">
+       <h2 style="margin: 0;">Step 2: Attach One Image</h2>
+       <input type="file" accept="image/*" name="photo">
+       <h2>Step 3: Submit</h2>
+       <button onclick="loading('adding gallery Image')" type="submit">Submit</button>
+   </form>
+   
+   </div>
+</div>

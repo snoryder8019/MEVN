@@ -1,5 +1,8 @@
 <div class="footer" id="footer"><p>Noco Metalworkz LLC ~ Greeley, CO</p> 
-
- 
+<%if(typeof user=='object'&& user.isAdmin){%>
+    <a href="/admin">🔒 go to Admin</a>
+    <%}else{%>
+        <a href="/auth/google">🔒</a>
+ <%}%>
 </div>
    

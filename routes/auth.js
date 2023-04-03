@@ -21,7 +21,7 @@ router.get('/google/callback',
 passport.authenticate('google',
    {failureRedirect:'login'}),
   (req,res)=>{
-   res.redirect('/market')});
+   res.redirect('/')});
 
 router.get('/facebook',
   passport.authenticate('facebook',

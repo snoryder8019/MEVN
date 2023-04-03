@@ -1,6 +1,22 @@
 <!DOCTYPE html>
 <html>
-
+<!---------------todos feb 6th 2024------------------->
+<!----------------auth and cart adding not working------------------>
+<!----------------class=imgPreiview is adversly ------------------>
+<!----------------affecting the ui/dom in the product details page------------------>
+<!----------------send message function confirmation reduce spam------------------>
+<!---------------------------------->
+<!---------------------------------->
+<!---------------------------------->
+<!-----------------expand message to hit all message links----------------->
+<!---------------------------------->
+<!---------------------------------->
+<!----------------live intro------------------>
+<!----------------upload multiple photos------------------>
+<!----------------edit change descriptions------------------>
+<!-----------------update the admin ----------------->
+<!------------------------------------------------->
+<!-----------------whats happening changed to facebook feed----------------->
     <%- include('config/head.ejs')%>
 
 <body onload="bodyLoader()">
@@ -8,7 +24,7 @@
         <div id="mainBody" class="">            
             <%- include('config/bkgdImg.ejs')%>            
             <%- include('config/loadScreen.ejs')%>
-            <%- include('config/header.ejs')%>
+            <%- include('config/header.ejs',{data:data})%>
             
     <%- include('config/intro.ejs')%> 
     <div class="eventBody">
@@ -57,17 +73,6 @@
 </div>
 </div>
 
-<h1 class="h1Span">Latest Developments</h1>
-<div class="landingPage">  
-        <% for(var i=0;i<data[0].length;i++){%>
-            <div class="eventBody">
-                <h1 maxlength="20"><%= data[0][i].bTitle%></h1>
-                <h2 maxlength="20"><%= data[0][i].bSubtitle%></h2>
-                <div style="background-image:url('<%= data[0][i].imgName%>');" class="imgBox"></div>
-                <p><%= data[0][i].bDetails%></p>
-            </div>
-            <%}%>
-        </div>
    
         <div class="indexSpacerBottom"></div>
         <%- include('config/footer.ejs')%>
