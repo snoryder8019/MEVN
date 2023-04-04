@@ -14,16 +14,15 @@
 <div id="backgroundFX">
     <%- include('config/header.ejs')%>  
     <%- include('config/bkgdImg.ejs')%>
-    <%- include('config/loadScreen.ejs')%>
+
 <div class="eventBody">
 <h1 class="h1Span"><%=title%></h1>
 </div>
 <div class="mainStyle">
   <div class="landingPage">
 
-    <div class="mainStyle">
-      <h1 class="h1Span">Post</h1>
-        <div class="eventBody" id="admin0">
+    <div class="eventBody" id="admin0">
+          <h1 class="h1Span">Post</h1>
           <form action="/upload" enctype="multipart/form-data" method="post" >
             <h2>Step 1: Add Details</h2>
               <input placeholder="Event Title"  type="text" name="title">
@@ -36,12 +35,12 @@
               <button onclick="loading('adding post to home page')" type="submit" >Submit</button>
           </form>
         </div>
-     </div>
+  
    
 <!---->
-<div class="mainStyle">
-  <h1 class="h1Span">Add Intro Content</h1>
-    <div class="eventBody" id="admin0">
+
+<div class="eventBody" id="admin0">
+      <h1 class="h1Span">Add Intro Content</h1>
       <form action="/uploadIntro" enctype="multipart/form-data" method="post" >
         <h2>Step 1: Add Details</h2>
           <input placeholder="Event Title"  type="text" name="introHeader">
@@ -53,9 +52,9 @@
           <button onclick="loading('adding post to home page')" type="submit" >Submit</button>
       </form>
     </div>
- </div>
+
 <!---->
-  <div class="mainStyle">
+
       <h1 class="h1Span">Live Posts</h1>
       <div class="eventBody" id="admin2">
       <table>
@@ -78,9 +77,9 @@
         </tbody>
       </table>
      </div>
-   </div>
+  
 
-<div class="mainStyle">
+<div class="eventBody">
 
 <!---->
 

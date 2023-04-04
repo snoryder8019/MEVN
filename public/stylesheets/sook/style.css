@@ -29,4 +29,8 @@ body {
   background-size: contain;
 }
 
+.banner {
+  width: 100vw;
+}
+
 /*# sourceMappingURL=style.css.map */
