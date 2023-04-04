@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const config = require('../config/config')
+const config = require('../config/config_w2')
 const UserSchema = new mongoose.Schema({
     googleId:{
         type: String,
