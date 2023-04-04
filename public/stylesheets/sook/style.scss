@@ -16,4 +16,10 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   //background-color:white;
   background:linear-gradient(to right,$red,$yellow, $green,$blue);
+  text-align: center;
+}
+.indexImg{
+    max-width: 25%;
+    margin-left: 50%;
+    transform: translateX(-100%);
 }

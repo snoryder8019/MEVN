@@ -7,10 +7,26 @@
     <canvas id="bkgdCanvas"></canvas>   
         <div id="mainBody" class="">            
             <%- include('config/bkgdImg.ejs')%>            
-            <%- include('config/loadScreen.ejs')%>
+   
             <%- include('config/header.ejs')%>
-            
-    <%- include('config/intro.ejs')%> 
+            <div class="introImgDiv_T">    
+                <img class="indexImg" src="/images/logoW2.png">
+               <h1 class="introType"><%=copy.title%></h1>
+              
+        </div>
+          
+        <div class="landingPage">
+        <%for(let i=0;i<data[2].length;i++){%>
+                <div style="margin-bottom:12%" class="eventBody">  
+                <h1 class="h1Span"><%=data[2][i].introHeader%></h1>
+                <div class="introImgDiv_L">     
+                    <div class="innerDetails"><%=data[2][i].introDetails%></div>
+                    <div><img class="introImg" src="/<%=data[2][i].imgName%>"></div>
+                    </div>
+                </div>
+                <%}%>
+            </div>
+        
     <div class="eventBody">
        <div class="indexSpacer"></div>
         <h1 class="h1Span">W2 Marketing Services</h1>
