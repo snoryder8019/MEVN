@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const client = require('../config/mongo');
 const axios = require('axios')
-const dbName= 'w2Apps';
+const copy = require('../config/copy')
 const ObjectId = require('mongodb').ObjectId;
 //////////////////middleware
 
@@ -23,7 +23,7 @@ const data={
 }};
       const response = await axios.get(config.DB_URL+'/api/readManyD',{params:data});
   console.log(response.data)
-    res.render('market',{data:response.data});
+    res.render('market',{data:response.data,copy:copy});
   } catch (error) {
       res.status(500).json({ error: error.message});
   }
@@ -44,7 +44,7 @@ const data={
 }};
       const response = await axios.get(config.DB_URL+'/api/readManyD',{params:data});
   console.log(response.data)
-    res.render('market',{data:response.data});
+    res.render('market',{data:response.data, copy:copy});
   } catch (error) {
       res.status(500).json({ error: error.message});
   }})
@@ -63,7 +63,7 @@ const data={
     }};
       const response = await axios.get(config.DB_URL+'/api/readManyD',{params:data});
   console.log(response.data)
-    res.render('productID',{data:response.data});
+    res.render('productID',{data:response.data, copy:copy});
   } catch (error) {
       res.status(500).json({ error: error.message});
   }})

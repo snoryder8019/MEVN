@@ -3,16 +3,15 @@ var express = require('express');
 var router = express.Router();
 const axios = require('axios')
 const request = require('request')
-
+const copy = require('./config/copy')
 /////////////
 /* GET home page. */
 router.get('/',async (req, res)=> {
   const clientIp = req.headers['x-forwarded-for'] || req.ip;
   console.log(clientIp)
   try {
-    const copy = {
-      title:"Unity"
-    }
+    
+    
 const data={
         subpath:config.COLLECTION_SUBPATH,
         dbName:config.DB_NAME,
@@ -44,12 +43,12 @@ router.get('/faqs',(req,res)=>{
           console.log(error)
         }else{
           let faqs=body
-          res.render('faqs',{faqs:faqs})      
+          res.render('faqs',{faqs:faqs,copy:copy})      
        }
    })  
 })
 router.get('/about',(req,res)=>{
-  res.render('about')
+  res.render('about',{copy:copy})
 })
 router.get('/service-agreements',(req,res)=>{
   return res.render('service-agreements')

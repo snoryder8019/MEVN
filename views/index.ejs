@@ -3,8 +3,7 @@
 
     <%- include('config/head.ejs')%>
 
-<body onload="bodyLoader()">
-    <canvas id="bkgdCanvas"></canvas>   
+<body onload="bodyLoader()">  
         <div id="mainBody" class="">            
             <%- include('config/bkgdImg.ejs')%>            
    
@@ -26,35 +25,12 @@
                 </div>
                 <%}%>
             </div>
-        
-    <div class="eventBody">
-       <div class="indexSpacer"></div>
-        <h1 class="h1Span">W2 Marketing Services</h1>
-      
-        <div class="invGrid">
-            <% for(var i=0;i<data[1].length;i++){%>
-                <div class="gridContain">
-                    <div>
-                        <h2><%=data[1][i].name%></h2>
-                        <h3>$<%=data[1][i].price%>.00</h3>
-                    </div>
-                    <div class="imgCont">
-                           <a onclick="loading('getting product details')" href="/productID/<%= data[1][i]._id%>"> 
-                         <img class="invImg" src=" <%= data[1][i].imgName%>" alt="">
-                        </a>
-                       </div>
-                </div>                
-                 <%}%>
-
-               
-            </div>
-            <div class="indexSpacerBottom"></div>
-        </div>        
+     
         <div class="midBar">
             <div class="midLeft">
                 <div class="landingPage0">
             <a href="/market">     <div class="navBox">
-                W2's Home Website
+               <%=copy.companyName%> Home Website
             </div></a>
         </div>
 <div class="landingPage0">
