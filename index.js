@@ -4,13 +4,15 @@ var router = express.Router();
 const axios = require('axios')
 const request = require('request')
 
-
- /////////////
+/////////////
 /* GET home page. */
 router.get('/',async (req, res)=> {
   const clientIp = req.headers['x-forwarded-for'] || req.ip;
   console.log(clientIp)
   try {
+    const copy = {
+      title:"Unity"
+    }
 const data={
         subpath:config.COLLECTION_SUBPATH,
         dbName:config.DB_NAME,
@@ -22,7 +24,7 @@ const data={
 }};
       const response = await axios.get(config.DB_URL+'/api/readManyD',{params:data});
   console.log(response.data)
-   res.render('index',{data:response.data});
+   res.render('index',{data:response.data,copy:copy});
   } catch (error) {
     res.status(500).json({ error: error.message});
   }

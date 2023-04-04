@@ -1,0 +1,19 @@
+
+$accent:rgba(188,51,116,1);
+$red:rgba(255, 0, 0, 0.674);
+$blue:rgba(0, 183, 255, 0.857);
+$green:rgba(30, 255, 0, 0.57);
+$yellow:rgba(201, 235, 31, 0.733);
+$pink:rgba(235, 178, 173, 0.733);
+$transparent:rgba(0,0,0,0);
+$error:red;
+
+
+//***********************MAIN APP STYLES****************//
+body {
+  margin: 0;
+  padding: 0;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  //background-color:white;
+  background:linear-gradient(to right,$red,$yellow, $green,$blue);
+}
