@@ -23,3 +23,20 @@ body {
     margin-left: 50%;
     transform: translateX(-100%);
 }
+.landingPage{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.eventBody{
+    border:1px dotted red
+}
+.imgBox{
+  min-width: 100%;
+  min-height: 125px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.images_standard{
+
+}
