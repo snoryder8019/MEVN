@@ -14,4 +14,12 @@ const config = {
     OAUTH:true,  
     ENV:'DEV'  
 }
+//aubouts
+//mmet the board
+//emails from sook emails server
+//sook gmail handoff for admin
+//informational forms
+//info into google docs
+//sponserships priority input form and page, sponsor be able to add own logo, logo spec banner minimums
+
 module.exports = config
