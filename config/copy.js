@@ -1,7 +1,7 @@
 const copy ={
     title:"Unity",
     companyName:"Southern Oklahoma Pride",
-    companyCity:"Oklahoma Country"
+    companyCity:"Ardmore, Oklahoma"
 }
 
 module.exports = copy

@@ -67,7 +67,7 @@
           <tr>
               <td><%= blogs[i].bTitle %></td>
               <td><%= blogs[i].bSubtitle%></td>
-              <td><img src="<%= blogs[i].imgName%>" alt=""></td>             
+              <td><img class="images_table" src="<%= blogs[i].imgName%>" alt=""></td>             
               <td><form action="/delBlog" method="post">
                   <button onclick="loading('deleting blog')" name="blogDelete" value="<%= blogs[i]._id%>"> delete</button>
                    </form></td>
