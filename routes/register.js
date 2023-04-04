@@ -17,8 +17,8 @@ router.get('/', (req,res,next) =>{
 //
 
 router.get('/login', function(req, res) {
-  const user = req.user
-  res.render('login',{user:user, copy:copy});
+
+  res.render('login',{copy:copy});
   }); 
 router.get('/', function(req, res) {
   const user = req.user

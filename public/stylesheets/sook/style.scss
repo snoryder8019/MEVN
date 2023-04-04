@@ -22,10 +22,14 @@ body {
     max-width: 25%;
     margin-left: 50%;
     transform: translateX(-100%);
+
 }
 .landingPage{
     display: grid;
     grid-template-columns: 1fr 1fr;
+    @media (min-width:900px) {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
 }
 .eventBody{
     border:1px dotted red
@@ -42,7 +46,30 @@ body {
 }
 .banner{
     width: 100vw;
+    @media (min-width:900px) {
+      width:50%;
+      margin-left: 50%;
+      transform: translateX(-50%);
+     }
 }
 .images_table{
     max-width: 50px;
 }
+.midBar{
+    padding: 2%;
+    background-color: black;
+  a{  color:white;
+text-decoration: none;}
+  word-wrap: normal;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.navBox{
+    border: 1px solid white;
+    min-height: 94%;
+    width:94%;
+   // margin: 3%;
+//padding:2%
+}
+
+//media queriies
