@@ -15,7 +15,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const url = require('url');
 const flash = require('express-flash')
-const config = require('./config/config_sook')
+const config = require('./config/config')
 //views to individual pages
 const indexRouter = require('./index');
 const routesRouter = require('./routes/index');

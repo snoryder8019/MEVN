@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const axios = require('axios')
-const config = require('../../config/config_sook')
+const config = require('../../config/config')
 const getHandler  = require('../crud/getHandler');
 const postToHandler  = require('../crud/postToHandler');
 
