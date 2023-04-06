@@ -11,33 +11,23 @@
     <div class="eventBody">
        <h3>   All Errors, Issues, Bugs, Concerns, and developer Needs can be entered here.</h3>
  
-  <form action="/tickets" method="post">
+  <form action="/postTicket" method="post">
     <div>
       <label>Name</label>
-      <input id="username" name="name" type="text" autocomplete="username" required />
+      <input id="username" name="reportOwner" type="text" autocomplete="username" required />
     </div>
     <div>
-      <label >Email</label>
-      <input  name="email" type="email"  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="valid email characters not recognized" required />
+      <label >issue:</label>
+      <textarea rows="5" cols="30"  name="issue" type="text"   required></textarea>
     </div>
     <div>
    
     </div>
 
-
-
-
-
-    
-    <div>
-      <label >Confirm Password</label>
-      <input id="password2" type="password"  required />
-      <h4>**passwords must be 8 charachters long**</h4>
-    </div>
-    <div>
-      <button onclick="loading('Thank you for registering your cart! Please Login')" type="submit">Register</button>
+      <button type="submit">Report</button>
     </div>
   </form>
+<a href="/about"><button>cancel</button></a>
 </div>
 
 <div id="oauthBody" class="">

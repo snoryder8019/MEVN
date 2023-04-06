@@ -27,6 +27,9 @@ const data={
     res.status(500).json({ error: error.message});
   }
 });
+router.get('/thank-you',(req,res)=>{
+  res.render('thank-you')
+  })
 router.get('/faqs',(req,res)=>{
     const options = {
       url:config.DB_URL+"/api/read",

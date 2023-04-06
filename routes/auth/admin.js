@@ -38,7 +38,8 @@ router.get('/admin', (req,res) =>{
        const user = req.user
         const blogs= await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_blogs').find().toArray();
         const catagory = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_categories').find().toArray();
-   return  res.render('admin',{title:'Admin Page',copy:copy, blogs:blogs,catagory:catagory, user:user})
+        const data = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_intro_content').find().toArray();
+   return  res.render('admin',{title:'Admin Page',copy:copy, blogs:blogs,catagory:catagory, user:user, data:data})
   } 
   })
 //////////////////////////////////

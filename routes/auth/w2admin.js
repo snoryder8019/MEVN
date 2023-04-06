@@ -5,6 +5,7 @@ const config = require('../../config/config')
 const copy = require('../../config/copy')
 const getHandler  = require('../crud/getHandler');
 const postToHandler  = require('../crud/postToHandler');
+const postToExternal = require('../crud/postToExternal');
 
 
 //////////////////middleware
@@ -26,6 +27,22 @@ if(req.user.isAdmin==true){
   //////////////~~~~~~~~~~~~~~~~~~~~~~~////////////////
 router.get('/tickets',(req,res)=>{
 res.render('tickets')
+})
+
+const postToTickets = (req, res) => {
+  const { reportOwner, issue } = req.body;
+  const options = {reportOwner,issue,
+    status: {open: true,resolved: false,date:Date.now(),source: config.comapnyName}};    
+    const handler = postToExternal('tickets','_submission', options, 'accounts');
+    handler(req, res);
+  };
+  router.post('/postTicket', postToTickets);
+
+
+
+
+router.post('/postTicket',(req,res)=>{
+  res.render('thank-you',{thankyou:"thank you for registering a ticket"})
 })
 /////////////////////////////////  
 ///////////////ACCOUNTS.JS//////////////////

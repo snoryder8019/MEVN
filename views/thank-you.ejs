@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    
+    <%- include('config/head.ejs')%>
+    <canvas id="bkgdCanvas"></canvas>  
+   
+    <div id="backgroundFX">
+ <div class="mainStyle">
+ 
+    <%- include('config/bkgdImg.ejs')%>
+    <%- include('config/header.ejs')%>
+    <body>
+    <div class="eventBody">
+<h1>Thank You</h1>
+<%=thankyou%>
+
+<a href="/about"><button>resume</button></a>
+      </div>
+      <%- include('config/baseScripts.ejs')%>
+      <%- include('config/footer.ejs')%>
+      <!--script src="javascripts/backgroundFX1.js"></script-->
+   <script src="javascripts/login.js"></script> 
+    </body>
+    </html>

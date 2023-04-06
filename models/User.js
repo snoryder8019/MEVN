@@ -45,6 +45,7 @@ const UserSchema = new mongoose.Schema({
             default:"n/a"
         }
     },
+    referral:{type:String,value:config.COLLECTION_SUBPATH},
 
     cart:{
         type:Array
