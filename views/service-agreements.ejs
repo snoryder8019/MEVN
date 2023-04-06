@@ -11,7 +11,7 @@
     <%- include('config/header.ejs')%>
     <body>
     <div class="eventBody">
-<h1>W2 Marketing LLC Web Application Service Agreement</h1>
+<h1><%=copy.companyName%> with W2 Marketing LLC Web Application Service Agreement</h1>
 <ul>
 <li>We will not share your information with anyone</li>
 <li>We use Google Profile Data to create a dynamic User and Client experience</li>
@@ -22,9 +22,11 @@
 <li>Breaches are rare. In case of a nafarious data breach, W2 Marketing will make contact with all affected users, in good faith, to secure passwords and personal logins</li>
 <li>Users may request to delete info by sending a request from the registered email name to "Scott"email to: w2marketing.scott@gmail.com</li>
 </ul>
+<button onclick="goBack()">go back</button>
 </div>
 </div>
       </div>
+      <%- include('config/baseScripts.ejs')%>
       <%- include('config/footer.ejs')%>
       <!--script src="javascripts/backgroundFX1.js"></script-->
    <script src="javascripts/login.js"></script> 

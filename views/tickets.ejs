@@ -9,33 +9,9 @@
     <%- include('config/header.ejs')%>
     <body>
     <div class="eventBody">
-          
-      <div id="localSignin" class="">
-        <h2>
-          Sign in with Email:
-        </h2>
-        <form action="/auth/checkCreds" method="post">
-          <div>
-            <label for="email">email</label>
-            <input id="email" name="email" type="text"  required />
-          </div>
-          <div>
-            <label for="password">Password</label>
-            <input id="passwordReg" name="password" type="password"  required />
-       
-          </div>
-          <div>
-            <button onclick="loading('logging in...')" type="submit">Sign in</button>
-          </div>
-  </form>
-</div>
-
-
-<div id="localRegister" class="">
-  <h2>
-    Register Email:
-  </h2>
-  <form action="/regUser" method="post">
+       <h3>   All Errors, Issues, Bugs, Concerns, and developer Needs can be entered here.</h3>
+ 
+  <form action="/tickets" method="post">
     <div>
       <label>Name</label>
       <input id="username" name="name" type="text" autocomplete="username" required />
@@ -45,8 +21,7 @@
       <input  name="email" type="email"  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="valid email characters not recognized" required />
     </div>
     <div>
-      <label >Password</label>
-      <input oninput="checkPasswords" id="password1" name="password" type="password" pattern="(?=.{8}" title="format: " required />
+   
     </div>
 
 

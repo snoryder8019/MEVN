@@ -6,6 +6,7 @@
 <div id="hmMid" class="hm"></div>
 <div id="hmBot" class="hm"></div>
 </div>
+<div id="logoDiv"></div>
 </div>
 
 <div id="menuPage">
@@ -13,6 +14,7 @@
         <p><a href="/">Home</a></p>
         <p><a href="/market">Services</a></p>
         <p><a href="/register">Contact</a></p>
+        <p><a href="/register/login">Login</a></p>
     <% if (typeof user == 'object' && user) { %>
         <p> <a onclick="loading('logging out')" href="/auth/logout">Logout</a></p>
         <div><img onclick="getCart()" class="cartIcon" src="/images/icons/cart.png"></div>

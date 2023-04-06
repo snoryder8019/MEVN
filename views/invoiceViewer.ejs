@@ -9,7 +9,7 @@
 </head>
 <body onload="listeners()">   
 
-
+  
   <div id="backgroundFX">    
       
       <h1 class="h1Span">W2 Marketing Invoice</h1>
@@ -18,9 +18,9 @@
         <h3>date: <%=new Date(data[2].date).toDateString()%><br></h3>
  <h2 class="logoFont">invoice to: <span class="alert"><%= data[1].companyName%></h2></span>
 <p> <%= data[1].phoneNumber%><br>
-       attn: <%= data[1].contactName%><br>
-        <%= data[1].email%><br>
-        <%= data[1].businessAddress%></p>
+  attn: <%= data[1].contactName%><br>
+  <%= data[1].email%><br>
+  <%= data[1].businessAddress%></p>
     
          <h2> <span class="alert"> invoice total:  $ <%=data[2].invTotal%>.00</span><br>
           invoice number: tbd<br>
@@ -40,19 +40,20 @@
     <%}%>
   </div>
 
-  </div>
+</div>
   <div class="eventBody">
+    <!--SERVICE DETAILS AND PAYMENT LINKS WITH QR CODE-->
     <p><strong>Payment Policy Update:</strong> all invoices will be due 15 days after the invoice date. If payment is not received within 30 days of the invoice date, we will add a 1.5% late fee per 30 days to the outstanding balance.</p>
     </div>
     <div class="eventBody">
     <p>We offer the following payment options:</p>
     <ul>
-        <li>Mail by check: Payable to W2 Marketing LLC, c/o: Scott Wallace, Mail to: 1536 14th AVE ~ Greeley, CO 80631</li>
-        <li>Online payment: <a href="https://www.paypal.com"> paypal direct</a> to: w2marketing.scott@gmail.com</li>
+        <li>Mail by check: Payable to <%= copy.comapnyName%>, c/o: <%=copy.companyContact%>, Mail to: 1536 14th AVE ~ Greeley, CO 80631</li>
+        <li>Online payment: <a href="https://www.paypal.com"> paypal direct</a> to:<%copy.companyPaypal%></li>
     </ul>
     <p>if you have any questions abour invoicing, payment, or you may have seen a bug in this new service, all feedback helps, please let me know!! -scott</p>
     <p>"version": "1.0.9"</p>
-</div>
+  </div>
 
      </div>   
          

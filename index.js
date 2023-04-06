@@ -16,7 +16,7 @@ const data={
         dbName:config.DB_NAME,
         collections:{
         [0]:"_blogs",
-        [1]:"_inventory",
+        [1]:"_services",
         [2]:"_intro_content",
         [3]:"_users"    
 }};
