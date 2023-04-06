@@ -1,0 +1,198 @@
+//CONFIGURE FONTS SIZES
+//li 
+$liDesk:1.6em;
+$liTablet:2.6em;
+//a href
+$aMobile:1em;
+$aTablet:1.1em;
+$aDesk:1.2em;
+$aXlrg:1.2em;
+// //paragraph size
+// $pMobile:2em;
+// $pTablet:2.7em;
+// $pDesk:1.3em;
+// $pXlrg:1.5em;
+// //headline 1 size
+// $h1Mobile:2em;
+// $h1Tablet:3.5em;
+// $h1Desk:3.5em;
+// $h1Xlrg:2em;
+// //headline 2 size
+// $h2Mobile:1.5em;
+// $h2Tablet:2.5em;
+// $h2Desk:1.8em;
+// $h2Xlrg:2em;
+// //span size
+// $spanMobile:2em;
+// $spanTablet:1.1em;
+// $spanDesk:1em;
+// $spanXlrg:3em;
+//image size
+$imgMobile:100%;
+$imgTablet:100%;
+$imgDesk:50%;
+$imgXlrg:50%;
+
+//paragraph size
+$pMobile:1rem;
+$pTablet:1.7rem;
+$pDesk:1.3rem;
+$pXlrg:1.5rem;
+//headline 1 size
+$h1Mobile:2rem;
+$h1Tablet:3rem;
+$h1Desk:2rem;
+$h1Xlrg:2rem;
+//headline 2 size
+$h2Mobile:1.5rem;
+$h2Tablet:2rem;
+$h2Desk:2rem;
+$h2Xlrg:2rem;
+//span size
+$spanMobile:2rem;
+$spanTablet:2.1rem;
+$spanDesk:2rem;
+$spanXlrg:3rem;
+
+$mobile:"(max-width:768px)";
+$tablet:"(min-width:769px) and (max-width:1000px)";
+$desk:"(min-width:1001px) and (max-width:1680px)";
+$xlrg:"(min-width:1681px)";
+// $mobile:"(min-width:320px) and (max-height:480px)";
+// $tablet:" (min-width:460px) and (max-height:800px)";
+// $desk:" (min-width:980px) and (max-height:1024px)";
+// $xlrg:"(min-width:1881px)";
+
+// $mobile:"(max-width:320px)";
+// $tablet:" (max-width:460px)";
+// $desk:" (max-width:980px)";
+// $xlrg:"(min-width:1881px)";
+@mixin mobile(){
+    .imgBox{
+        width:$imgMobile
+    }
+    a{
+        font-size:$aMobile;
+    }
+    p{
+font-size:$pMobile;
+    }
+    h1{
+font-size: $h1Mobile;
+    }
+    h2{
+font-size: $h2Mobile;
+    }
+.pricing{
+       font-size: $spanMobile;
+    }
+}
+@mixin tablet(){
+    .imgBox{
+        width:$imgTablet
+    }
+    li{
+        font-size: $liTablet;
+    }
+    a{
+        font-size:$aTablet;
+    }
+    p{
+font-size:$pTablet;
+    }
+    h1{
+font-size: $h1Tablet;
+    }
+    h2{
+font-size: $h2Tablet;
+    }
+  
+}
+@mixin desk(){
+    .imgBox{
+        width:$imgDesk
+    }
+    li{
+        font-size: $liDesk;
+    }
+    a{
+        font-size:$aDesk;
+    }
+  p{
+    font-size:$pDesk;
+    
+        }
+        h1{
+    font-size: $h1Desk;
+        }
+        h2{
+    font-size: $h2Desk;
+        }
+        .pricing{
+            font-size:$spanDesk;
+        }
+}
+@mixin xlrg(){
+    .imgBox{
+        width:$imgXlrg
+    }
+    a{
+        font-size:$aXlrg;
+    }
+p{
+font-size:$pXlrg;
+    }
+    h1{
+font-size: $h1Xlrg;
+    }
+    h2{
+font-size: $h2Xlrg;
+    }
+    .pricing{
+        font-size:$spanXlrg;
+    }
+}
+
+///   @mixin mediaQuerries(){
+@media screen and #{$mobile}{
+    @include mobile();
+ }
+ @media screen and #{$tablet}{
+    @include tablet();
+}
+ @media screen and #{$desk}{
+    @include desk();
+    p{text-align: justify;}
+ }
+@media screen and #{$xlrg}{
+    @include xlrg();
+    p{text-align: justify;}
+ }
+
+@mixin bkgdImg(){
+ @media  screen and (min-width:1290px) {
+    transform: rotate(0deg) translateY(-28%);
+    width: 100%;
+  }
+  @media  screen and (min-width:1625px) {
+   margin: 0% 0%;
+    transform: rotate(0deg) translateY(-15%);
+    width: 114%;
+  }
+}
+@mixin mainImg(){
+    @media  screen and (min-width:400px) and (-webkit-min-device-pixel-ratio:1) {
+        width:80%;
+        margin:0 10%;
+    }
+    @media  screen and (min-width:600px) and (-webkit-min-device-pixel-ratio:1) {
+        width:40%;
+        margin:0 30%;
+       // float:right;
+    }
+    @media  screen and (min-width:760px) and (-webkit-max-device-pixel-ratio:1) {
+        width:20%;
+        margin:0 40%;
+      //  float:right;
+    }
+}
