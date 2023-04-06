@@ -1,0 +1,75 @@
+
+$accent:rgba(188,51,116,1);
+$red:rgba(255, 0, 0, 0.674);
+$blue:rgba(0, 183, 255, 0.857);
+$green:rgba(30, 255, 0, 0.57);
+$yellow:rgba(201, 235, 31, 0.733);
+$pink:rgba(235, 178, 173, 0.733);
+$transparent:rgba(0,0,0,0);
+$error:red;
+
+
+//***********************MAIN APP STYLES****************//
+body {
+  margin: 0;
+  padding: 0;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  //background-color:white;
+  background:linear-gradient(to right,$red,$yellow, $green,$blue);
+  text-align: center;
+}
+.indexImg{
+    max-width: 25%;
+    margin-left: 50%;
+    transform: translateX(-100%);
+
+}
+.landingPage{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    @media (min-width:900px) {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+}
+.eventBody{
+    border:1px dotted red
+}
+.imgBox{
+  min-width: 100%;
+  min-height: 125px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.images_standard{
+
+}
+.banner{
+    width: 100vw;
+    @media (min-width:900px) {
+      width:50%;
+      margin-left: 50%;
+      transform: translateX(-50%);
+     }
+}
+.images_table{
+    max-width: 50px;
+}
+.midBar{
+    padding: 2%;
+    background-color: black;
+  a{  color:white;
+text-decoration: none;}
+  word-wrap: normal;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.navBox{
+    border: 1px solid white;
+    min-height: 94%;
+    width:94%;
+   // margin: 3%;
+//padding:2%
+}
+
+//media queriies
