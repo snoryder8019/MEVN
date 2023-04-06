@@ -1,0 +1,70 @@
+body {
+  margin: 0;
+  padding: 0;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background: linear-gradient(to right, rgba(255, 0, 0, 0.674), rgba(201, 235, 31, 0.733), rgba(30, 255, 0, 0.57), rgba(0, 183, 255, 0.857));
+  text-align: center;
+}
+
+.indexImg {
+  max-width: 25%;
+  margin-left: 50%;
+  transform: translateX(-100%);
+}
+
+.landingPage {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+@media (min-width: 900px) {
+  .landingPage {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+}
+
+.eventBody {
+  border: 1px dotted red;
+}
+
+.imgBox {
+  min-width: 100%;
+  min-height: 125px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.banner {
+  width: 100vw;
+}
+@media (min-width: 900px) {
+  .banner {
+    width: 50%;
+    margin-left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.images_table {
+  max-width: 50px;
+}
+
+.midBar {
+  padding: 2%;
+  background-color: black;
+  word-wrap: normal;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.midBar a {
+  color: white;
+  text-decoration: none;
+}
+
+.navBox {
+  border: 1px solid white;
+  min-height: 94%;
+  width: 94%;
+}
+
+/*# sourceMappingURL=style.css.map */
