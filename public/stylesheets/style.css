@@ -598,7 +598,7 @@ p .pricing {
 
 a {
   font-family: "righteous";
-  color: rgba(205, 202, 241, 0.857);
+  color: rgba(47, 30, 239, 0.857);
 }
 a .imgBox {
   width: 100%;
@@ -775,7 +775,7 @@ li .pricing {
   background-clip: unset;
   background-size: contain;
   background-position-x: right;
-  background-color: rgba(97, 97, 97, 0.95);
+  background-color: rgba(32, 158, 221, 0.95);
   text-shadow: white;
 }
 .footer p {
@@ -878,11 +878,11 @@ input {
   margin: 1%;
   padding: 1%;
   color: black;
-  background-color: rgba(205, 202, 241, 0.857);
+  background-color: rgba(47, 30, 239, 0.857);
 }
 
 textarea {
-  background-color: rgba(205, 202, 241, 0.857);
+  background-color: rgba(47, 30, 239, 0.857);
   min-width: 96%;
   min-height: 60px;
   margin: 1%;
@@ -1199,7 +1199,7 @@ img.mainImg {
   background-clip: unset;
   background-size: contain;
   background-position-x: 85%;
-  background-color: rgba(97, 97, 97, 0.95);
+  background-color: rgba(32, 158, 221, 0.95);
   z-index: 50;
   animation: logoMove 15s linear 0 infinite;
 }
@@ -1270,7 +1270,7 @@ table input {
   margin: 1%;
   padding: 1%;
   color: black;
-  background-color: rgba(205, 202, 241, 0.857);
+  background-color: rgba(47, 30, 239, 0.857);
   font-size: 1em;
 }
 
@@ -1552,7 +1552,7 @@ th {
   min-width: 49%;
   margin: 13%;
   background-color: #dcf6ff;
-  border: rgba(205, 202, 241, 0.857);
+  border: rgba(47, 30, 239, 0.857);
   transform-style: preserve-3d;
   transition-timing-function: ease-in-out;
   transition-duration: 0.8s;
