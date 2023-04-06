@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const bcrypt = require('bcrypt');
 var client = require('../config/mongo');
+var copy = require('../config/copy');
 const nodemailer = require('nodemailer')
 // const accountSid = process.env.TWILIO_ACCOUNT_SID;
 // const authToken = process.env.TWILIO_AUTH_TOKEN;
@@ -17,11 +18,11 @@ router.get('/', (req,res,next) =>{
 
 router.get('/login', function(req, res) {
   const user = req.user
-  res.render('login',{user:user});
+  res.render('login',{user:user, copy:copy});
   }); 
 router.get('/', function(req, res) {
   const user = req.user
-  res.render('register', { title: 'Contact Us', user:user });
+  res.render('register', { title: 'Contact Us', user:user, copy:copy });
 });
 
 router.post('/regUser', (req,res) => {

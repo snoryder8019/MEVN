@@ -2,9 +2,11 @@ const express = require('express');
 const router = express.Router();
 const env = require('dotenv').config()
 const client = require('../../config/mongo');
+const copy=require('../../config/copy')
 const request = require('request')
 const fs = require('fs');
 const multer = require('multer');
+const { COMPANY_ADDRESS } = require('../../config/config');
 const upload =multer({dest:"uploads/"});
 const ObjectId = require('mongodb').ObjectId;
 //////////////////middleware
@@ -36,7 +38,7 @@ router.get('/admin', (req,res) =>{
        const user = req.user
         const blogs= await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_blogs').find().toArray();
         const catagory = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_categories').find().toArray();
-   return  res.render('admin',{title:'Admin Page', blogs:blogs,catagory:catagory, user:user})
+   return  res.render('admin',{title:'Admin Page',copy:copy, blogs:blogs,catagory:catagory, user:user})
   } 
   })
 //////////////////////////////////
@@ -60,7 +62,7 @@ router.get('/inventory', (req,res) =>{
      const user = req.user
    const inventory = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_inventory').find().toArray();
     const catagory = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_catagories').find().toArray();   
-    res.render('inventory', {title:'Inventory Page', inventory:inventory,catagory:catagory , user:req.user});      
+    res.render('inventory', {title:'Inventory Page', inventory:inventory,catagory:catagory , user:req.user, copy:copy});      
    } 
    })
 ///////////////
@@ -403,7 +405,7 @@ router.get('/options',(req,res)=>{
   async function faqPopulate(client){
     const faqs = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_faqs').find().toArray()
     console.log(faqs)
-    res.render('options',{title:"options", faqs:faqs})
+    res.render('options',{title:"options", faqs:faqs, copy:copy})
   }
 })
 

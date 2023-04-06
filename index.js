@@ -22,7 +22,7 @@ const data={
 }};
       const response = await axios.get(config.DB_URL+'/api/readManyD',{params:data});
   console.log(response.data)
-   res.render('index',{data:response.data});
+   res.render('index',{data:response.data, copy:copy});
   } catch (error) {
     res.status(500).json({ error: error.message});
   }
@@ -42,15 +42,15 @@ router.get('/faqs',(req,res)=>{
           console.log(error)
         }else{
           let faqs=body
-          res.render('faqs',{faqs:faqs})      
+          res.render('faqs',{faqs:faqs, copy:copy})      
        }
    })  
 })
 router.get('/about',(req,res)=>{
-  res.render('about')
+  res.render('about',{copy:copy})
 })
 router.get('/service-agreements',(req,res)=>{
-  return res.render('service-agreements')
+  return res.render('service-agreements',{copy:copy})
  })   
 
 module.exports = router;

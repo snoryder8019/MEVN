@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const axios = require('axios')
 const config = require('../../config/config')
+const copy = require('../../config/copy')
 const getHandler  = require('../crud/getHandler');
 const postToHandler  = require('../crud/postToHandler');
 
@@ -67,7 +68,7 @@ router.get('/services',isAddy, servicesHandler);
       
       const response = await axios.get(config.DB_URL + '/api/readOneF', { params: data });
      // console.log(response.data);
-      res.render(route, { data: response.data,ext:ext });
+      res.render(route, { data: response.data,ext:ext, copy:copy });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
