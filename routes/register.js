@@ -3,6 +3,7 @@ var router = express.Router();
 const bcrypt = require('bcrypt');
 var client = require('../config/mongo');
 var copy = require('../config/copy');
+var config = require('../config/config');
 const nodemailer = require('nodemailer')
 // const accountSid = process.env.TWILIO_ACCOUNT_SID;
 // const authToken = process.env.TWILIO_AUTH_TOKEN;
@@ -18,11 +19,11 @@ router.get('/', (req,res,next) =>{
 
 router.get('/login', function(req, res) {
   const user = req.user
-  res.render('login',{user:user, copy:copy});
+  res.render('login',{user:user, copy:copy, message:""});
   }); 
-router.get('/', function(req, res) {
+router.get('/register', function(req, res) {
   const user = req.user
-  res.render('register', { title: 'Contact Us', user:user, copy:copy });
+  res.render('register', { title: 'Contact Us', user:user,message:"", copy:copy });
 });
 
 router.post('/regUser', (req,res) => {
@@ -30,7 +31,6 @@ router.post('/regUser', (req,res) => {
 
   async function main(){
    try { 
-   // await client.connect();
     await createUser(client,{    
       provider:'local', 
       providerId:'local'+Date.now(),
@@ -43,19 +43,18 @@ router.post('/regUser', (req,res) => {
     });
   }catch (err){
     console.log(err)
-  }finally{
-    //await client.close();
   }
   }
 /////////////////
   main().catch(console.error);
 ////////////////
+const user = req.user
     async function createUser(client,newUser){
       const emailCheck = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_users').findOne({email:req.body.email});
       if(emailCheck){
         console.log(emailCheck);
         console.log('This email is Taken');
-        return res.redirect('/login')
+        return res.render('/login',{user:user, copy:copy,message:"this email is taken, try again or contact us"})
             }else{
    const result = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+"_users").insertOne(newUser);   
    let hash =await bcrypt.hash(req.body.password, 10);
@@ -67,7 +66,7 @@ router.post('/regUser', (req,res) => {
   
  
    console.log(' :new user\n id: '+result.insertedId);
-   res.redirect('/login')}
+   res.render('/login',{user:user, copy:copy,message:"New User Created, please log in"})}
    }
  
 })

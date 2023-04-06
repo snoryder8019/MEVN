@@ -20,7 +20,7 @@ router.use('/',(req,res, next)=>{next()})
 
 router.use("/auth",auth);
 router.use('/crud',handlerRouter);
-router.use('/register',registerRouter);
+router.use('/',registerRouter);
 router.use('/',adminRouter);
 router.use('/',w2adminRouter);
 router.use('/',linksRouter);
