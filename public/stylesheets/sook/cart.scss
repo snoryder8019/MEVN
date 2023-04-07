@@ -1,0 +1,46 @@
+
+#paypal-button-container{
+    display: none;
+}
+#checkoutShrink{
+    display: none;
+}
+#productAddButton{
+
+}
+.cart{
+    overflow-y: scroll;
+    display: none;
+    position: fixed;
+    margin: 0;
+    padding: 0;
+    top:0;
+    left:0;
+    width: 100vw;
+    height:100vh;
+    z-index: 100;
+    background-color:rgb(56, 56, 66);
+   
+    @media (min-width:768px) {
+        width:70%;
+        height:90%;
+        margin: 5% 15%;
+    }
+}
+.cartContain{
+    margin:1%;
+    padding:1%;
+    // display: flex;
+    // flex-wrap: wrap;
+    // display: grid;
+    // grid-template-columns: 1fr;
+    // @media (min-width:768px) {
+    //     grid-template-columns: 1fr 1fr;
+    // }
+ 
+}
+.cartBtn{
+    font-family: 'righteous';
+    width: 70px;
+    font-size: 1rem;
+}
