@@ -208,7 +208,7 @@ body {
   text-align: center;
   margin: 0;
   padding: 0;
-  background-color: black;
+  background: linear-gradient(to right, rgba(255, 0, 0, 0.674), rgba(255, 242, 0, 0.733), rgba(174, 241, 165, 0.57), rgba(205, 202, 241, 0.857));
   color: white;
 }
 
@@ -832,7 +832,7 @@ li .pricing {
   }
 }
 
-img.okImg {
+img.okImg, video.okImg {
   animation: 120s ease-in-out infinite slowMove;
   position: fixed;
   top: 0;
@@ -843,20 +843,20 @@ img.okImg {
   transform-style: preserve-3d;
 }
 @media screen and (min-width: 1290px) {
-  img.okImg {
+  img.okImg, video.okImg {
     transform: rotate(0deg) translateY(-28%);
     width: 100%;
   }
 }
 @media screen and (min-width: 1625px) {
-  img.okImg {
+  img.okImg, video.okImg {
     margin: 0% 0%;
     transform: rotate(0deg) translateY(-15%);
     width: 114%;
   }
 }
 @media (min-width: 900px) {
-  img.okImg {
+  img.okImg, video.okImg {
     width: 125%;
     filter: brightness(155%) contrast(99%);
   }
