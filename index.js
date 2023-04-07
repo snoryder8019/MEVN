@@ -10,6 +10,7 @@ const request = require('request')
 router.get('/',async (req, res)=> {
   const clientIp = req.headers['x-forwarded-for'] || req.ip;
   console.log(clientIp)
+  console.log(req.session)
   try {
 const data={
         subpath:config.COLLECTION_SUBPATH,
@@ -18,10 +19,10 @@ const data={
         [0]:"_blogs",
         [1]:"_services",
         [2]:"_intro_content",
-        [3]:"_users"    
+        //[3]:"_users"    
 }};
       const response = await axios.get(config.DB_URL+'/api/readManyD',{params:data});
-  console.log(response.data)
+  console.log(req.cookies.user)
    res.render('index',{data:response.data, copy:copy});
   } catch (error) {
     res.status(500).json({ error: error.message});

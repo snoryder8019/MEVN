@@ -19,7 +19,7 @@ if(req.user.isAdmin==true){
 ////////////////////////////////////
 
 //////////////////////////////////
-router.get('/admin', (req,res) =>{
+router.get('/admin',isAddy, (req,res) =>{
     // eslint-disable-next-line no-inner-declarations
     async function gettingEmails(){
       try {
@@ -35,6 +35,8 @@ router.get('/admin', (req,res) =>{
       gettingEmails().catch(console.error);
       // eslint-disable-next-line no-inner-declarations
       async function getEmails(client){
+      console.log(req.session)
+      console.log(req.user)
        const user = req.user
         const blogs= await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_blogs').find().toArray();
         const catagory = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_categories').find().toArray();

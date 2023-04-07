@@ -22,8 +22,9 @@ const data={
               [2]:"_categories"
              
 }};
+
       const response = await axios.get(config.DB_URL+'/api/readManyD',{params:data});
-  console.log(response.data)
+  console.log(req.user)
     res.render('market',{data:response.data, copy:copy});
   } catch (error) {
       res.status(500).json({ error: error.message});
@@ -58,8 +59,8 @@ const data={
         subpath:config.COLLECTION_SUBPATH,
         dbName:config.DB_NAME,
         collections:{  
-        [0]:"_users",
-        [1]:"_inventory",
+       [0]:"_users",
+        [1]:"_services",
         [2]:"_categories"               
     }};
       const response = await axios.get(config.DB_URL+'/api/readManyD',{params:data});
