@@ -22,7 +22,7 @@
       <a href="/invoice"><button>invoice</button></a>
     <div id="pageCard" class="landingPage">
     
-    <%for(let i =0;i<data[0].length;i++){%>    
+    <%for(let i =0;i<data[0].length;i++){%>    <div>
      <a href="/editor/?_id=<%=data[0][i]._id%>&ext=<%=Object.values(ext)%>"> <div class="eventBody">
         <span class="alert"><h2> <%= data[0][i].serviceName%></h2></span><br>
        <p>       
@@ -36,6 +36,7 @@
        </a>
       </div>
       </div></a>
+    </div>
       <%}%>
       
     </div>
