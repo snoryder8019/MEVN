@@ -19,7 +19,7 @@ if(req.user.isAdmin==true){
 ////////////////////////////////////
 
 //////////////////////////////////
-router.get('/admin',isAddy, (req,res) =>{
+router.get('/admin', (req,res) =>{
     // eslint-disable-next-line no-inner-declarations
     async function gettingEmails(){
       try {
@@ -275,6 +275,61 @@ if(err){
     }
    }
 )
+
+
+//////////////////////
+router.post('/postToServices',upload.single('photo'), function(req,res){
+  //isolate file extention
+  const imageData= req.file;
+  const ogStr=0;
+  const str = imageData.originalname;
+  const str2 = imageData.filename;
+  const strSplit= str.split('.');
+  const ext = strSplit[1];
+  const oldFilepath = "../"+config.IMAGE_FP+"/uploads/";
+  const newFilepath = "../"+config.IMAGE_FP+"/public/images/services/"
+  const newName = 'svcImg_'+ Date.now()+"."+ext;
+/*^^end^^*/
+
+  const bImgName = "images/services/"+newName;
+
+  fs.rename(oldFilepath+str2,newFilepath+newName,(err)=>{
+if(err){
+  console.log(err);
+}
+ })
+  async function saveBlog(bImgName,data){
+ 
+    try {
+      await client.connect();
+      await createBlog(client,{
+        serviceName:req.body.serviceName,
+        postDate:Date.now(),
+        cost:req.body.cost,
+        terms:req.body.terms,
+       serviceCategory:req.body.serviceCategory,
+       serviceDetails:req.body.serviceDetails,
+        imgName:bImgName,
+    
+     
+      });
+     }
+     catch(err){
+       console.log(err);
+     }
+     finally{
+     await client.close();
+   }}
+ saveBlog(bImgName).catch(console.error);
+   async function createBlog(client,newBlog){
+    const result = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_services').insertOne(newBlog);
+    res.redirect('admin');
+    }
+   }
+)
+////////////////////////
+
+
 /////////SAVE COLORS
 router.post('/newColor', function(req,res){
   async function saveColor(){

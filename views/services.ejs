@@ -30,7 +30,11 @@
          <%= data[0][i].serviceDetail%><br>
         </p>
         <h1 class="span"><%= data[0][i].cost%></h1><%= data[0][i].terms%><br>
-              
+        <div class="imgCont">
+          <a onclick="loading('getting product details')" href="/register/productID/<%= data[0][i]._id%>"> 
+        <img class="invImg" src=" <%= data[0][i].imgName%>" alt="">
+       </a>
+      </div>
       </div></a>
       <%}%>
       
