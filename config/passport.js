@@ -37,7 +37,8 @@ passport.use(
         }
         
         // If everything is correct, return the user object
-        console.log('i think it worked')
+        console.log('local login authorized')
+
         return done(null, user);
       } catch (error) {
         console.log(error)
@@ -83,7 +84,7 @@ async (accessToken, refreshToken, profile, done) => {
     })  
     )
     
-    passport.serializeUser((user, done)=> {     
+    passport.serializeUser((user, done)=> {    
       done(null, user._id)
     })
     passport.deserializeUser(( id, done)=>{        

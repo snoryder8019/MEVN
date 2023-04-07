@@ -7,7 +7,7 @@
         <%- include('../views/config/header.ejs')%>
         <%- include('config/loadScreen.ejs')%>
   <div class="eventBody">
-    <h2 class="h1Span"> Service Details :  <%= data[1][0].name%></h2>
+    <h2 class="h1Span"> Service Details :  <%= data[1][0].serviceName%></h2>
 </div>
 
         <!----LANDING PAGE CLASS IS GRID DISPLAY-->
@@ -19,9 +19,9 @@
             <div class="eventBody">
         <div onclick="enlarge()" style="background-image:url('/<%= data[1][0].imgName%>');" class="imgBox"></div> 
 
-        <div class="invPrice"><%= data[1][0].price%></div> 
+        <div class="invPrice"><%= data[1][0].cost%></div> 
         <div >
-            <h3><%= data[1][0].details%></h3>
+            <h3><%= data[1][0].serviceDetails%></h3>
             <h3>Social Media Services initiate upon payment.</h3>
             <h3>Is there a service you need custom? <a href="/register"><span class="alert"> Contact Us </span></a>for a quote!!!
             </h3>
@@ -37,8 +37,8 @@
     <div>
         <form action="/addToCart" method="post">
             <input name="prodId" hidden="true" value="<%= data[1][0]._id%>"></label>
-            <input name="prodName" hidden="true" value="<%= data[1][0].name%>"></label>
-            <input name="prodPrice" hidden="true" value="<%= data[1][0].price%>"></label>
+            <input name="prodName" hidden="true" value="<%= data[1][0].serviceName%>"></label>
+            <input name="prodPrice" hidden="true" value="<%= data[1][0].cost%>"></label>
             <input name="prodImg" hidden="true" value="<%= data[1][0].imgName%>"></label>
             <% if (typeof data.ejsData1 == 'object' && data.ejsData1) { %>
                 <button onclick="loading('adding to cart')" id="productAddButton" type="submit" value="submit()" ><h2>add to cart</h2></button>

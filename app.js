@@ -14,7 +14,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const url = require('url');
-const flash = require('express-flash')
+///const flash = require('express-flash')
 const config = require('./config/config')
 const copy = require('./config/copy')
 //views to individual pages
@@ -40,7 +40,7 @@ app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
 
 //messaging and logging
-app.use(flash())
+//app.use(flash())
 app.use(logger('dev'));
 
 app.use(express.json());
@@ -56,7 +56,7 @@ app.use(session({
   secret:process.env.SESHID,
   resave:false,
   saveUninitialized: false,
-  store: new MongoStore({mongoUrl:"mongodb+srv://"+process.env.MONGOUSER+":"+encodeURIComponent(process.env.MONGOPASS)+"@cluster0.tpmae.mongodb.net/users?retryWrites=true&w=majority"}),
+  store: new MongoStore({mongoUrl:"mongodb+srv://"+process.env.MONGOUSER+":"+encodeURIComponent(process.env.MONGOPASS)+"@cluster0.tpmae.mongodb.net/w2Apps?retryWrites=true&w=majority"}),
   cookie:{secure:true}
 }))
 app.use(passport.initialize())
@@ -72,7 +72,7 @@ app.use(routesRouter)
 app.use(function(req, res, next) {
   next(createError(404));
 
-  res.render('config/404', {title:error, copy:copy});
+  res.render('config/404', {title:err, copy:copy});
 });
 
 // error handler
@@ -82,7 +82,9 @@ app.use(function(err, req, res, next) {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
   // render the error page
   res.status(err.status || 500);
-  res.render('config/404',{title:err,copy:copy});
+  res.render('config/404',{title:error,copy:copy});
+ // res.render ('C:\MEVN\node_modules\express-flash\lib\express-flash.js:29:16')
+
 });
 
 module.exports = app;
