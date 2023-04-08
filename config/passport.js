@@ -7,7 +7,7 @@ const flash = require('express-flash')
 const bcrypt = require('bcrypt')
 const User = require('../models/User')
 const client = require('./mongo');
-const dbName= 'w2Apps';
+
 
 
 
