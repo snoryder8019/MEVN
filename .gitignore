@@ -1,5 +1,9 @@
 /node_modules
 /.env
+<<<<<<< HEAD
+=======
+/config/mongo.js
+>>>>>>> f86cfe8ed018247b733d5e260673b0ac09f898ec
 /config/config*
 /config/copy*
 /config/dbSetup.js

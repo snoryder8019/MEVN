@@ -19,7 +19,13 @@
         <div><img onclick="getCart()" class="cartIcon" src="/images/icons/cart.png"></div>
         <%}else{%>
             <p><a href="/login">Sign in</a></p>
+            <%if(typeof user == 'object'&& user.isAdmin == true ){%>
+            <p><a href="/admin">admin</a></p>
+            <p><a href="/services">services</a></p>
+            <p><a href="/accounts">accounts</a></p>
+            <%}%>
             <div><a href="/login"><img class="cartIcon" src="/images/icons/cart1.png"></a></div>
+            <div><a href="/auth/logout">logout</a></div>
     
     <%}%>
 
