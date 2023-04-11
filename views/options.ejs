@@ -32,8 +32,8 @@
      
         <form action="/updateOption" method="post">
           <%=options._id%>
-   <%for(let i=1;i<Object.keys(options).length;i++){%>
-    <input type="text" name="<%=Object.keys(options)[i]%>" value="<%=Object.values(options)[i]%>">
+   <%for(let i=1;i<Object.keys(options[0]).length;i++){%>
+    <input type="text" name="<%=Object.keys(options[0])[i]%>" value="<%=Object.values(options[0])[i]%>">
        <%}%>         
            <button type="submit">update</button>
             </form>   
@@ -55,8 +55,44 @@
    
     </div>
   </div>
-
-
+  <div class="mainStyle">
+    <h1 class="h1Span">change logo</h1>
+    <div class="eventBody">
+    <div class="imgCont">
+      <h4>CURRENT LOGO</h4>
+    <img class="invImg"src="<%=options[2].imgName%>" alt="">       
+  </div>
+</div>
+      <div class="eventBody" id="admin0">
+        <form action="/updateLogo" enctype="multipart/form-data" method="post" >
+          <input type="text" name="_id"value="<%=options[2]._id%>">
+          <input type="text" name="imgType"value="logoImage">
+          <h2 style="margin: 0;">Step 1: Attach One Image</h2> 
+            <input type="file" accept="image/*" name="photo">
+          <h2>Step 2: Submit</h2> 
+            <button onclick="loading('adding post to home page')" type="submit" >Submit</button>
+        </form>
+      </div>
+   </div>
+   <div class="mainStyle">
+    <h1 class="h1Span">change background</h1>
+    <div class="eventBody">
+    <div class="imgCont">
+      <h4>CURRENT BACKGOURND</h4>
+    <img class="invImg"src="<%=options[1].imgName%>" alt="">       
+  </div>
+</div>
+      <div class="eventBody" id="admin0">
+        <form action="/updateBkgrd" enctype="multipart/form-data" method="post" >
+          <input type="text" name="_id"value="<%=options[1]._id%>">
+          <input type="text" name="imgType"value="bkgrdImage">
+          <h2 style="margin: 0;">Step 1: Attach One Image</h2> 
+            <input type="file" accept="image/*" name="photo">
+          <h2>Step 2: Submit</h2> 
+            <button onclick="loading('adding post to home page')" type="submit" >Submit</button>
+        </form>
+      </div>
+   </div>
 
 <%- include('./config/adminNav.ejs')%>
 

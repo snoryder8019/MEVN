@@ -464,11 +464,104 @@ router.get('/options',(req,res)=>{
   faqGetter().catch(console.error);
   async function faqPopulate(client){
     const faqs = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_faqs').find().toArray()
-    const options = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_options').findOne()
+    const options = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_options').find().toArray()
     console.log(options)
     res.render('options',{title:"options", faqs:faqs, options:options})
   }
 })
+//////////////////////////
+//////////
+router.post('/updateBkgrd',upload.single('photo'), function(req,res){
+  /*isolate file extention*/
+  const imageData= req.file;
+  const ogStr=0;
+  const str = imageData.originalname;
+  const str2 = imageData.filename;
+  const strSplit= str.split('.');
+  const ext = strSplit[1];
+  const oldFilepath = "../"+config.IMAGE_FP+"/uploads/";
+  const newFilepath = "../"+config.IMAGE_FP+"/public/images/blog/"
+  const newName = 'blog_Image_'+ Date.now()+"."+ext;
+/*^^end^^*/
+  const bImgName = "images/blog/"+newName;
+  fs.rename(oldFilepath+str2,newFilepath+newName,(err)=>{
+if(err){
+  console.log(err);
+}
+ })
+  async function saveBlog(bImgName){
+    try {
+      await client.connect();
+      await createBlog(client,{
+        bTitle:"bkgrdImage",
+        postDate:Date.now(),    
+        imgName:bImgName,
+        imgType:req.body.imgType
+      });
+     }
+     catch(err){
+       console.log(err);
+     }
+     finally{
+     await client.close();
+   }}
+ saveBlog(bImgName).catch(console.error);
+   async function createBlog(client,data){
+    const id = ObjectId(req.body._id)
+    const result = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_options').updateOne({"_id":id},{$set:data},{upsert:false});
+    res.redirect('admin');
+    }
+   }
+)
+//////////
+///////////
+router.post('/updateLogo',upload.single('photo'), function(req,res){
+  /*isolate file extention*/
+  const imageData= req.file;
+  const ogStr=0;
+  const str = imageData.originalname;
+  const str2 = imageData.filename;
+  const strSplit= str.split('.');
+  const ext = strSplit[1];
+  const oldFilepath = "../"+config.IMAGE_FP+"/uploads/";
+  const newFilepath = "../"+config.IMAGE_FP+"/public/images/blog/"
+  const newName = 'blog_Image_'+ Date.now()+"."+ext;
+/*^^end^^*/
+  const bImgName = "images/blog/"+newName;
+  fs.rename(oldFilepath+str2,newFilepath+newName,(err)=>{
+if(err){
+  console.log(err);
+}
+ })
+  async function saveBlog(bImgName){
+    try {
+      await client.connect();
+      await createBlog(client,{
+        bTitle:"logoImage",
+        postDate:Date.now(),    
+        imgName:bImgName,
+        imgType:req.body.imgType
+      });
+     }
+     catch(err){
+       console.log(err);
+     }
+     finally{
+     await client.close();
+   }}
+ saveBlog(bImgName).catch(console.error);
+   async function createBlog(client,data){
+    const id = ObjectId(req.body._id)
+    const result = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_options').updateOne({"_id":id},{$set:data},{upsert:true});
+    res.redirect('admin');
+    }
+   }
+)
+//////////
+//////////////////
+
+
+
 
 router.post('/updateOption',(req,res)=>{
 async function newOptions(){

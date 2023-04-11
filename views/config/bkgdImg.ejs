@@ -1,2 +1,7 @@
-  <!--img id="bkgrdImage" class="okImg"src="/images/constructionBkgrd.png" alt="W2 Marketing Greeley, CO"-->
-  <video  autoplay muted loop id="bkgrdImage" class="okImg"src="/images/rainbow_animation.mp4" alt="W2 Marketing Greeley, CO"></video>
+<%if( options[2]){%>
+  <img id="bkgrdImage" class="okImg"src="<%=options[1].imgName%>">
+  <%}else{%>
+    <video  autoplay muted loop id="bkgrdImage" class="okImg"src="/images/rainbow_animation.mp4" alt="W2 Marketing Greeley, CO"></video>
+  <%}%>
+  
+
