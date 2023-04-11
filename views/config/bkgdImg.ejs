@@ -1,6 +1,7 @@
-<%if( options[2]){%>
+<%if(typeof options == 'object' && options[1]){%>
   <img id="bkgrdImage" class="okImg"src="<%=options[1].imgName%>">
-  <%}else{%>
+  <%}else if(data[3]){%>
+    <%}else{%>
     <video  autoplay muted loop id="bkgrdImage" class="okImg"src="/images/rainbow_animation.mp4" alt="W2 Marketing Greeley, CO"></video>
   <%}%>
   
