@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const client = require('../config/mongo');
-const copy = require('../config/copy');
+
 const axios = require('axios')
 const dbName= 'w2Apps';
 const ObjectId = require('mongodb').ObjectId;
@@ -19,13 +19,14 @@ const data={
         collections:{  
         [0]:"_users",
               [1]:"_services",
-              [2]:"_categories"
+              [2]:"_categories",
+              [3]:"_options"
              
 }};
 
       const response = await axios.get(config.DB_URL+'/api/readManyD',{params:data});
   console.log(req.user)
-    res.render('market',{data:response.data, copy:copy});
+    res.render('market',{data:response.data});
   } catch (error) {
       res.status(500).json({ error: error.message});
   }
@@ -42,11 +43,11 @@ const data={
         [0]:"_users",
               [1]:"_inventory",
               [2]:"_categories",
-             // findParam3:"_users"    
+             [3]:"_options"   
 }};
       const response = await axios.get(config.DB_URL+'/api/readManyD',{params:data});
   console.log(response.data)
-    res.render('market',{data:response.data, copy:copy});
+    res.render('market',{data:response.data, });
   } catch (error) {
       res.status(500).json({ error: error.message});
   }})
@@ -61,11 +62,12 @@ const data={
         collections:{  
        [0]:"_users",
         [1]:"_services",
-        [2]:"_categories"               
+        [2]:"_categories",
+        [3]:"_options"               
     }};
       const response = await axios.get(config.DB_URL+'/api/readManyD',{params:data});
   console.log(response.data)
-    res.render('productID',{data:response.data, copy:copy});
+    res.render('productID',{data:response.data});
   } catch (error) {
       res.status(500).json({ error: error.message});
   }})

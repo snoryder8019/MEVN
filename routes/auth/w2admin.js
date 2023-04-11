@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const axios = require('axios')
 const config = require('../../config/config')
-const copy = require('../../config/copy')
+
 const getHandler  = require('../crud/getHandler');
 const postToHandler  = require('../crud/postToHandler');
 const postToExternal = require('../crud/postToExternal');

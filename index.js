@@ -10,7 +10,7 @@ const request = require('request')
 router.get('/',async (req, res)=> {
   const clientIp = req.headers['x-forwarded-for'] || req.ip;
   console.log(clientIp)
-  console.log(req.session)
+
   try {
 const data={
         subpath:config.COLLECTION_SUBPATH,
@@ -19,13 +19,13 @@ const data={
         [0]:"_blogs",
         [1]:"_services",
         [2]:"_intro_content",
-        //[3]:"_users"    
+        [3]:"_options"   
 }};
       const response = await axios.get(config.DB_URL+'/api/readManyD',{params:data});
   console.log(req.cookies.user)
-   res.render('index',{data:response.data, copy:copy});
+   res.render('index',{data:response.data});
   } catch (error) {
-    res.status(500).json({ error: error.message});
+    res.status(500).json({error});
   }
 });
 router.get('/thank-you',(req,res)=>{
@@ -46,15 +46,15 @@ router.get('/faqs',(req,res)=>{
           console.log(error)
         }else{
           let faqs=body
-          res.render('faqs',{faqs:faqs, copy:copy})      
+          res.render('faqs',{faqs:faqs})      
        }
    })  
 })
 router.get('/about',(req,res)=>{
-  res.render('about',{copy:copy})
+  res.render('about')
 })
 router.get('/service-agreements',(req,res)=>{
-  return res.render('service-agreements',{copy:copy})
+  return res.render('service-agreements')
  })   
 
 module.exports = router;

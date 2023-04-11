@@ -26,7 +26,20 @@
             </div>
           </div>
   </div>
-
+  <div class="eventBody">
+    <div class="mainStyle">
+        <h1 class="h1Span">options</h1>       
+     
+        <form action="/updateOption" method="post">
+          <%=options._id%>
+   <%for(let i=1;i<Object.keys(options).length;i++){%>
+    <input type="text" name="<%=Object.keys(options)[i]%>" value="<%=Object.values(options)[i]%>">
+       <%}%>         
+           <button type="submit">update</button>
+            </form>   
+   
+    </div>
+  </div>
   <div class="eventBody">
     <div class="mainStyle">
         <h1 class="h1Span">Delete FAQs</h1>

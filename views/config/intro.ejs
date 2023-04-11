@@ -1,11 +1,12 @@
 <div class="introImgDiv_T">    
         <img class="introImg_head" src="/images/logoW2.png">
-       <h1 class="introType"><%=copy.introQuote%></h1>
-       <h2 class="introType"><%=copy.introMOTD%></h2>
+       <h1 class="introType"><%=data[3][0].introQuote%></h1>
+       <h2 class="introType"><%=data[3][0].introMOTD%></h2>
  
 </div>
   
 <div class="landingPage">
+    <%if(typeof data[2] == 'object'&& data[2]){%>
 <%for(let i=0;i<data[2].length;i++){%>
         <div style="margin-bottom:12%" class="eventBody">  
         <h1 class="h1Span"><%=data[2][i].introHeader%></h1>
@@ -14,5 +15,6 @@
             <div><img class="introImg" src="/<%=data[2][i].imgName%>"></div>
             </div>
         </div>
+        <%}%>
         <%}%>
     </div>

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const axios = require('axios')
 const config = require('../../config/config')
-const copy = require('../../config/copy')
+
 const getHandler  = require('../crud/getHandler');
 const postToHandler  = require('../crud/postToHandler');
 
@@ -32,6 +32,7 @@ if(req.user.isAdmin==true){
 ///~~~~~~~~~~~SERVICES.EJS~~~~~~~~~~~~~~///
 const svcCollections = {
   0: '_services',
+  1:'_options'
 };
 
 const servicesHandler = getHandler(svcCollections,'services');
@@ -39,6 +40,7 @@ router.get('/services',isAddy, servicesHandler);
 //~~~~~~~~~~~ACCOUNTS.EJS~~~~~~~~~~~////
   const clientsCollections = {
     0: '_clients',
+    1:'_options'
   };  
  
   const clientsHandler = getHandler(clientsCollections,'accounts');
@@ -65,10 +67,16 @@ router.get('/services',isAddy, servicesHandler);
         ext:ext,
         filter:cleanUrl
       }
-      
+      const data1 = {
+        subpath: config.COLLECTION_SUBPATH,
+        dbName: config.DB_NAME,
+        ext:'_options',
+        filter:""
+      }
       const response = await axios.get(config.DB_URL + '/api/readOneF', { params: data });
+      const options = await axios.get(config.DB_URL + '/api/readOneF', { params: data1 });
      // console.log(response.data);
-      res.render(route, { data: response.data,ext:ext, copy:copy });
+      res.render(route, { data: response.data,ext:ext, options:options });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }

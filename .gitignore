@@ -7,7 +7,11 @@
 /config/db.js
 /config/app.json
 /php
-/public/images/blog
-/public/images/inventory
+/public/stylesheests/*
+/public/images/blog/*
+/public/images/intro/*
+/public/images/inventory/*
+/public/images/services/*
+
 /google52e38ec3d70db39d.html
 /paste.txt

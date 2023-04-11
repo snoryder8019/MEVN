@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 const bcrypt = require('bcrypt');
 var client = require('../config/mongo');
-var copy = require('../config/copy');
+
 var config = require('../config/config');
 const nodemailer = require('nodemailer')
 // const accountSid = process.env.TWILIO_ACCOUNT_SID;
@@ -19,11 +19,11 @@ router.get('/', (req,res,next) =>{
 
 router.get('/login', function(req, res) {
   const user = req.user
-  res.render('login',{user:user, copy:copy, message:""});
+  res.render('login',{user:user, message:""});
   }); 
 router.get('/register', function(req, res) {
   const user = req.user
-  res.render('register', { title: 'Contact Us', user:user,message:"", copy:copy });
+  res.render('register', { title: 'Contact Us', user:user,message:""});
 });
 
 router.post('/regUser', (req,res) => {
@@ -54,7 +54,7 @@ const user = req.user
       if(emailCheck){
         console.log(emailCheck);
         console.log('This email is Taken');
-        return res.render('/login',{user:user, copy:copy,message:"this email is taken, try again or contact us"})
+        return res.render('/login',{user:user, options:options,message:"this email is taken, try again or contact us"})
             }else{
    const result = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+"_users").insertOne(newUser);   
    let hash =await bcrypt.hash(req.body.password, 10);
@@ -66,7 +66,7 @@ const user = req.user
   
  
    console.log(' :new user\n id: '+result.insertedId);
-   res.render('/login',{user:user, copy:copy,message:"New User Created, please log in"})}
+   res.render('/login',{user:user,options:options,message:"New User Created, please log in"})}
    }
  
 })

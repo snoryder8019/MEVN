@@ -12,7 +12,7 @@
   <%- include('config/loadScreen.ejs')%>
   <%- include('config/header.ejs')%>
   <div id="backgroundFX">      
-      <h1 class="h1Span"> <%=copy.companyName%> SERVICES</h1>
+      <h1 class="h1Span"> <%=data[1][0].companyName%> SERVICES</h1>
       <button style="background-color:rgb(33, 133, 133)" onclick="switchView(pageGrid)">table</button>
       <button style="background-color:rgb(33, 133, 133)" onclick="switchView(pageCard)">card</button>
       <button hidden onclick="switchView(pageNav)">nav</button>

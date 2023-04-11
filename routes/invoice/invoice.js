@@ -8,7 +8,7 @@ const multer = require('multer');
 const upload =multer({dest:"uploads/"});
 const ObjectId = require('mongodb').ObjectId;
 const config = require('../../config/config')
-const copy = require('../../config/copy')
+
 const getHandler  = require('../crud/getHandler');
 const deleteHandler = require('../crud/deleteHandler');
 const nodemailer = require('nodemailer')
@@ -135,7 +135,7 @@ router.get('/invoiceViewer/:_id',(req,res)=>{
     data.push(svcDetails,company,invoice)
     console.log(data) 
    // res.send(data)
-    res.render('invoiceViewer', {data:data, copy:copy})
+    res.render('invoiceViewer', {data:data, options})
   }
  }
 )

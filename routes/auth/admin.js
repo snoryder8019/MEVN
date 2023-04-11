@@ -2,11 +2,12 @@ const express = require('express');
 const router = express.Router();
 const env = require('dotenv').config()
 const client = require('../../config/mongo');
-const copy=require('../../config/copy')
+
 const request = require('request')
 const fs = require('fs');
 const multer = require('multer');
 const { COMPANY_ADDRESS } = require('../../config/config');
+const { InsightsQuestionnairesQuestionContextImpl } = require('twilio/lib/rest/flexApi/v1/insightsQuestionnairesQuestion');
 const upload =multer({dest:"uploads/"});
 const ObjectId = require('mongodb').ObjectId;
 //////////////////middleware
@@ -41,7 +42,8 @@ router.get('/admin', (req,res) =>{
         const blogs= await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_blogs').find().toArray();
         const catagory = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_categories').find().toArray();
         const data = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_intro_content').find().toArray();
-   return  res.render('admin',{title:'Admin Page',copy:copy, blogs:blogs,catagory:catagory, user:user, data:data})
+        const options = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_options').findOne()
+   return  res.render('admin',{title:'Admin Page',options:options, blogs:blogs,catagory:catagory, user:user, data:data})
   } 
   })
 //////////////////////////////////
@@ -65,7 +67,7 @@ router.get('/inventory', (req,res) =>{
      const user = req.user
    const inventory = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_inventory').find().toArray();
     const catagory = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_catagories').find().toArray();   
-    res.render('inventory', {title:'Inventory Page', inventory:inventory,catagory:catagory , user:req.user, copy:copy});      
+    res.render('inventory', {title:'Inventory Page', inventory:inventory,catagory:catagory , user:req.user,options:options});      
    } 
    })
 ///////////////
@@ -347,7 +349,7 @@ router.post('/newColor', function(req,res){
      finally{
      await client.close();
    }}
- saveColor().catch(console.error);
+   saveColor().catch(console.error);
    async function createColor(client,newColor){
     const result = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_colors').insertOne(newColor);
     res.redirect('admin');
@@ -462,9 +464,37 @@ router.get('/options',(req,res)=>{
   faqGetter().catch(console.error);
   async function faqPopulate(client){
     const faqs = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_faqs').find().toArray()
-    console.log(faqs)
-    res.render('options',{title:"options", faqs:faqs, copy:copy})
+    const options = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_options').findOne()
+    console.log(options)
+    res.render('options',{title:"options", faqs:faqs, options:options})
   }
+})
+
+router.post('/updateOption',(req,res)=>{
+async function newOptions(){
+  try{
+    await optionsSwap(client,{
+    companyName:req.body.companyName,
+    companyContact:req.body.companyContact,
+    companyCity:req.body.companyCity,
+    companyPaypal:req.body.companyPaypal,
+    introQuote :req.body.introQuote,
+    introMOTD:req.body.introMOTD,
+    aboutFiller:req.body.aboutFiller,
+    custom404Message:req.body.custom404Message,
+    })
+  }
+  catch(err){console.log(err)}
+}
+newOptions().catch(console.error);
+async function optionsSwap(client,data99){
+  console.log(req.body)
+  const id = ObjectId(req.body._id)
+  console.log(id)
+  const result = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_options').updateMany({"_id":id},{$set:data99},{upsert:false})
+  console.log(result)
+}
+res.redirect('options')
 })
 
 router.post('/newFAQ',(req,res)=>{
