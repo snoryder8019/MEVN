@@ -56,5 +56,5 @@ router.get('/about',(req,res)=>{
 router.get('/service-agreements',(req,res)=>{
   return res.render('service-agreements')
  })   
-
+////see more of the latest headline
 module.exports = router;
