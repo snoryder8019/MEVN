@@ -5,16 +5,16 @@
   <body>
   
       <%- include('config/bkgdImg.ejs')%>
-      <%- include('config/loadScreen.ejs')%>
+
     <%- include('config/header.ejs')%>
-    <%- include('config/bkgdImg.ejs')%>
+
     <div class="mainStyle">
       <div class="landingPage"> 
         <div></div>
         <div>
         <h1 class="h1Span"><%=title%></h1>
         <div class="eventBody">
-      <p>*We keep info private and do not sell information about our customers</p>
+      <p>*We keep info private and do not sell information about our registrants</p>
   <form action="/contactform" method="POST">
     <br><h2>name</h2>
       <input id="regName" type="text" name="fname"  pattern=".{3,}" title="three or more charachters" >

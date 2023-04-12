@@ -51,6 +51,7 @@ router.get('/faqs',(req,res)=>{
    })  
 })
 router.get('/about',(req,res)=>{
+  
   res.render('about')
 })
 router.get('/service-agreements',(req,res)=>{

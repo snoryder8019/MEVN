@@ -12,9 +12,7 @@ router.use((req,res,next)=>{
   next();
 //fs to read photo file length
  })
-router.get('/', (req,res,next) =>{
-  next();
-})
+
 //
 
 router.get('/login', function(req, res) {
@@ -22,8 +20,27 @@ router.get('/login', function(req, res) {
   res.render('login',{user:user, message:""});
   }); 
 router.get('/register', function(req, res) {
-  const user = req.user
-  res.render('register', { title: 'Contact Us', user:user,message:""});
+  async function gettingEmails(){
+    try {
+      await client.connect();
+      await getEmails(client);
+    }
+    catch(err){
+      console.log(err);
+    }
+    finally{
+    //  await client.close();
+    }}    
+    gettingEmails().catch(console.error);
+    // eslint-disable-next-line no-inner-declarations
+    async function getEmails(client){
+    console.log(req.session)
+    console.log(req.user)
+     const user = req.user
+      const options = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_options').find().toArray
+ return  res.render('register',{title:'Contact Us',options:options,user:user})
+} 
+  
 });
 
 router.post('/regUser', (req,res) => {

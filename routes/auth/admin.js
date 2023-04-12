@@ -20,7 +20,7 @@ if(req.user.isAdmin==true){
 ////////////////////////////////////
 
 //////////////////////////////////
-router.get('/admin',isAddy (req,res) =>{
+router.get('/admin', (req,res) =>{
     // eslint-disable-next-line no-inner-declarations
     async function gettingEmails(){
       try {
