@@ -70,12 +70,12 @@ router.get('/services',isAddy, servicesHandler);
       const data1 = {
         subpath: config.COLLECTION_SUBPATH,
         dbName: config.DB_NAME,
-        ext:'_options',
-        filter:""
+        collections:'_options'
+       
       }
       const response = await axios.get(config.DB_URL + '/api/readOneF', { params: data });
-      const options = await axios.get(config.DB_URL + '/api/readOneF', { params: data1 });
-     // console.log(response.data);
+      const options = await axios.get(config.DB_URL + '/api/readManyD', { params: data1 });
+      console.log(options);
       res.render(route, { data: response.data,ext:ext, options:options });
     } catch (error) {
       res.status(500).json({ error: error.message });

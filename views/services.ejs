@@ -8,8 +8,8 @@
 <!--end-->
 </head>
 <body onload="minView(1)">   
-  <%- include('config/bkgdImg.ejs')%>            
-  <%- include('config/loadScreen.ejs')%>
+       
+
   <%- include('config/header.ejs')%>
   <div id="backgroundFX">      
       <h1 class="h1Span"> <%=data[1][0].companyName%> SERVICES</h1>
@@ -23,17 +23,17 @@
     <div id="pageCard" class="landingPage">
     
     <%for(let i =0;i<data[0].length;i++){%>    <div>
-     <a href="/editor/?_id=<%=data[0][i]._id%>&ext=<%=Object.values(ext)%>"> <div class="eventBody">
+     <a href="/editor/?_id=<%=data[0][i]._id%>&ext=_services"> <div class="eventBody">
         <span class="alert"><h2> <%= data[0][i].serviceName%></h2></span><br>
        <p>       
          <h3>  <%= data[0][i].serviceCategory%><br></h3>
-         <%= data[0][i].serviceDetail%><br>
+         <%= data[0][i].serviceDetails%><br>
         </p>
         <h1 class="span"><%= data[0][i].cost%></h1><%= data[0][i].terms%><br>
         <div class="imgCont">
-          <a onclick="loading('getting product details')" href="/register/productID/<%= data[0][i]._id%>"> 
+         
         <img class="invImg" src=" <%= data[0][i].imgName%>" alt="">
-       </a>
+     
       </div>
       </div></a>
     </div>
@@ -70,8 +70,8 @@
         <br><br>      
       
 
-        <label for="service-detail">Service Detail:</label>
-        <textarea id="serviceDetail" name="serviceDetail" rows="4" cols="50" required></textarea>
+        <label for="service-details">Service Detail:</label>
+        <textarea id="serviceDetails" name="serviceDetails" rows="4" cols="50" required></textarea>
         <br><br>
         
         <h2 style="margin: 0;">Step 2: Attach One Image</h2> 

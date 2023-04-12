@@ -37,7 +37,8 @@ if(req.user.isAdmin==true){
 const invCollections = {
     0: '_services',
     1: '_clients',
-    2:'_invoice'
+    2:'_invoice',
+    3:'_options'
   };
 //
   router.get('/invoice',getHandler(invCollections,'invoice'));
@@ -102,6 +103,7 @@ router.get('/invoiceViewer/:_id',(req,res)=>{
       invoiceViewer().catch(console.error);      
       async function invInfo(client,postData){
         const invoice= await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_invoice').findOne({"_id":postData})
+        const options= await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_options').find().toArray()
         console.log("invoice data: "+invoice.invData)
         const data =[]
         const svcDetails =[]
@@ -135,7 +137,7 @@ router.get('/invoiceViewer/:_id',(req,res)=>{
     data.push(svcDetails,company,invoice)
     console.log(data) 
    // res.send(data)
-    res.render('invoiceViewer', {data:data, options})
+    res.render('invoiceViewer', {data:data, options:options})
   }
  }
 )
@@ -175,6 +177,7 @@ async function createUser(client,options,id){
  const result0 = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+"_invoice").findOne({"_id":id});
  const compId=ObjectId(result0.invData.companyId.split('|')[0])
  const result1 = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+"_clients").findOne({"_id":compId});
+ const invMessage = result0.invData.invoiceMessage
  console.log(compId)
  console.log(result1)
 
@@ -190,19 +193,16 @@ async function createUser(client,options,id){
   const image = fs.readFileSync('./public/images/logoW2.png');
       let mailOptions = {
           from:"W2 Marketing" ,
-          to:[result1.email+',w2marketing.scott@gmail.com,w2marketing.candace@gmail.com'],
+          to:[result1.email+',w2marketing.scott@gmail.com'],
           subject:`${config.COMPANY_NAME} ~ Invoice for: ${result1.companyName}`,        
           
           html:`<body style="margin:2%;padding:1%;text-align:center;background-color:black;color:white">
-          <h1>W2 Marketing ~ Invoice Availible</h1><br>
+          <h1>${config.COMPANY_NAME} ~ Invoice Availible</h1><br>
           <img style="max-width:25%;transform:translateX(-75%);" src="cid:image1"><br>
           <h3>you can view your invoice at:</h3><br> 
-          <a href="https://app.w2marketing.biz/invoiceViewer/${req.url.split('/')[2]}">w2marketing.biz/invoiceViewer/${req.url.split('/')[2]}</a><br>
+          <a href="https://${config.SITE_URL}/invoiceViewer/${req.url.split('/')[2]}">${config.SITE_URL}/invoiceViewer/${req.url.split('/')[2]}</a><br>
           <p>Dear ${result1.contactName},</p>
-          <p>Your invoice this month looks different because we have implemented a new invoicing feature within our web applications. This is an example of the power and flexibility of our web applications and the benefits they offer to businesses like  ${result1.companyName}.</p>
-          <p>If you have any questions about the charges listed or any other aspect of our web app services, please do not hesitate to reach out to me directly at ${config.EMAIL}.</p>
-          <p>I will be working this month on getting account activity viewable to all of our clients.</p>
-          <p>Thank you for your continued support.</p>
+         <p>${invMessage}</p>
           <p>Best regards,</p>
           <p>${config.CONTACT_NAME}</p>
           <p>${config.COMPANY_NAME}</p>

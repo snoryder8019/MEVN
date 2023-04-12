@@ -36,8 +36,8 @@ router.get('/admin', (req,res) =>{
       gettingEmails().catch(console.error);
       // eslint-disable-next-line no-inner-declarations
       async function getEmails(client){
-      console.log(req.session)
-      console.log(req.user)
+     // console.log(req.session)
+     // console.log(req.user)
        const user = req.user
         const blogs= await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_blogs').find().toArray();
         const catagory = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_categories').find().toArray();
@@ -221,7 +221,32 @@ router.post('/delBlog',(req,res)=>{
   res.redirect('admin');
   }
 })
+////////////////////
+//////////DELETE BLOGS
+router.post('/delIntro',(req,res)=>{
+  async function deleteBlog(){
+    try{
+      await client.connect();
+      await getBlog(client);  
+    }
+    catch(err){
+      console.log(err);
+    }
+    finally{
+      await client.close();
+    }
+  }
+  deleteBlog().catch(console.error);
+  async function getBlog(client){
+    const newID =ObjectId(req.body.blogDelete);
+  const deleteIt = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_blogs').deleteOne({"_id":newID});
+  const data = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_registry').find().toArray();
+  const blogs= await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_intro_content').find().toArray();
+  res.redirect('admin');
+  }
+})
 
+///////////////
 /////////////INVENTORY UPLOADS
 router.post('/newItem',upload.single('photo'), function(req,res){
   //isolate file extention

@@ -34,6 +34,8 @@ app.enable("trust proxy")
 
 //
 app.use(express.static(path.join(__dirname, 'public')));
+const directory = config.STYLE
+app.locals.directory = directory
 
 //parsing forms and responses to json
 app.use(bodyParser.urlencoded({extended:false}))
@@ -72,7 +74,7 @@ app.use(routesRouter)
 app.use(function(req, res, next) {
   next(createError(404));
 
-  res.render('config/404', {title:"404 error bug"});
+  console.log(`error: 404 cannot GET: ${req.url}`);
 });
 
 // error handler
