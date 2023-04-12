@@ -562,14 +562,14 @@ if(err){
 
 
 
-
+//
 router.post('/updateOption',(req,res)=>{
 async function newOptions(){
   try{
     await optionsSwap(client,{
     companyName:req.body.companyName,
     companyContact:req.body.companyContact,
-    companyCity:req.body.companyCity,
+    companyAddress:req.body.companyAddress,
     companyPaypal:req.body.companyPaypal,
     introQuote :req.body.introQuote,
     introMOTD:req.body.introMOTD,

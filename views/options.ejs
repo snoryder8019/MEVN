@@ -31,7 +31,8 @@
         <h1 class="h1Span">options</h1>       
      
         <form action="/updateOption" method="post">
-          <%=options._id%>
+          <input type="text"name="_id" value="<%=options[0]._id%>">
+        
    <%for(let i=1;i<Object.keys(options[0]).length;i++){%>
     <input type="text" name="<%=Object.keys(options[0])[i]%>" value="<%=Object.values(options[0])[i]%>">
        <%}%>         
