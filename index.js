@@ -50,9 +50,26 @@ router.get('/faqs',(req,res)=>{
        }
    })  
 })
-router.get('/about',(req,res)=>{
-  
-  res.render('about')
+router.get('/about',async (req,res)=>{
+   const clientIp = req.headers['x-forwarded-for'] || req.ip;
+  console.log(clientIp)
+
+  try {
+const data={
+        subpath:config.COLLECTION_SUBPATH,
+        dbName:config.DB_NAME,
+        collections:{
+        [0]:"_blogs",
+        [1]:"_services",
+        [2]:"_intro_content",
+        [3]:"_options"   
+}};
+      const response = await axios.get(config.DB_URL+'/api/readManyD',{params:data});
+  console.log(response.data)
+   res.render('about',{data:response.data});
+  } catch (error) {
+    res.status(500).json({error});
+  }
 })
 router.get('/service-agreements',(req,res)=>{
   return res.render('service-agreements')

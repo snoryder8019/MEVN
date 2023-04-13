@@ -6,16 +6,17 @@
 <body onload="bodyLoader()">   
 
         <div class="mainStyle"> 
-            <%- include('config/bkgdImg.ejs')%>
+     
             <%- include('config/header.ejs')%>
-            
+            <%- include('config/bkgdImg.ejs')%>
+            <%- include('config/loadScreen.ejs')%>
             
                 <div class="eventBody">
                     <h1>about us</h1>
                   
 <div class="eventBody_about">
     <div class="eventBody">
-            <p> <span class="alert"> <%=options.companyName%></span> of <%=options.companyCity%></p>
+            <p> <span class="alert"> <%=data[3][0].companyAddress%></span> of <%=data[3][0].companyAddress%></p>
    <p>We Offer:</p>
               <ul>
                 <li>ABOUT US RESOURCES FROM DATABASE HERE</li>
@@ -69,9 +70,9 @@
         <p>This ia a progressive web application</p>
         <p>Runs in all major browsers with no app store download required</p>
         <p>Browse anonimously or add to cart by <a href="/register/login">registering</a> your email with us</p>
-        <p><a href="/register">Contact NoCo MetalWorkz</a>  about Estimates, Product Info, or a custom Design Idea</p>
+        <p><a href="/register">Contact <%=data[3][0].companyName%></a>  about Estimates, Product Info, or a custom Design Idea</p>
         <p>Our website offers our guests to browse, save, and purchase custom parts and plasma cuts </p>
-        <h2><%=options.companyName%> Web Application is Developed and Hosted by:</h2> <a href=""><h2> W2 Marketing LLC ~ Greeley, CO</h2></a>
+        <h2><%=data[3][0].companyName%> Web Application is Developed and Hosted by:</h2> <a href=""><h2> W2 Marketing LLC ~ Greeley, CO</h2></a>
         <a href="/tickets"><h2>report app issues to developer</h2></a>
     </div>
     <br>
