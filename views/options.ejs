@@ -6,34 +6,22 @@
 <div id="backgroundFX">
     <%- include('config/head.ejs')%>
     <%- include('config/header.ejs')%>
+    <%- include('config/bkgdImg.ejs')%>
 
     <%- include('config/loadScreen.ejs')%>
 <div class="eventBody">
 <h1 class="h1Span"><%=title%></h1>
 </div>
-<div class="eventBody">
-    <div class="mainStyle">
-        <h1 class="h1Span">Add FAQ</h1>
-            <div class="eventBody">        
-              <form action="/newFAQ"  method="post">    
-                <h2>Step 1: Add Details</h2>              
-                  <input placeholder="FAQ Question"  type="text" name="faq">
-                  <h2>product details</h2>
-                  <textarea placeholder="FAQ Answer" type="text" name="faqAnswer"></textarea>                
-                  <h2>Step 2: Submit</h2> 
-                    <button onclick="loading('adding New FAQ Entry')" type="submit" >Submit</button>
-               </form>
-            </div>
-          </div>
-  </div>
+
   <div class="eventBody">
     <div class="mainStyle">
-        <h1 class="h1Span">options</h1>       
+        <h1 class="h1Span">configurations</h1>       
      
         <form action="/updateOption" method="post">
-          <input type="text"name="_id" value="<%=options[0]._id%>">
+          <input hidden type="text"name="_id" value="<%=options[0]._id%>">
         
    <%for(let i=1;i<Object.keys(options[0]).length;i++){%>
+    <h4><%=Object.keys(options[0])[i]%></h4>
     <input type="text" name="<%=Object.keys(options[0])[i]%>" value="<%=Object.values(options[0])[i]%>">
        <%}%>         
            <button type="submit">update</button>
@@ -43,7 +31,7 @@
   </div>
   <div class="eventBody">
     <div class="mainStyle">
-        <h1 class="h1Span">Delete FAQs</h1>
+        <h1 class="h1Span">Live FAQs</h1>
        
             <%for(let i=0;i<faqs.length;i++){%>
                Question: <p><%=faqs[i].faqQ%></p>        
@@ -55,13 +43,29 @@
             <%}%>
    
     </div>
+    <div class="eventBody">
+      <div class="mainStyle">
+          <h1 class="h1Span">Add New FAQ</h1>
+              <div class="eventBody">        
+                <form action="/newFAQ"  method="post">    
+                  <h2>Step 1: Add Details</h2>              
+                    <input placeholder="FAQ Question"  type="text" name="faq">
+                    <h2>product details</h2>
+                    <textarea placeholder="FAQ Answer" type="text" name="faqAnswer"></textarea>                
+                    <h2>Step 2: Submit</h2> 
+                      <button onclick="loading('adding New FAQ Entry')" type="submit" >Submit</button>
+                 </form>
+              </div>
+            </div>
+    </div>
+
   </div>
   <div class="mainStyle">
     <h1 class="h1Span">change logo</h1>
     <div class="eventBody">
     <div class="imgCont">
       <h4>CURRENT LOGO</h4>
-    <img class="invImg"src="<%=options[2].imgName%>" alt="">       
+    <img class="invImg"src="/images/logoW2.png" alt="">       
   </div>
 </div>
       <div class="eventBody" id="admin0">
@@ -80,7 +84,7 @@
     <div class="eventBody">
     <div class="imgCont">
       <h4>CURRENT BACKGOURND</h4>
-    <img class="invImg"src="<%=options[1].imgName%>" alt="">       
+    <img class="invImg"src="/images/background.png" alt="">       
   </div>
 </div>
       <div class="eventBody" id="admin0">
