@@ -232,22 +232,16 @@ router.post('/delBlog',isAddy,(req,res)=>{
 //////////DELETE BLOGS
 router.post('/delIntro',isAddy,(req,res)=>{
   async function deleteBlog(){
-    try{
-      await client.connect();
-      await getBlog(client);  
-    }
-    catch(err){
-      console.log(err);
-    }
-    finally{
-      await client.close();
-    }
+    try{await getBlog(client);}
+    catch(err){console.log(err);}  
   }
   deleteBlog().catch(console.error);
+
   async function getBlog(client){
-    const newID =ObjectId(req.body.blogDelete);
-  const deleteIt = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_blogs').deleteOne({"_id":newID});
-  const data = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_registry').find().toArray();
+    const newID =ObjectId(req.body.introDelete);
+    console.log(newID)
+  const deleteIt = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_intro_content').deleteOne({"_id":newID});
+  //const data = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_registry').find().toArray();
   const blogs= await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_intro_content').find().toArray();
   res.redirect('admin');
   }
@@ -485,7 +479,7 @@ router.get('/options2',isAddy, (req,res)=>{
   
 })
 
-router.get('/options',isAddy,(req,res)=>{
+router.get('/options',(req,res)=>{
   async function faqGetter(){
     try{
       await client.connect()
@@ -495,10 +489,11 @@ router.get('/options',isAddy,(req,res)=>{
   }
   faqGetter().catch(console.error);
   async function faqPopulate(client){
+    const user = req.user
     const faqs = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_faqs').find().toArray()
     const options = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_options').find().toArray()
     console.log(options)
-    res.render('options',{title:"options", faqs:faqs, options:options})
+    res.render('options',{title:"options", user:user,faqs:faqs, options:options})
   }
 })
 //////////////////////////

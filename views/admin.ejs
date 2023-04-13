@@ -60,14 +60,15 @@
   <div class="eventBody" id="admin2">
   <table>
     <thead>
-  <th>Intro Title</th><th>Date or Subtitle</th><th>Remove</th>
+  <th>Intro Title</th><th>Date </th><th>details</th><th>Remove</th>
     </thead>
     <tbody>
       <%if(typeof data == 'object' && data[0]){%>
       <% for(var i=0; i<data.length;i++){%>
       <tr>
-          <td><%= data[i].bTitle %></td>
-          <td><%= data[i].bSubtitle%></td>
+          <td><%= data[i].introHeader %></td>
+          <td><%= Date(data[i].postDate)%></td>
+          <td><%= data[i].introDetails%></td>
           <td><img src="<%= data[i].imgName%>" alt=""></td>             
           <td><form action="/delIntro" method="post">
               <button onclick="loading('deleting blog')" name="introDelete" value="<%= data[i]._id%>"> delete</button>
@@ -107,10 +108,7 @@
 <div class="mainStyle">
 
 <!---->
-
-<div class="evnetBody"><h1 class="h1Span"><a href="/options">Options</a></h1></div>
-<div class="evnetBody"><h1 class="h1Span"><a href="/services">Services</a></h1></div>
-<div class="evnetBody"><h1 class="h1Span"><a href="/accounts">Accounts</a></h1></div>
+<%- include('./config/adminNav.ejs')%>
 
 
 </div>
