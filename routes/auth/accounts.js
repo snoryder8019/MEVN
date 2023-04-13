@@ -85,7 +85,7 @@ router.get('/services',isAddy, servicesHandler);
 /////////////HANDLER ARGUMENTS/////////////////
 //~~~~~~~~~EDITOR.EJS~~~~~~~~~~~//
 const editorHandler = getEditor('editor');
-router.get('/editor/:?', editorHandler);
+router.get('/editor/:?',isAddy, editorHandler);
 
 
 
@@ -120,7 +120,7 @@ const postToClients = (req, res) => {
     const handler = postToHandler(collectionExtName, options, 'accounts');
     handler(req, res);
   };
-  router.post('/postToClients', postToClients);
+  router.post('/postToClients',isAddy, postToClients);
 
   //~~~~~~~~~~~~~~~~~SERVICES.EJS~~~~~~~~~~/////
 const postToServices = (req, res) => {
@@ -129,12 +129,12 @@ const postToServices = (req, res) => {
   const handler = postToHandler(collectionExtName, options, 'services');
   handler(req, res);
 };
-router.post('/postToServices0', postToServices);
+router.post('/postToServices0',isAddy, postToServices);
 
 
 ////////////////////////////////////////////
 ////////////////////////////////////////
-router.post('/edit/:_id',(req, res)=> {  
+router.post('/edit/:_id',isAddy,(req, res)=> {  
  const referer =req.headers.referer.split('=')[2]
  const referer1 =req.headers.referer.split('/')[3]
  const referer2 =req.headers.referer.split('/')[4]
@@ -163,7 +163,7 @@ postRequest();
 
 
 
-router.post('/delete/:_id',(req, res)=> {
+router.post('/delete/:_id',isAddy,(req, res)=> {
   
  // console.log(`MEVN~ req.body.data: ${req.body.data}`)
    const id = req.url.split('/')[2];

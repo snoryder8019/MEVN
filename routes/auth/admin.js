@@ -12,15 +12,22 @@ const upload =multer({dest:"uploads/"});
 const ObjectId = require('mongodb').ObjectId;
 //////////////////middleware
 function isAddy(req,res,next){
+  if(!config.ENV){
+    res.send('environment not set')
+  }
+if(config.ENV=='DEV'){
+  next()
+}
+if(config.ENV=='PROD'){
   if(!req.user){res.redirect('login')}
 if(req.user.isAdmin==true){
-  next()}
-    else{res.sendStatus(401)}
-  }
+  next()
+}
+  }}
 ////////////////////////////////////
 
 //////////////////////////////////
-router.get('/admin', (req,res) =>{
+router.get('/admin',isAddy, (req,res) =>{
     // eslint-disable-next-line no-inner-declarations
     async function gettingEmails(){
       try {
@@ -47,7 +54,7 @@ router.get('/admin', (req,res) =>{
   } 
   })
 //////////////////////////////////
-router.get('/inventory', (req,res) =>{ 
+router.get('/inventory',isAddy, (req,res) =>{ 
     // eslint-disable-next-line no-inner-declarations
     async function gettingEmails(){
      try {
@@ -71,7 +78,7 @@ router.get('/inventory', (req,res) =>{
    } 
    })
 ///////////////
-router.post('/deleteInv', (req,res)=>{
+router.post('/deleteInv',isAddy, (req,res)=>{
   async function deleteInventory(){
     try{
       await client.connect()
@@ -92,7 +99,7 @@ router.post('/deleteInv', (req,res)=>{
   }
 })
 ///////////////
-router.post('/updateInv', (req,res)=>{
+router.post('/updateInv',isAddy, (req,res)=>{
   console.log('update'+req.body.invId)
   async function updateInventory(){
     try{await client.connect()
@@ -113,7 +120,7 @@ return res.redirect('inventory')
 }
 })
 //////////
- router.post('/upload',upload.single('photo'), function(req,res){
+ router.post('/upload',isAddy,upload.single('photo'), function(req,res){
   /*isolate file extention*/
   const imageData= req.file;
   const ogStr=0;
@@ -156,7 +163,7 @@ if(err){
    }
 )
 //////////
-router.post('/uploadIntro',upload.single('photo'), function(req,res){
+router.post('/uploadIntro',isAddy,upload.single('photo'), function(req,res){
   /*isolate file extention*/
   const imageData= req.file;
   const ogStr=0;
@@ -199,7 +206,7 @@ if(err){
    }
 )
 //////////DELETE BLOGS
-router.post('/delBlog',(req,res)=>{
+router.post('/delBlog',isAddy,(req,res)=>{
   async function deleteBlog(){
     try{
       await client.connect();
@@ -223,7 +230,7 @@ router.post('/delBlog',(req,res)=>{
 })
 ////////////////////
 //////////DELETE BLOGS
-router.post('/delIntro',(req,res)=>{
+router.post('/delIntro',isAddy,(req,res)=>{
   async function deleteBlog(){
     try{
       await client.connect();
@@ -248,7 +255,7 @@ router.post('/delIntro',(req,res)=>{
 
 ///////////////
 /////////////INVENTORY UPLOADS
-router.post('/newItem',upload.single('photo'), function(req,res){
+router.post('/newItem',isAddy,upload.single('photo'), function(req,res){
   //isolate file extention
   const imageData= req.file;
   const ogStr=0;
@@ -305,7 +312,7 @@ if(err){
 
 
 //////////////////////
-router.post('/postToServices',upload.single('photo'), function(req,res){
+router.post('/postToServices',isAddy,upload.single('photo'), function(req,res){
   //isolate file extention
   const imageData= req.file;
   const ogStr=0;
@@ -358,7 +365,7 @@ if(err){
 
 
 /////////SAVE COLORS
-router.post('/newColor', function(req,res){
+router.post('/newColor',isAddy, function(req,res){
   async function saveColor(){
     try {
       await client.connect();
@@ -383,7 +390,7 @@ router.post('/newColor', function(req,res){
 )
 
 ////DELETE COLORS
-router.post('/delColor',(req,res)=>{
+router.post('/delColor',isAddy,(req,res)=>{
   async function deleteColor(){
     try{
       await client.connect();
@@ -407,7 +414,7 @@ return  res.redirect('admin');
 
 //////CATEGOREIS
 /////////SAVE CATAGORIES
-router.post('/newCat', function(req,res){
+router.post('/newCat',isAddy, function(req,res){
   async function saveCat(){
     try {
       await client.connect();
@@ -433,7 +440,7 @@ router.post('/newCat', function(req,res){
 )
 
 ////DELETE CATAGORIES
-router.post('/delCat',(req,res)=>{
+router.post('/delCat',isAddy,(req,res)=>{
   async function deleteCat(){
     try{
       await client.connect();
@@ -457,7 +464,7 @@ router.post('/delCat',(req,res)=>{
  return res.redirect('admin');
   }
 })
-router.get('/options2', (req,res)=>{
+router.get('/options2',isAddy, (req,res)=>{
   console.log(config.COLLECTION_SUBPATH)
   const options = {
     url:config.DB_URL+"/api/read",
@@ -478,7 +485,7 @@ router.get('/options2', (req,res)=>{
   
 })
 
-router.get('/options',(req,res)=>{
+router.get('/options',isAddy,(req,res)=>{
   async function faqGetter(){
     try{
       await client.connect()
@@ -496,7 +503,7 @@ router.get('/options',(req,res)=>{
 })
 //////////////////////////
 //////////
-router.post('/updateBkgrd',upload.single('photo'), function(req,res){
+router.post('/updateBkgrd',isAddy,upload.single('photo'), function(req,res){
   /*isolate file extention*/
   const imageData= req.file;
   const ogStr=0;
@@ -540,7 +547,7 @@ if(err){
 )
 //////////
 ///////////
-router.post('/updateLogo',upload.single('photo'), function(req,res){
+router.post('/updateLogo',isAddy,upload.single('photo'), function(req,res){
   /*isolate file extention*/
   const imageData= req.file;
   const ogStr=0;
@@ -588,7 +595,7 @@ if(err){
 
 
 //
-router.post('/updateOption',(req,res)=>{
+router.post('/updateOption',isAddy,(req,res)=>{
 async function newOptions(){
   try{
     await optionsSwap(client,{
@@ -615,7 +622,7 @@ async function optionsSwap(client,data99){
 res.redirect('options')
 })
 
-router.post('/newFAQ',(req,res)=>{
+router.post('/newFAQ',isAddy,(req,res)=>{
 async function newFAQs(){
   try{
     await client.connect()
@@ -635,7 +642,7 @@ async function faqAdd(client,faqOptions){
 res.redirect('options')
 })
 
-router.post('/delFaq', (req,res)=>{
+router.post('/delFaq',isAddy, (req,res)=>{
   async function delFaqs(){
     try{
       await client.connect()
@@ -655,7 +662,7 @@ router.post('/delFaq', (req,res)=>{
 
 //first graph api to facebook
 //refactor in its own file and build out from w2 mongo microsvc
-router.get('/ptf', (req, res) => { 
+router.get('/ptf',isAddy, (req, res) => { 
   const ahref = req.body.ahref
   const headline = req.body.headline
   const accessToken = process.env.FBPAT
