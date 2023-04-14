@@ -1,6 +1,6 @@
 {
-  "name": "W2 Marketing App",
-  "version": "0.9.8",
+  "name": "W2 Marketing MEVN App",
+  "version": "1.1.0",
   "private": true,
   "scripts": {
     "start": "nodemon --trace-warnings ./bin/www",
@@ -39,7 +39,7 @@
   },
   "description": "This is a validated registration form using vanilla JS, node, express, and ejs.",
   "main": "app.js",
-  "author": "",
+  "author": "scott wallace",
   "license": "ISC",
   "devDependencies": {
     "eslint": "^8.29.0",
