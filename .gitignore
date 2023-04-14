@@ -5,10 +5,8 @@
 
 /php
 
-/public/images/blog/*
-/public/images/intro/*
-/public/images/inventory/*
-/public/images/services/*
+/public/images
+
 
 /google52e38ec3d70db39d.html
 /paste.txt

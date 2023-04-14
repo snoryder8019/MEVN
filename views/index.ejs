@@ -10,10 +10,11 @@
        
             <%- include('config/header.ejs')%>
             
-    <%- include('config/intro.ejs')%> 
-    <div class="eventBody">
-       <div class="indexSpacer"></div>
-        <h1 class="h1Span"> Services</h1>
+            <%- include('config/intro.ejs')%> 
+            <div class="eventBody">
+                <div class="indexSpacer"></div>
+                <h1 class="h1Span"><%=data[3][0].inventoryTitle%></h1>
+       
       
         <div class="invGrid">
             <%if(typeof data[1] == 'object'&& data[1]){%>
@@ -39,7 +40,7 @@
      <%- include('./config/navBar')%>
      
      <%if(typeof data[0] == 'object'&& data[0]){%>
-<h1 class="h1Span">Latest Developments</h1>
+<h1 class="h1Span"><%=data[3][0].blogTitle%></h1>
 <div class="landingPage">  
     <% for(var i=0;i<data[0].length;i++){%>
             <div class="eventBody">

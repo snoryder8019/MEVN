@@ -8,16 +8,18 @@
             <%- include('config/loadScreen.ejs')%>            
     <div class="mainStyle">       
         <div class="eventBody">
-            <h1 class="h1Span">Services</h1>                
+            <h1 class="h1Span"><%=data[3][0].inventoryTitle%></h1>                
             <form action="/marketOp">
+                <%if(data[2].length>0){%>
                 <div class="marketFilter">
                     <select onchange="loading('filtering inventory'),submit()" name="catID"   id="">
                     <option >Filter by Category</option>
                     <% for(var i=0;i<data[2].length;i++){%>
                      <option value="<%= data[2][i].catName%>"><%= data[2][i].catName%></option>
                      <%}%>
-                   </select>
+                    </select>
                 </div>
+                <%}%>
              </form>
         </div>
         <div class="eventBody">

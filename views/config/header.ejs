@@ -12,7 +12,8 @@
 <div id="menuPage">
     <div class="menuContent">
         <p><a href="/">Home</a></p>
-        <p><a href="/market">Services</a></p>
+     <%if(typeof data == 'object' && data){%>   <p><a href="/market"><%=data[3][0].inventoryTitle%></a></p><%}%>
+     <%if(typeof options == 'object' && options){%>    <p><a href="/market"><%=options[0].inventoryTitle%></a></p><%}%>
         <p><a href="/register">Contact</a></p>
     <% if (typeof user == 'object' && user) { %>
         <p> <a onclick="loading('logging out')" href="/auth/logout">Logout</a></p>
@@ -21,11 +22,10 @@
             <p><a href="/login">Sign in</a></p>
             <%if(typeof user == 'object'&& user.isAdmin == true ){%>
             <p><a href="/admin">admin</a></p>
-            <p><a href="/services">services</a></p>
+            <p><a href="/services"><%=data[3][0].inventoryTitle%></a></p>
             <p><a href="/accounts">accounts</a></p>
             <%}%>
-            <div><a href="/login"><img class="cartIcon" src="/images/icons/cart1.png"></a></div>
-            <div><a href="/auth/logout">logout</a></div>
+                    
     
     <%}%>
 

@@ -1,4 +1,5 @@
-<div class="footer" id="footer"><p>W2 Marketing LLC ~ Greeley, CO</p> 
+<%if(typeof data == 'object' && data){%><div class="footer" id="footer"><p><%= data[3][0].companyName%></p> <%}%>
+<%if(typeof options == 'object' && options){%><div class="footer" id="footer"><p><%= options[0].companyName%></p> <%}%>
 
  
 </div>

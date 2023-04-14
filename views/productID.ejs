@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html>
     <%- include('./config/head.ejs')%>
-<body onload="bodyLoader()">    
+<body >    
     <div class="mainStyle">       
 
         <%- include('../views/config/header.ejs')%>
 
   <div class="eventBody">
-    <h2 class="h1Span"> Service Details :  <%= data[1][0].serviceName%></h2>
+    <h2 class="h1Span"> <%=data[3][0].inventoryTitle%> Details :  <%= data[1][0].serviceName%></h2>
 </div>
 
         <!----LANDING PAGE CLASS IS GRID DISPLAY-->
         <!----LARGE SCREEN 4 GRID !!!! MEDIUM SCREEN 3 GRID !!!!! SMALL 2 and single GRID-->
  <%if(typeof data[1][0] == 'object'&& data[1][0].imgName){%>
-        <div id="imgPrev"onclick="enlarge()" class="imgPreviewDiv"><img class="imgPreview" src="/<%= data[1][0].imgName%>" alt=""></div>
+        <div id="imgPrev"" class="imgPreviewDiv"><img class="imgPreview" src="/<%= data[1][0].imgName%>" alt=""></div>
  <%}%>
         <div class="landingPage">
             <div class="eventBody">
@@ -22,8 +22,8 @@
         <div class="invPrice"><%= data[1][0].cost%></div> 
         <div >
             <h3><%= data[1][0].serviceDetails%></h3>
-            <h3>Social Media Services initiate upon payment.</h3>
-            <h3>Is there a service you need custom? <a href="/register"><span class="alert"> Contact Us </span></a>for a quote!!!
+            <h3><%=data[3][0].purchaseTerms%></h3>
+            <h3><%=data[3][0].productLinkback%> <a href="/register"><span class="alert"> Contact Us </span></a>!!!
             </h3>
             <br>
      

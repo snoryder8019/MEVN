@@ -12,6 +12,7 @@
            
 <canvas id="bkgdCanvas"></canvas>  
 <div id="backgroundFX">
+    <%- include('config/bkgdImg.ejs')%>  
     <%- include('config/header.ejs')%>  
 
 
@@ -63,15 +64,15 @@
   <th>Intro Title</th><th>Date </th><th>details</th><th>Remove</th>
     </thead>
     <tbody>
-      <%if(typeof data == 'object' && data[0]){%>
-      <% for(var i=0; i<data.length;i++){%>
+      <%if(typeof data == 'object' && data){%>
+      <% for(var i=0; i<data[2].length;i++){%>
       <tr>
-          <td><%= data[i].introHeader %></td>
-          <td><%= Date(data[i].postDate)%></td>
-          <td><%= data[i].introDetails%></td>
-          <td><img src="<%= data[i].imgName%>" alt=""></td>             
+          <td><%= data[2][i].introHeader %></td>
+          <td><%= Date(data[2][i].postDate)%></td>
+          <td><%= data[2][i].introDetails%></td>
+          <td><img src="<%= data[2][i].imgName%>" alt=""></td>             
           <td><form action="/delIntro" method="post">
-              <button onclick="loading('deleting blog')" name="introDelete" value="<%= data[i]._id%>"> delete</button>
+              <button onclick="loading('deleting intro content')" name="introDelete" value="<%= data[2][i]._id%>"> delete</button>
                </form></td>
        </tr>
       <% } %>
@@ -81,21 +82,21 @@
  </div>
 </div>
   <div class="mainStyle">
-      <h1 class="h1Span">Live Posts</h1>
+      <h1 class="h1Span">Live <%=data[3][0].blogTitle%></h1>
       <div class="eventBody" id="admin2">
       <table>
         <thead>
-      <th>Blog Title</th><th>Date or Subtitle</th><th>Remove</th>
+      <th><%=data[3][0].blogTitle%> </th><th>Date or Subtitle</th><th>Remove</th>
         </thead>
         <tbody>
-          <%if(typeof blogs == 'object' && blogs[0]){%>
-          <% for(var i=0; i<blogs.length;i++){%>
+          <%if(typeof data== 'object' && data){%>
+          <% for(var i=0; i<data[0].length;i++){%>
           <tr>
-              <td><%= blogs[i].bTitle %></td>
-              <td><%= blogs[i].bSubtitle%></td>
-              <td><img src="<%= blogs[i].imgName%>" alt=""></td>             
+              <td><%= data[0][i].bTitle %></td>
+              <td><%= data[0][i].bSubtitle%></td>
+              <td><img src="<%= data[0][i].imgName%>" alt=""></td>             
               <td><form action="/delBlog" method="post">
-                  <button onclick="loading('deleting blog')" name="blogDelete" value="<%= blogs[i]._id%>"> delete</button>
+                  <button onclick="loading('deleting <%= data[0][i].bTitle%>')" name="blogDelete" value="<%= data[0][i]._id%>"> delete</button>
                    </form></td>
            </tr>
           <% } %>

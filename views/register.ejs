@@ -28,9 +28,10 @@
         <option name ="feedback" value="feedback"><h2>I want to pitch an idea</h2></option>
 
       </select>
-      <p>Opt in to receive messages from W2 Marketing</p>
+      <p>Opt in to receive messages from <%=data[3][0].companyName%></p>
       
       <input id="regBox" type="checkbox" name="agree"><br>
+      <h1 style="opacity:0">~</h1>
       <h2 class="validateError" id="regValidateError">*please fill out all fields and "Opt In" to submit</h2>
    <h2>Your Message: </h2>
       <textarea name="message" cols="30" rows="10"></textarea>

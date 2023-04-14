@@ -3,7 +3,7 @@ const router = express.Router();
 const env = require('dotenv').config()
 const client = require('../../config/mongo');
 const ObjectId = require('mongodb').ObjectId;
-
+const axios = require('axios')
 const request = require('request')
 const fs = require('fs');
 const multer = require('multer');
@@ -25,34 +25,52 @@ if(req.user.isAdmin==true){
 }
   }}
 ////////////////////////////////////
+router.get('/admin',async (req, res)=> {
+  const clientIp = req.headers['x-forwarded-for'] || req.ip;
+  console.log(clientIp)
 
+  try {
+const data={
+        subpath:config.COLLECTION_SUBPATH,
+        dbName:config.DB_NAME,
+        collections:{
+        [0]:"_blogs",
+        [1]:"_services",
+        [2]:"_intro_content",
+        [3]:"_options"   
+}};
+      const response = await axios.get(config.DB_URL+'/api/readManyD',{params:data});
+  console.log(response.data)
+      res.render('admin',{title:"Admin Page",data:response.data});
+  } catch (error) {
+    res.status(500).json({error});
+  }
+});
 //////////////////////////////////
-router.get('/admin',isAddy, (req,res) =>{
-    // eslint-disable-next-line no-inner-declarations
-    async function gettingEmails(){
-      try {
-        await client.connect();
-        await getEmails(client);
-      }
-      catch(err){
-        console.log(err);
-      }
-      finally{
-      //  await client.close();
-      }}    
-      gettingEmails().catch(console.error);
-      // eslint-disable-next-line no-inner-declarations
-      async function getEmails(client){
-     // console.log(req.session)
-     // console.log(req.user)
-       const user = req.user
-        const blogs= await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_blogs').find().toArray();
-        const catagory = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_categories').find().toArray();
-        const data = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_intro_content').find().toArray();
-        const options = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_options').findOne()
-   return  res.render('admin',{title:'Admin Page',options:options, blogs:blogs,catagory:catagory, user:user, data:data})
-  } 
-  })
+// router.get('/admin',isAddy, (req,res) =>{
+//     // eslint-disable-next-line no-inner-declarations
+//     async function gettingEmails(){
+//       try {
+//         await client.connect();
+//         await getEmails(client);
+//       }
+//       catch(err){
+//         console.log(err);
+//       }
+//       finally{
+//       //  await client.close();
+//       }}    
+//       gettingEmails().catch(console.error);
+//       // eslint-disable-next-line no-inner-declarations
+//       async function getEmails(client){
+ 
+//        const user = req.user
+//         const blogs= await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_blogs').find().toArray();
+//         const data = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_intro_content').find().toArray();
+//         const options = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_options').findOne()
+//    return  res.render('admin',{title:'Admin Page',options:options, blogs:blogs, user:user, data:data})
+//   } 
+//   })
 //////////////////////////////////
 router.get('/inventory',isAddy, (req,res) =>{ 
     // eslint-disable-next-line no-inner-declarations
@@ -496,7 +514,7 @@ router.get('/options',isAddy,(req,res)=>{
     res.render('options',{title:"options", user:user,faqs:faqs, options:options})
   }
 })
-//////////////////////////
+////////////////////////////
 //////////
 router.post('/updateBkgrd',isAddy,upload.single('photo'), function(req,res){
   /*isolate file extention*/

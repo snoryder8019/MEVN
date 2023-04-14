@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 const bcrypt = require('bcrypt');
 var client = require('../config/mongo');
-
+const axios = require('axios')
 var config = require('../config/config');
 const nodemailer = require('nodemailer')
 // const accountSid = process.env.TWILIO_ACCOUNT_SID;
@@ -19,30 +19,27 @@ router.get('/login', function(req, res) {
   const user = req.user
   res.render('login',{user:user, message:""});
   }); 
-router.get('/register', function(req, res) {
-  async function gettingEmails(){
-    try {
-      await client.connect();
-      await getEmails(client);
-    }
-    catch(err){
-      console.log(err);
-    }
-    finally{
-    //  await client.close();
-    }}    
-    gettingEmails().catch(console.error);
-    // eslint-disable-next-line no-inner-declarations
-    async function getEmails(client){
-    console.log(req.session)
-    console.log(req.user)
-     const user = req.user
-      const options = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_options').find().toArray
- return  res.render('register',{title:'Contact Us',options:options,user:user})
-} 
+  router.get('/register',async (req, res)=> {
+    const clientIp = req.headers['x-forwarded-for'] || req.ip;
+    console.log(clientIp)
   
-});
-
+    try {
+  const data={
+          subpath:config.COLLECTION_SUBPATH,
+          dbName:config.DB_NAME,
+          collections:{
+          [0]:"_blogs",
+          [1]:"_services",
+          [2]:"_intro_content",
+          [3]:"_options"   
+  }};
+        const response = await axios.get(config.DB_URL+'/api/readManyD',{params:data});
+    console.log(req.cookies.user)
+     res.render('register',{title:"send us a message",data:response.data});
+    } catch (error) {
+      res.status(500).json({error});
+    }
+  });
 router.post('/regUser', (req,res) => {
  
 

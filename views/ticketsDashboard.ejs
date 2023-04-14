@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    
+    <%- include('config/head.ejs')%>
+
+    <%- include('config/bkgdImg.ejs')%>
+    <%- include('config/header.ejs')%>
+    <body>
+<div class="eventBody"><br></div>
+<div class="eventBody">open tickets</div>
+
+<div class="eventBody">
+<table>
+  <thead>
+    <th>issue</th>
+    <th>source</th>
+    <th>IP</th>
+    <th>status</th>
+  </thead>
+  <tbody>
+<%for(let i=0;i<tickets.length;i++){%>
+<tr>
+  <td> <%=tickets[i].issue%></td>
+  <td> <%=tickets[i].source%></td>
+  <td> <%=tickets[i].reportersId%></td>
+  <td> <%=tickets[i].status.open%></td>  
+  <td> <%=Date(tickets[i].status.date)%></td>  
+</tr>
+
+<%}%>
+</tbody>
+</table>
+</div>
+
+<div id="oauthBody" class="">
+  <div><a style="text-align:center" href="/auth/google"><h2 id="gglMsg">Single Touch register in with Google:</h2>  </div> 
+    <div ><img  class="gglButton" src="/images/icons/google.png" alt=""></div></a>
+
+</div>
+</div>
+</div>
+     
+      <%- include('config/footer.ejs')%>
+      <!--script src="javascripts/backgroundFX1.js"></script-->
+      <%- include('./config/baseScripts.ejs')%>
+   <script src="javascripts/login.js"></script> 
+
+    </body>
+    </html>
