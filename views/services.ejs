@@ -12,7 +12,7 @@
 
   <%- include('config/header.ejs')%>
   <div id="backgroundFX">      
-      <h1 class="h1Span"> <%=data[1][0].companyName%> SERVICES</h1>
+      <h1 class="h1Span"> <%=data[3][0].companyName%> SERVICES</h1>
       <button style="background-color:rgb(33, 133, 133)" onclick="switchView(pageGrid)">table</button>
       <button style="background-color:rgb(33, 133, 133)" onclick="switchView(pageCard)">card</button>
       <button hidden onclick="switchView(pageNav)">nav</button>
@@ -22,17 +22,17 @@
       <a href="/invoice"><button>invoice</button></a>
     <div id="pageCard" class="landingPage">
     
-    <%for(let i =0;i<data[0].length;i++){%>    <div>
-     <a href="/editor/?_id=<%=data[0][i]._id%>&ext=_services"> <div class="eventBody">
-        <span class="alert"><h2> <%= data[0][i].serviceName%></h2></span><br>
+    <%for(let i =0;i<data[1].length;i++){%>    <div>
+     <a href="/editor/?_id=<%=data[1][i]._id%>&ext=_services"> <div class="eventBody">
+        <span class="alert"><h2> <%= data[1][i].serviceName%></h2></span><br>
        <p>       
-         <h3>  <%= data[0][i].serviceCategory%><br></h3>
-         <%= data[0][i].serviceDetails%><br>
+         <h3>  <%= data[1][i].serviceCategory%><br></h3>
+         <%= data[1][i].serviceDetails%><br>
         </p>
-        <h1 class="span"><%= data[0][i].cost%></h1><%= data[0][i].terms%><br>
+        <h1 class="span"><%= data[1][i].cost%></h1><%= data[1][i].terms%><br>
         <div class="imgCont">
          
-        <img class="invImg" src=" <%= data[0][i].imgName%>" alt="">
+        <img class="invImg" src=" <%= data[1][i].imgName%>" alt="">
      
       </div>
       </div></a>
@@ -97,15 +97,15 @@
           </tr>
         </thead>
         <tbody>
-          <% for(let i=0;i<data[0].length;i++){%>
+          <% for(let i=0;i<data[1].length;i++){%>
           <tr>
-            <td><%=data[0][i].serviceName%></td>
-            <td><%=data[0][i].cost%></td>
-            <td><%=data[0][i].terms%></td>
-            <td><%=data[0][i].serviceCategory%></td>
-            <td><%=data[0][i].serviceDetail%></td>
+            <td><%=data[1][i].serviceName%></td>
+            <td><%=data[1][i].cost%></td>
+            <td><%=data[1][i].terms%></td>
+            <td><%=data[1][i].serviceCategory%></td>
+            <td><%=data[1][i].serviceDetail%></td>
          
-            <td><a href="/editor/?_id=<%=data[0][i]._id%>&ext=_services"><span class="alert"> Edit</span></a></td>
+            <td><a href="/editor/?_id=<%=data[1][i]._id%>&ext=_services"><span class="alert"> Edit</span></a></td>
            
           </tr>
       <%}%>

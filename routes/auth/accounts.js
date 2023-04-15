@@ -31,8 +31,10 @@ if(req.user.isAdmin==true){
 /////////////HANDLER ARGUMENTS/////////////////
 ///~~~~~~~~~~~SERVICES.EJS~~~~~~~~~~~~~~///
 const svcCollections = {
-  0: '_services',
-  1:'_options'
+  [0]:"_blogs",
+  [1]:"_services",
+  [2]:"_intro_content",
+  [3]:"_options"  
 };
 
 const servicesHandler = getHandler(svcCollections,'services');

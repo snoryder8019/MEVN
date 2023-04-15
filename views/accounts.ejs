@@ -17,19 +17,19 @@
       <button style="background-color:rgb(33, 133, 133)" onclick="switchView(pageGrid)">table</button>
       <button style="background-color:rgb(33, 133, 133)" onclick="switchView(pageCard)">card</button>
       <button hidden onclick="switchView(pageNav)">nav</button>
-      <a href="/services"><button>services</button></a>
+      <a href="/services"><button><%=data[3][0].inventoryTitle%></button></a>
       <a href="/admin"><button>admin</button></a>
       <button onclick="switchView(pageAdd)">add</button>
       <a href="/invoice"><button>invoice</button></a>
     <div  id="pageCard" class="landingPage">
-      <%for(let i =0;i<data[0].length;i++){%>
-        <a href="/editor/?_id=<%=data[0][i]._id%>&ext=_clients">
+      <%for(let i =0;i<data[1].length;i++){%>
+        <a href="/editor/?_id=<%=data[1][i]._id%>&ext=_clients">
         <div class="eventBody">
-          <span class="alert"><h2> <%= data[0][i].companyName%></h2></span><br>
-          <%= data[0][i].contactName%><br>
-          <%= data[0][i].email%><br>
-          <%= data[0][i].phoneNumber%><br>
-          <%= data[0][i].businessAddress%>
+          <span class="alert"><h2> <%= data[1][i].companyName%></h2></span><br>
+          <%= data[1][i].contactName%><br>
+          <%= data[1][i].email%><br>
+          <%= data[1][i].phoneNumber%><br>
+          <%= data[1][i].businessAddress%>
         </div>
       </a>
         <%}%>
@@ -87,15 +87,15 @@
           </tr>
         </thead>
         <tbody>
-          <% for(let i=0;i<data[0].length;i++){%>
+          <% for(let i=0;i<data[1].length;i++){%>
           <tr>
-            <td><%=data[0][i].contactName%></td>
-            <td><%=data[0][i].email%></td>
-            <td><%=data[0][i].companyName%></td>
-            <td><%=data[0][i].phoneNumber%></td>
-            <td><%=data[0][i].businessAddress%></td>
+            <td><%=data[1][i].contactName%></td>
+            <td><%=data[1][i].email%></td>
+            <td><%=data[1][i].companyName%></td>
+            <td><%=data[1][i].phoneNumber%></td>
+            <td><%=data[1][i].businessAddress%></td>
          
-            <td><a href="/editor/?_id=<%=data[0][i]._id%>&ext=_clients"><span class="alert"> Edit</span></a></td>
+            <td><a href="/editor/?_id=<%=data[1][i]._id%>&ext=_clients"><span class="alert"> Edit</span></a></td>
            
           </tr>
       <%}%>
