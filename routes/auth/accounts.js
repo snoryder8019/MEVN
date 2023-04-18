@@ -41,8 +41,10 @@ const servicesHandler = getHandler(svcCollections,'services');
 router.get('/services',isAddy, servicesHandler);
 //~~~~~~~~~~~ACCOUNTS.EJS~~~~~~~~~~~////
   const clientsCollections = {
-    0: '_clients',
-    1:'_options'
+    [0]:"_blogs",
+  [1]:"_services",
+  [2]:"_intro_content",
+  [3]:"_options"  
   };  
  
   const clientsHandler = getHandler(clientsCollections,'accounts');
