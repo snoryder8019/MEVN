@@ -552,7 +552,7 @@ router.post('/updateLogo',isAddy,upload.single('photo'), function(req,res){
   fs.rename(oldFilepath+str2,newFilepath+newName,(err)=>{
     if(err){
   console.log(err);
-}
+}res.redirect('options')
  })
 })
  
