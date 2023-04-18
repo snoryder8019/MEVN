@@ -44,7 +44,8 @@ router.get('/services',isAddy, servicesHandler);
     [0]:"_blogs",
   [1]:"_services",
   [2]:"_intro_content",
-  [3]:"_options"  
+  [3]:"_options",
+  [4]:"_clients"  
   };  
  
   const clientsHandler = getHandler(clientsCollections,'accounts');
@@ -71,16 +72,10 @@ router.get('/services',isAddy, servicesHandler);
         ext:ext,
         filter:cleanUrl
       }
-      const data1 = {
-        subpath: config.COLLECTION_SUBPATH,
-        dbName: config.DB_NAME,
-        collections:'_options'
-       
-      }
+  
       const response = await axios.get(config.DB_URL + '/api/readOneF', { params: data });
-      const options = await axios.get(config.DB_URL + '/api/readManyD', { params: data1 });
-      console.log(options);
-      res.render(route, { data: response.data,ext:ext, options:options });
+    
+      res.render(route, { data: response.data,ext:ext });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }

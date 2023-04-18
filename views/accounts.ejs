@@ -22,14 +22,14 @@
       <button onclick="switchView(pageAdd)">add</button>
       <a href="/invoice"><button>invoice</button></a>
     <div  id="pageCard" class="landingPage">
-      <%for(let i =0;i<data[1].length;i++){%>
-        <a href="/editor/?_id=<%=data[1][i]._id%>&ext=_clients">
+      <%for(let i =0;i<data[4].length;i++){%>
+        <a href="/editor/?_id=<%=data[4][i]._id%>&ext=_clients">
         <div class="eventBody">
-          <span class="alert"><h2> <%= data[1][i].companyName%></h2></span><br>
-          <%= data[1][i].contactName%><br>
-          <%= data[1][i].email%><br>
-          <%= data[1][i].phoneNumber%><br>
-          <%= data[1][i].businessAddress%>
+          <span class="alert"><h2> <%= data[4][i].companyName%></h2></span><br>
+          <%= data[4][i].contactName%><br>
+          <%= data[4][i].email%><br>
+          <%= data[4][i].phoneNumber%><br>
+          <%= data[4][i].businessAddress%>
         </div>
       </a>
         <%}%>
@@ -87,15 +87,15 @@
           </tr>
         </thead>
         <tbody>
-          <% for(let i=0;i<data[1].length;i++){%>
+          <% for(let i=0;i<data[4].length;i++){%>
           <tr>
-            <td><%=data[1][i].contactName%></td>
-            <td><%=data[1][i].email%></td>
-            <td><%=data[1][i].companyName%></td>
-            <td><%=data[1][i].phoneNumber%></td>
-            <td><%=data[1][i].businessAddress%></td>
+            <td><%=data[4][i].contactName%></td>
+            <td><%=data[4][i].email%></td>
+            <td><%=data[4][i].companyName%></td>
+            <td><%=data[4][i].phoneNumber%></td>
+            <td><%=data[4][i].businessAddress%></td>
          
-            <td><a href="/editor/?_id=<%=data[1][i]._id%>&ext=_clients"><span class="alert"> Edit</span></a></td>
+            <td><a href="/editor/?_id=<%=data[4][i]._id%>&ext=_clients"><span class="alert"> Edit</span></a></td>
            
           </tr>
       <%}%>
