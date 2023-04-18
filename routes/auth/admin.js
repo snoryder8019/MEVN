@@ -574,6 +574,11 @@ async function newOptions(){
     introMOTD:req.body.introMOTD,
     aboutFiller:req.body.aboutFiller,
     custom404Message:req.body.custom404Message,
+    paypalEmail:req.body.paypalEmail,
+    blogTitle:req.body.blogTitle,
+    inventoryTitle:req.body.inventoryTitle,
+    productLinkback:req.body.productLinkback,
+    purchaseTerms:req.body.purchaseTerms
     })
   }
   catch(err){console.log(err)}
