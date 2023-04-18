@@ -17,83 +17,40 @@
       <a href="/services"><button>services</button></a>
       <a href="/accounts"><button>accounts</button></a>
       <a href="/admin"><button>admin</button></a>
+      <a href="/dashboard"><button>dashboard</button></a>
       <a href="/invoice"><button>invoice</button></a>
-      <select name="serviceNameDrop" id="serviceAdd">
-        <option name="" value="<%= data[0][0]._id%>|<%= data[0][0].serviceName%>|<%=data[0][0].cost%>">  <%= data[0][0].serviceName%></option>
-        <%for(let i =1;i<data[0].length;i++){%>        
-            <option value="<%= data[0][i]._id%>|<%=data[0][i].serviceName%>|<%=data[0][i].cost%>">  <%= data[0][i].serviceName%></option>
-            <%}%>
-        </select>
-      <button id="addSvcButton">add+</button>
-     
-     
-     
-     
-      <form action="/renderInvoice" method="post">
+  
+   <div class="mainStyle">
+    <div class="eventBody">
+        <h2>open invoices</h2>
 
-          <select name="companyId" id="clientAdd">
-            
-              <%for(let i =0;i<data[1].length;i++){%>
-                <option value="<%= data[1][i]._id%>|<%= data[1][i].companyName%>">  <%= data[1][i].companyName%></option>
-                <%}%>
-                
-            </select>
-            <h2>Add a Message</h2>
-            <textarea name="invoiceMessage">
-                
-            </textarea>
-            
-            
-        
-        
-        
-        <div class="eventBody">
-        <div id="servicesAdded">Services Added:</div>
-    </div>
-    
-    
-    <div class="mainStyle">
-        <div class="eventBody">     
-            Invoiced Services
-            <div id="costsAdded"></div>           
-        </div>
-        
-        
-    </div>
-    <button type="submit()">render Invoice</button>
-</form>
+        <table style="border:1px dashed white">
+            <thead style="text-align: center;">
+               <th>id</th> 
+               <th>comapny</th> 
+               <th>due date</th> 
+            </thead>
+        <tbody>
 
-
-
-
-<div class="eventBody">
-        <h2>Invoice Drafts</h2>
-        <table>
-    <tr><th></th></tr>
-    
-    <%for(let i=0;i<data[2].length;i++){%>
-        <%if(data[2][i].status.draft==true){%>
-        <tr>
-<td> <%=  data[2][i].invData.companyId.split('|')[1]%></td>
-<td>$ <%= data[2][i].invTotal%>.00</td>
-  <td> <%=new Date(data[2][i].date).toLocaleDateString()%></td>
-<td><a href="/invoiceViewer/<%=data[2][i]._id%>">preview</a></td>
-<td><form action="/invDelete" method="post"><input hidden name="invId"value="<%=data[2][i]._id%>"type="text"><button type="submit()">delete invoice</button></form></td>
-<td><form action="/invSend/<%=data[2][i]._id%>" method="post">
-    <input hidden name="invId"value="<%=data[2][i]._id%>"type="text">
-    <button type="submit()">send</button></form></td>
-
-
+        <%if(typeof data[2]=='object' && data[2]){%>
+           <%for(let i=0;i<data[2].length;i++){%>
+            <%if(data[2][i].status.draft==false){%>
+           
+<!---->
+<tr>
+   <td> <%=data[2][i]._id%></td>
+   <td> <%=data[2][i].invData.companyId%></td>
+  <td><%=data[2][i].status.due%></td>
 </tr>
-<%}%>
-<%}%>
-</table>
+
+<!---->
+            <%}%>
+            <%}%>
+            <%}%>
+        </tbody>
+    </table>
     </div>
-    
-    <!-- Add more rows as needed --->
-    
-    
-    
+   </div>
 
 
 
@@ -101,10 +58,19 @@
 
 
 
-</div>
 
 
-</div>
+
+
+
+
+
+
+
+
+
+
+
 <script>
     
     function listeners(){

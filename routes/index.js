@@ -7,6 +7,7 @@ const router = express.Router();
 const marketRouter =require('./market');
 const handlerRouter = require('./crud/handlerRouter');
 const invoiceRouter = require('./invoice/invoice');
+const dashboardRouter = require('./dashboard/dashboard');
 const auth = require('./auth');
 const accountsRouter = require('./auth/accounts');
 const registerRouter = require('./register');
@@ -27,6 +28,7 @@ router.use('/',linksRouter);
 router.use('/',accountsRouter);
 router.use('/market',marketRouter);
 router.use('/',invoiceRouter);
+router.use('/',dashboardRouter);
 /////////////////////
 
 

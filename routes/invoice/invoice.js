@@ -162,9 +162,19 @@ router.post('/invSend/:_id',(req,res)=>{
   console.log(req.url)
 ///////////////////////////
 async function main(){  
-  try {      
+  try { 
+    const today = new Date()
+    const dueDate = new Date(today.getTime()+(15*24*60*60*1000))    
     await createUser(client,
-     { status:{draft:false, published:Date()},
+     { status:{
+      draft:false, 
+      published:new Date(),
+      due:dueDate,
+      paid:false,
+      delinquent:false,
+      partialPayments:0
+    
+    },
      
     },
       ObjectId(req.body.invId));
