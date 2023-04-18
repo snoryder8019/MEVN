@@ -1,6 +1,6 @@
 {
   "name": "W2_Marketing_MEVN_App",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "private": true,
   "scripts": {
     "start": "nodemon --trace-warnings ./bin/www",
@@ -13,6 +13,7 @@
     "connect-mongo": "^4.6.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
+    "csvtojson": "^2.0.10",
     "debug": "~2.6.9",
     "dotenv": "^16.0.0",
     "ejs": "^3.1.7",

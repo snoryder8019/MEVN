@@ -17,59 +17,71 @@
       <a href="/services"><button>services</button></a>
       <a href="/accounts"><button>accounts</button></a>
       <a href="/admin"><button>admin</button></a>
-      <a href="/invoice"><button>invoice</button></a>
-      <select name="serviceNameDrop" id="serviceAdd">
-        <option name="" value="<%= data[0][0]._id%>|<%= data[0][0].serviceName%>|<%=data[0][0].cost%>">  <%= data[0][0].serviceName%></option>
-        <%for(let i =1;i<data[0].length;i++){%>        
-            <option value="<%= data[0][i]._id%>|<%=data[0][i].serviceName%>|<%=data[0][i].cost%>">  <%= data[0][i].serviceName%></option>
-            <%}%>
-        </select>
-      <button id="addSvcButton">add+</button>
+      <a href="/dashboard"><button>dashboard</button></a>
+      
+      
+      
+    
      
      
      
-     
+     <div class="eventBody">
       <form action="/renderInvoice" method="post">
-
-          <select name="companyId" id="clientAdd">
-            
-              <%for(let i =0;i<data[1].length;i++){%>
+        <div class="eventBody">
+        <h2>step 1: select company</h2>
+        <select name="companyId" id="clientAdd">            
+            <%for(let i =0;i<data[1].length;i++){%>
                 <option value="<%= data[1][i]._id%>|<%= data[1][i].companyName%>">  <%= data[1][i].companyName%></option>
                 <%}%>
                 
             </select>
-            <h2>Add a Message</h2>
-            <textarea name="invoiceMessage">
-                
-            </textarea>
+          <div class="eventBody">
+            <h2>step 2: select services</h2>
+            <select name="serviceNameDrop" id="serviceAdd">
+                <option name="" value="<%= data[0][0]._id%>|<%= data[0][0].serviceName%>|<%=data[0][0].cost%>">  <%= data[0][0].serviceName%></option>
+                <%for(let i =1;i<data[0].length;i++){%>        
+                    <option value="<%= data[0][i]._id%>|<%=data[0][i].serviceName%>|<%=data[0][i].cost%>">  <%= data[0][i].serviceName%></option>
+                    <%}%>
+                </select>
+              <input type="button" value="click + add multiple services" id="addSvcButton">
+            </div>
+            </div>
+              <div class="eventBody">
+                <div hidden id="servicesAdded">Invoice data to render:</div>
+                <div id="costsAdded"></div>           
+                <h3>Step 3: (optional) Add a Message</h3>
+                <textarea name="invoiceMessage">
+                    
+                </textarea>
+            </div>
+           
+
+        
             
             
         
         
-        
-        <div class="eventBody">
-        <div id="servicesAdded">Services Added:</div>
-    </div>
-    
-    
-    <div class="mainStyle">
-        <div class="eventBody">     
-            Invoiced Services
-            <div id="costsAdded"></div>           
-        </div>
-        
-        
-    </div>
+  
+          
+      <h3>step 4: render invoice</h3>
     <button type="submit()">render Invoice</button>
 </form>
-
+</div>
 
 
 
 <div class="eventBody">
         <h2>Invoice Drafts</h2>
+     
         <table>
-    <tr><th></th></tr>
+    <tr>
+        <th>company</th>
+        <th>invoice total</th>
+        <th>date</th>
+        <th>preview</th>
+        <th>delete</th>
+        <th>process</th>
+    </tr>
     
     <%for(let i=0;i<data[2].length;i++){%>
         <%if(data[2][i].status.draft==true){%>
@@ -81,7 +93,7 @@
 <td><form action="/invDelete" method="post"><input hidden name="invId"value="<%=data[2][i]._id%>"type="text"><button type="submit()">delete invoice</button></form></td>
 <td><form action="/invSend/<%=data[2][i]._id%>" method="post">
     <input hidden name="invId"value="<%=data[2][i]._id%>"type="text">
-    <button type="submit()">send</button></form></td>
+    <button type="submit()">process</button></form></td>
 
 
 </tr>

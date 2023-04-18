@@ -13,34 +13,40 @@
   <%- include('config/header.ejs')%>
    
       
-      <h1 class="h1Span">INVOICE GEN</h1>
+      <h1 class="h1Span">DASHBOARD</h1>
       <a href="/services"><button>services</button></a>
       <a href="/accounts"><button>accounts</button></a>
       <a href="/admin"><button>admin</button></a>
-      <a href="/dashboard"><button>dashboard</button></a>
+
       <a href="/invoice"><button>invoice</button></a>
+      <a href="/transactions"><button>transactions</button></a>
   
    <div class="mainStyle">
     <div class="eventBody">
         <h2>open invoices</h2>
 
         <table style="border:1px dashed white">
-            <thead style="text-align: center;">
-               <th>id</th> 
+            <thead style="text-align: center;">           
                <th>comapny</th> 
+               <th>inv total</th> 
+               <th>partial payments</th>
                <th>due date</th> 
+               <th>mark paid</th>
             </thead>
         <tbody>
 
         <%if(typeof data[2]=='object' && data[2]){%>
            <%for(let i=0;i<data[2].length;i++){%>
-            <%if(data[2][i].status.draft==false){%>
+            <%if(data[2][i].status.paid==false){%>
+
            
-<!---->
+<!--.toLocaleDateString()-->
 <tr>
-   <td> <%=data[2][i]._id%></td>
-   <td> <%=data[2][i].invData.companyId%></td>
-  <td><%=data[2][i].status.due%></td>
+   <td style="border:1px dashed white"> <%=data[2][i].invData.companyId.split('|')[1]%></td>
+   <td style="border:1px dashed white"> <%=data[2][i].invTotal%></td>
+   <td style="border:1px dashed white"> <%=data[2][i].partialPayments%></td>
+  <td style="border:1px dashed white"><%=data[2][i].due.toLocaleString()%></td>
+  <td style="border:1px dashed white"><form action="/markPaid"method="post"><input hidden type="text"name="_id" value="<%=data[2][i]._id%>"><button>paid</button></form></td>
 </tr>
 
 <!---->
@@ -50,6 +56,54 @@
         </tbody>
     </table>
     </div>
+
+
+
+    <div class="eventBody">
+        <h2>paid invoices</h2>
+
+        <table style="border:1px dashed white">
+            <thead style="text-align: center;">
+                <th>comapny</th> 
+                <th>total paid</th> 
+              
+               <th>payment date</th> 
+               <th>mark paid</th>
+            </thead>
+        <tbody>
+
+        <%if(typeof data[2]=='object' && data[2]){%>
+           <%for(let i=0;i<data[2].length;i++){%>
+            <%if(data[2][i].status.paid==true){%>
+
+           
+<!--.toLocaleDateString()-->
+<tr>
+
+   <td style="border:1px dashed white"> <%=data[2][i].invData.companyId.split('|')[1]%></td>
+   <td style="border:1px dashed white"> <%=data[2][i].invTotal%></td>
+
+  <td style="border:1px dashed white"><%=new Date(data[2][i].paymentDate).toLocaleString()%></td>
+  <td style="border:1px dashed white"><form action="/unPaid"method="post"><input hidden type="text"name="_id" value="<%=data[2][i]._id%>"><button>revert</button></form></td>
+</tr>
+
+<!---->
+            <%}%>
+            <%}%>
+            <%}%>
+        </tbody>
+    </table>
+    </div>
+
+
+
+
+<div class="eventBody"><button>add account category</button></div>
+<div class="eventBody"><button>add banking service</button></div>
+<div class="eventBody"><button>undo upload, remove all this stuff we added</button></div>
+
+
+
    </div>
 
 

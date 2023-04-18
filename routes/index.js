@@ -14,11 +14,13 @@ const registerRouter = require('./register');
 const linksRouter = require('./links');
 const w2adminRouter = require('./auth/w2admin');
 const adminRouter =require('./auth/admin');
+const transactionsRouter = require('./transactions/transactions');
 
 router.use('/',(req,res, next)=>{next()})
 
 
 
+router.use('/',transactionsRouter);
 router.use("/auth",auth);
 router.use('/crud',handlerRouter);
 router.use('/',registerRouter);
@@ -29,6 +31,7 @@ router.use('/',accountsRouter);
 router.use('/market',marketRouter);
 router.use('/',invoiceRouter);
 router.use('/',dashboardRouter);
+
 /////////////////////
 
 

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    
+    <%- include('config/head.ejs')%>
+<!--GOOGLE-->
+<meta name="google-site-verification" content="Pvp74_YXTw6uwsBP-6pTFmbwnjXD7_zXP-WUG4FpWU8" />
+<!--end-->
+</head>
+<body onload="listeners()">   
+  <%- include('config/bkgdImg.ejs')%>            
+
+  <%- include('config/header.ejs')%>
+   
+      
+      <h1 class="h1Span">TRANSACTIONS</h1>
+      <a href="/services"><button>services</button></a>
+      <a href="/accounts"><button>accounts</button></a>
+      <a href="/admin"><button>admin</button></a>
+
+      <a href="/invoice"><button>invoice</button></a>
+      <a href="/dashboard"><button>dashboard</button></a>
+  
+      <div class="mainStyle">
+
+<div class="eventBody">
+<h1> transactions</h1>
+
+<div class="eventBody">
+    <form action="/csvUpload" method="post" enctype="multipart/form-data">
+        <input type="file" name="csv">
+        <button type="submit">Upload</button>
+      </form>
+      <h3>add transaction category</h3>
+      <h3>add co invoiced from clients</h3>
+
+
+
+</div>
+
+<table style="border:1px dashed white">
+    <thead style="text-align: center;">           
+       <th>date</th> 
+       <th>ammount</th> 
+       <th>categorize</th> 
+       <th>co invoiced</th> 
+       <th>memo</th> 
+       <th>info</th> 
+   
+    </thead>
+<tbody>
+
+<%for(let i =0;i<data[4].length;i++){%>
+<tr>
+    <td style="width:10%; border:1px dashed white">  <%=data[4][i].DTPOSTED%></td>
+    
+    
+    <td  style="width:10%; border:1px dashed white">$ <%=data[4][i].TRANAMT%></td>
+    <td style="width:10%; border:1px dashed white">  categorize</td>
+    <td style="width:10%; border:1px dashed white">  co Invoiced</td>
+    <td style="border:1px dashed white"> <%=data[4][i].MEMO%></td>
+    <td style="border:1px dashed white"> <%=data[4][i].NAME%></td>
+</tr>
+<%}%>
+</tbody>
+</table>
+</div>
+
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+    
+    function listeners(){
+        const servicesAdded = document.getElementById('servicesAdded')
+        const costsAdded = document.getElementById('costsAdded')
+        const namesAdded = document.getElementById('namesAdded')
+        const serviceAdd = document.getElementById('serviceAdd')
+        const clientAdd = document.getElementById('clientAdd')
+        const addSvcButton = document.getElementById('addSvcButton')
+        serviceAdd.addEventListener('change', svcChange)
+        addSvcButton.addEventListener('click', svcAdd)
+    }
+    
+    function svcChange(){
+        console.log(event.target.value)
+    }
+    function svcAdd(){
+    console.log(`added ${serviceAdd.value}`)
+    //ADD NAMES AND COSTS
+   const svcId =  serviceAdd.value.split('|')[0] 
+   const svcNamer =  serviceAdd.value.split('|')[1] 
+  const svcCost =  serviceAdd.value.split('|')[2] 
+  const svcData = {  }
+///////SERVICES TABLE///////
+const tRow = document.createElement('div')
+const totalcostEl= document.createElement('h3')
+const namesEl= document.createElement('h3')
+const costText = document.createTextNode(svcCost)
+const namesText = document.createTextNode(svcNamer)
+namesEl.appendChild(namesText)
+totalcostEl.appendChild(costText)
+tRow.appendChild(namesEl)
+tRow.appendChild(totalcostEl)
+   costsAdded.appendChild(tRow)
+   //////////
+   
+  
+   
+    //ADD INPUT ELEMENTS FOR SERVICES
+   const inputEl = document.createElement('input');
+   inputEl.setAttribute('type','text')
+   inputEl.setAttribute('name','serviceName')
+   inputEl.setAttribute('value', serviceAdd.value ) 
+   const hrefEl = document.createElement('button')
+   hrefEl.setAttribute('onclick',`remove(${serviceAdd.value})`)
+   servicesAdded.appendChild(inputEl, hrefEl)
+
+
+}
+</script>
+</body> </html>

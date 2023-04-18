@@ -69,8 +69,7 @@ router.post('/renderInvoice',(req,res)=>{
     date:Date.now(),
     status:{
       paid:false,
-      draft:true,
-      published:false,
+      draft:true,     
       delinquent:false
      }
      }
@@ -166,15 +165,14 @@ async function main(){
     const today = new Date()
     const dueDate = new Date(today.getTime()+(15*24*60*60*1000))    
     await createUser(client,
-     { status:{
-      draft:false, 
-      published:new Date(),
+     {published:new Date(),
+      partialPayments:0 ,
       due:dueDate,
+      status:{
+      draft:false,    
       paid:false,
-      delinquent:false,
-      partialPayments:0
-    
-    },
+      delinquent:false,       
+    }
      
     },
       ObjectId(req.body.invId));
