@@ -182,9 +182,24 @@ async function main(){
 main().catch(console.error);  
 async function createUser(client,options,id){
  const result = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+"_invoice").updateOne({"_id":id},{$set:options},{upsert:true});
- const result0 = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+"_invoice").findOne({"_id":id});
+ let result0 = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+"_invoice").findOne({"_id":id});
  const compId=ObjectId(result0.invData.companyId.split('|')[0])
- const result1 = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+"_clients").findOne({"_id":compId});
+ let result1 = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+"_clients").findOne({"_id":compId});
+const invTotal = parseFloat(result0.invTotal)
+
+ let newBalance= parseFloat(result1.status.balance)
+ console.log(invTotal)
+ const totalBalance =newBalance + invTotal;
+ console.log(newBalance)
+ 
+ const update = {
+  status:{
+    active:true,
+    balance:totalBalance,
+  }
+ }
+ const updateClient = await client.db(config.DB_NAME).collection(`${config.COLLECTION_SUBPATH}_clients`).updateOne({"_id":compId},{$set:update},{upsert:false})
+ 
  const invMessage = result0.invData.invoiceMessage
  console.log(compId)
  console.log(result1)
@@ -222,6 +237,8 @@ async function createUser(client,options,id){
             cid:'image1'
       }]
       };
+      console.log(`emailInvoice option: ${req.body.emailInvoice}`)
+      if(req.body.emailInvoice=='on'){
       transporter.sendMail(mailOptions,function(error,info){
           if(error){
               console.log("transporter "+error);
@@ -231,7 +248,9 @@ async function createUser(client,options,id){
           console.log('email sent'+ info.response)
           }
         
-        })}
+        })
+}
+      }
         res.redirect('../invoice')
         // const messagingServiceSid = 'MG3fbb6ed2b097681e40887cfd1074546a'
       // const numbers = ['+16822414402','+16822305399','+13164612854','+19708159071','+19708045477','+19704059223','+19704056437','+19705766661','+17204292175','+19705902540','+19704054192']

@@ -41,7 +41,8 @@ const invCollections = {
     1: '_clients',
     2:'_invoice',
     3:'_options',
-    4:'_transactions'
+    4:'_transactions',
+    5:'_transCat'
   };
 //
   router.get('/transactions',isAddy,getHandler(invCollections,'transactions'));
@@ -53,8 +54,8 @@ const invCollections = {
 router.post('/csvUpload',isAddy, upload.single('csv'),async (req, res) => {
     try {
         const filePath = req.file.path;
-        const data = await csvtojson().fromFile(filePath);
-        const result = await client.db(config.DB_NAME).collection(`${config.COLLECTION_SUBPATH}_transactions`).insertMany(data);
+        const data = await csvtojson().fromFile(filePath);    
+       // const result = await client.db(config.DB_NAME).collection(`${config.COLLECTION_SUBPATH}_transactions`).insertMany(data);
        // res.sendStatus(200);
        console.log(result)
       } catch (err) {
@@ -62,7 +63,38 @@ router.post('/csvUpload',isAddy, upload.single('csv'),async (req, res) => {
        res.redirect('dashboard');
       }
     });
-
+router.post('/addTransCat',(req,res)=>{
+  async function transAdd(){
+    const id = ObjectId(req.body._id)
+    try{transPlant(client,id,{
+    transType: req.body.transType
+    })}
+    catch (error){console.log(error)}
+    }
+  
+  transAdd().catch(console.error);
+  async function transPlant(client,options){
+    const result = await client.db(config.DB_NAME).collection(`${config.COLLECTION_SUBPATH}_transCat`).insertOne(options)
+ console.log(result)
+ res.redirect('transactions')
+}}
+  )
+router.post('/updateTransCat/:id',(req,res)=>{
+  async function transAdd(){
+    const url = req.url.split('/')[2]
+  const id = ObjectId(url)
+    const options = req.body
+    try{transPlant(client,id,options)}
+    catch (error){console.log(error)}
+    }
+    
+    transAdd().catch(console.error);
+    async function transPlant(client,id,body){
+      const result = await client.db(config.DB_NAME).collection(`${config.COLLECTION_SUBPATH}_transactions`).updateOne({"_id":id},{$set:body},{upsert:false})
+      console.log(result)
+  res.redirect('../transactions')
+  }}
+  )
 
 //////////
 

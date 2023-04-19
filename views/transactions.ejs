@@ -26,6 +26,67 @@
 <div class="eventBody">
 <h1> transactions</h1>
 
+
+
+<table style="border:1px dashed white">
+    <thead style="text-align: center;">           
+       <th>date</th> 
+       <th>ammount</th> 
+       <th>categorize</th> 
+       <th>co invoiced</th> 
+       <th>memo</th> 
+       <th>info</th> 
+       <th>update</th> 
+   
+    </thead>
+    <tbody>
+        
+        <%for(let i =0;i<data[4].length;i++){%>
+            <form action="/updateTransCat/<%=data[4][i]._id%>"method="post">
+<%if(data[4][i].TRANAMT<0){%>
+    <tr style="background-color:rgba(232, 185, 180, 0.381)">
+    <%}else{%>
+        <tr style="background-color:rgba(144, 238, 144, 0.162)">
+    <%}%>
+    <td style="width:10%; border:1px dashed white">  <%=data[4][i].DTPOSTED%></td>
+    <td  style="width:10%; border:1px dashed white">$ <%=data[4][i].TRANAMT%></td>   
+    <td style="width:10%; border:1px dashed white">        
+        <select name="transType">
+              <option value="<%=data[4][i].transType%>"><%=data[4][i].transType%></option>
+               <%for(let i =0;i<data[5].length;i++){%>
+            <option value="<%=data[5][i].transType%>"><%=data[5][i].transType%></option>
+            <%}%>
+        </select>
+        </td>
+        <td style="width:10%; border:1px dashed white">       
+            <select name="invClient">
+                <%if(typeof data[4][i]=='object' && data[4][i].invClient){%>
+                    <option value="<%=data[4][i].invClient%>"><%=data[4][i].invClient%></option>
+                    <%}else{%>
+                <option value="none">none to invoice</option>
+                <%}%>
+                <%for(let i =0;i<data[1].length;i++){%>
+                <option value="<%=data[1][i].companyName%>"><%=data[1][i].companyName%></option>
+                <%}%>
+            </select>
+            </td>
+
+    <td style="width:20%; border:1px dashed white"> <input name="transMemo" value="<%=data[4][i].transMemo%>" type="text"></td>
+    <td style="border:1px dashed white"> <%=data[4][i].MEMO%></td>
+    <td style="border:1px dashed white"><button type="submit()">update</button></td>
+</tr>
+</form>
+<%}%>
+</tbody>
+</table>
+</div>
+<div class="eventBody">
+    <form action="/addTransCat"method="post">
+        <h2>Add transaction category</h2>
+<input type="text" name="transType">
+<button type="submit">add</button>
+    </form>
+</div>
 <div class="eventBody">
     <form action="/csvUpload" method="post" enctype="multipart/form-data">
         <input type="file" name="csv">
@@ -37,35 +98,6 @@
 
 
 </div>
-
-<table style="border:1px dashed white">
-    <thead style="text-align: center;">           
-       <th>date</th> 
-       <th>ammount</th> 
-       <th>categorize</th> 
-       <th>co invoiced</th> 
-       <th>memo</th> 
-       <th>info</th> 
-   
-    </thead>
-<tbody>
-
-<%for(let i =0;i<data[4].length;i++){%>
-<tr>
-    <td style="width:10%; border:1px dashed white">  <%=data[4][i].DTPOSTED%></td>
-    
-    
-    <td  style="width:10%; border:1px dashed white">$ <%=data[4][i].TRANAMT%></td>
-    <td style="width:10%; border:1px dashed white">  categorize</td>
-    <td style="width:10%; border:1px dashed white">  co Invoiced</td>
-    <td style="border:1px dashed white"> <%=data[4][i].MEMO%></td>
-    <td style="border:1px dashed white"> <%=data[4][i].NAME%></td>
-</tr>
-<%}%>
-</tbody>
-</table>
-</div>
-
       </div>
 
 
