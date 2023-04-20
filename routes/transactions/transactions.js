@@ -58,9 +58,9 @@ router.post('/csvUpload',isAddy, upload.single('csv'),async (req, res) => {
         const result = await client.db(config.DB_NAME).collection(`${config.COLLECTION_SUBPATH}_transactions`).insertMany(data);
        // res.sendStatus(200);
       
+       res.redirect('transactions');
       } catch (err) {
         console.log(err);
-       res.redirect('dashboard');
       }
     });
 router.post('/addTransCat',(req,res)=>{
