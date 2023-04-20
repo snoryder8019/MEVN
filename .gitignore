@@ -5,7 +5,9 @@
 
 /php
 
-/public/images
+/public/images/*
+/public/images/background.png
+/public/images/logoW2.png
 
 /uploads
 /google52e38ec3d70db39d.html

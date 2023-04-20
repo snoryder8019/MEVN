@@ -95,7 +95,36 @@
       <h3>add transaction category</h3>
       <h3>add co invoiced from clients</h3>
 
+dd
 
+</div>
+<div class="EventBody">
+<form action="/manualTransaction" method="post">
+   
+      
+ 
+    <h2> <%= Object.keys(data[4][0])[2]%></h2>
+        <input type="date" id="date-input" name="DTPOSTED" pattern="\d{2}-\d{2}-\d{4}" required>
+        <h2> <%= Object.keys(data[4][0])[3]%></h2>
+ <input name="TRANAMT">
+        <h2> <%= Object.keys(data[4][0])[6]%></h2>
+ <input name="MEMO">
+        <select name="transType">
+             
+               <%for(let i =0;i<data[5].length;i++){%>
+            <option value="<%=data[5][i].transType%>"><%=data[5][i].transType%></option>
+            <%}%>
+        </select>
+        scott-make this dynamic
+       
+        <select name="invClient"  class="invClient">
+            <option value="none">none</option>
+            <%for(let i =0;i<data[1].length;i++){%>
+                <option value="<%=data[1][i].companyName%>"><%=data[1][i].companyName%></option>
+                <%}%>
+            </select>
+    <button typew ="submit">submit</button>
+</form>
 
 </div>
       </div>

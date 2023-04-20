@@ -97,7 +97,20 @@ router.post('/updateTransCat/:id',(req,res)=>{
   )
 
 //////////
-
+router.post('/manualTransaction',(req,res)=>{
+  async function createTrans(){
+    const options = req.body
+    console.log(options)
+    try{addTrans(client,options)}
+    catch(error){console.log(error)}
+  }
+  createTrans().catch(console.error);
+  async function addTrans(client,options){
+    const response = await client.db(config.DB_NAME).collection(`${config.COLLECTION_SUBPATH}_transactions`).insertOne(options)
+  console.log(response)
+  res.redirect('transactions')
+  }
+})
 
 
   module.exports =router
