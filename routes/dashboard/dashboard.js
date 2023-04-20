@@ -140,7 +140,7 @@ const invCollections = {
        console.log(finalCli)//this works
        console.log(finalInv)//this works
        // const result = await client.db(config.DB_NAME).collection(`${config.COLLECTION_SUBPATH}_invoice`).updateOne({"_id":payParams.id},{$set:params.status},{$upsert:false})
-       // res.redirect('dashboard')
+        res.redirect('dashboard')
     }
       })
   
