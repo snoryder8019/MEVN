@@ -12,6 +12,7 @@ const auth = require('./auth');
 const accountsRouter = require('./auth/accounts');
 const registerRouter = require('./register');
 const linksRouter = require('./links');
+const cliDashRouter = require('./clientDashboard');
 const w2adminRouter = require('./auth/w2admin');
 const adminRouter =require('./auth/admin');
 const transactionsRouter = require('./transactions/transactions');
@@ -31,6 +32,7 @@ router.use('/',accountsRouter);
 router.use('/market',marketRouter);
 router.use('/',invoiceRouter);
 router.use('/',dashboardRouter);
+router.use('/',cliDashRouter);
 
 /////////////////////
 

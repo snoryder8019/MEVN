@@ -62,6 +62,7 @@
             <select name="invClient">
                 <%if(typeof data[4][i]=='object' && data[4][i].invClient){%>
                     <option value="<%=data[4][i].invClient%>"><%=data[4][i].invClient%></option>
+                    <option value="none">none to invoice</option>
                     <%}else{%>
                 <option value="none">none to invoice</option>
                 <%}%>
