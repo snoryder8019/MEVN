@@ -14,6 +14,7 @@
    
       
   <h1 class="h1Span">Client's DASHBOARD</h1>
+  
   <div class="mainStyle">
    <div class="eventBody">
 
@@ -23,14 +24,15 @@
   <%=dash[0].phoneNumber%><br>
   <%=dash[0].businessAddress%><br>
 
-  <h2>Current Account Balance: $<%=dash[0].status.balance%>.00</h2><br>
 
-
-
-
-<br>
-<h2>invoices</h2>
-<table style="border:1px dotted white">
+  <% let paytotals =new Number(0)%>
+  
+  
+  
+  
+  <br>
+  <h2>invoices</h2>
+  <table style="border:1px dotted white">
     <thead>
         <th>view invoice</th>
         <th>inv total</th>
@@ -43,48 +45,52 @@
                 <tr>
                     <td style="border:1px dotted white"><a href="/invoiceViewer/<%=data[2][0][i]._id%>">view</a></td>
                     <td style="border:1px dotted white"> $ <%=data[2][0][i].invTotal%> .00</td>
-             <td style="border:1px dotted white">  <%=data[2][0][i].invData.companyId.split('|')[1]%></td>
-             <td style="border:1px dotted white">  <%=data[2][0][i].status.paid%></td>
-         
-            </tr>
-        <%}%>
-    <%}%>
-    </tbody>
+                    <td style="border:1px dotted white">  <%=data[2][0][i].invData.companyId.split('|')[1]%></td>
+                    <td style="border:1px dotted white">  <%=data[2][0][i].status.paid%></td>
+                    
+                </tr>
+                <%}%>
+                <%}%>
+            </tbody>
+            
+        </table>
+        <h2>payments</h2>
+        <table style="border:1px dotted white">
+            <thead>
+                <th style="border:1px dotted white">payment id</th>
+                <th style="border:1px dotted white">amount received</th>
+                <th style="border:1px dotted white">date posted</th>
+                <th style="border:1px dotted white">memo</th>
+            </thead>
+            <tbody>
+                <%for(let i=0;i<data[4][0].length;i++){%>
+                    <%if(data[4][0][i].invClient==dash[0].companyName){%>
+                        <tr>
+                            <td style="border:1px dotted white"><%=data[4][0][i]._id%></td>    
+                            <td style="border:1px dotted white"><%=data[4][0][i].TRANAMT%></td> 
 
-</table>
-<h2>payments</h2>
-<table style="border:1px dotted white">
-    <thead>
-        <th style="border:1px dotted white">payment id</th>
-        <th style="border:1px dotted white">amount received</th>
-        <th style="border:1px dotted white">date posted</th>
-        <th style="border:1px dotted white">memo</th>
-    </thead>
-    <tbody>
-        <%for(let i=0;i<data[4][0].length;i++){%>
-            <%if(data[4][0][i].invClient==dash[0].companyName){%>
-                <tr>
-           <td style="border:1px dotted white"><%=data[4][0][i]._id%></td>    
-           <td style="border:1px dotted white"><%=data[4][0][i].TRANAMT%></td>    
-           <td style="border:1px dotted white"><%=data[4][0][i].DTPOSTED%></td>    
-           <td style="border:1px dotted white"><%=data[4][0][i].MEMO%></td>    
-      
-            </tr>
-        <%}%>
-    <%}%>
-    </tbody>
-</table>
-
-
-
-
-        <p>a memo from scott: Thank you for checking out our newest services online. I am busy coding this business platform that helps keep us paperless, efficient and digital. This may be a broken version, and hoprefully by may it looks waaaaaay better next month! report issues at <a href="/tickets">W2 Tickets</a>
-        </p>
+                            <% paytotals=paytotals+ new Number(data[4][0][i].TRANAMT)%>   
+                            <td style="border:1px dotted white"><%=data[4][0][i].DTPOSTED%></td>            
+                            <td style="border:1px dotted white"><%=data[4][0][i].MEMO%></td>    
+                            
+                        </tr>
+                        <%}%>
+                        <%}%>
+                    </tbody>
+                </table>
+                
+                <h2>Updated Payments Total: $<%=paytotals%></h2><br>
+                
+                <h2>Current Account Balance: $<%=dash[0].status.balance-paytotals%></h2><br>
+                
+                
+<p>a memo from scott: Thank you for checking out our newest services online. I am busy coding this business platform that helps keep us paperless, efficient and digital. This may be a broken version, and hoprefully by may it looks waaaaaay better next month! report issues at <a href="/tickets">W2 Tickets</a>
+</p>
 <p>thank you for your patience with me this month!! </p>
-       
 
-    
-    </div>
+
+
+</div>
 
 
 

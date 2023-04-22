@@ -31,7 +31,8 @@
                <th>inv total</th> 
                <th>partial payments</th>
                <th>due date</th> 
-               <th>mark paid</th>
+               <th>actions</th>
+             
             </thead>
         <tbody>
 
@@ -49,6 +50,12 @@
   <td style="border:1px dashed white">
     <form action="/reDraft"method="post"><input hidden name="inv_id" type="text"value="<%=data[2][i]._id%>"><input hidden type="text"name="_id_client" value="<%=data[2][i].invData.companyId%>"><button>draft</button></form>
     <form action="/markPaid"method="post"><input hidden type="text"name="_id" value="<%=data[2][i]._id%>"><button>paid</button></form>
+    <form action="/notify"method="post">
+     
+        <input hidden type="text"name="notify_inv_id" value="<%=data[2][i]._id%>">
+        <input hidden type="text"name="notify_cust_id" value="<%=data[2][i].invData.companyId.split('|')[0]%>">
+        <button>notify</button>
+    </form>
 
 </td>
 </tr>

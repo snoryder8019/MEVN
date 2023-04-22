@@ -77,6 +77,8 @@ router.get('/clientDashboard/:id', async (req, res) => {
   async function dashData(client,collArray,dashInfo,id){
       const dash = await client.db(config.DB_NAME).collection(`${config.COLLECTION_SUBPATH}${collArray[1]}`).findOne({"_id":id});
       dashInfo.push(dash)
+      console.log(`balance: ${dash.status.balance}`)
+
       console.log(`dash: ${Object.keys(dashInfo[0])}`)
   }
   async function cliData(client, collArray, dataArray) {

@@ -20,16 +20,14 @@
 
       <a href="/invoice"><button>invoice</button></a>
       <a href="/dashboard"><button>dashboard</button></a>
-  
-      <div class="mainStyle">
-
+ 
 <div class="eventBody">
 <h1> transactions</h1>
 
 <%if(typeof data[4]=='object'&&data[4]){%>
 
-<table style="border:1px dashed white">
-    <thead style="text-align: center;">           
+<table>
+    <thead>           
        <th>date</th> 
        <th>ammount</th> 
        <th>categorize</th> 
@@ -37,6 +35,7 @@
        <th>memo</th> 
        <th>info</th> 
        <th>update</th> 
+       <th>delete</th> 
    
     </thead>
     <tbody>
@@ -48,9 +47,9 @@
     <%}else{%>
         <tr style="background-color:rgba(144, 238, 144, 0.162)">
     <%}%>
-    <td style="width:10%; border:1px dashed white">  <%=data[4][i].DTPOSTED%></td>
-    <td  style="width:10%; border:1px dashed white">$ <%=data[4][i].TRANAMT%></td>   
-    <td style="width:10%; border:1px dashed white">        
+    <td>  <%=data[4][i].DTPOSTED%></td>
+    <td id="tdMoney" class="total">$ <%=data[4][i].TRANAMT%></td>   
+    <td>        
         <select name="transType">
               <option value="<%=data[4][i].transType%>"><%=data[4][i].transType%></option>
                <%for(let i =0;i<data[5].length;i++){%>
@@ -58,7 +57,7 @@
             <%}%>
         </select>
         </td>
-        <td style="width:10%; border:1px dashed white">       
+        <td>       
             <select name="invClient">
                 <%if(typeof data[4][i]=='object' && data[4][i].invClient){%>
                     <option value="<%=data[4][i].invClient%>"><%=data[4][i].invClient%></option>
@@ -72,11 +71,12 @@
             </select>
             </td>
 
-    <td style="width:20%; border:1px dashed white"> <input name="transMemo" value="<%=data[4][i].transMemo%>" type="text"></td>
-    <td style="border:1px dashed white"> <%=data[4][i].MEMO%></td>
-    <td style="border:1px dashed white"><button type="submit()">update</button></td>
-</tr>
+    <td> <input name="transMemo" value="<%=data[4][i].transMemo%>" type="text"></td>
+    <td> <%=data[4][i].MEMO%></td>
+    <td><button type="submit()">update</button></td>
 </form>
+   <td><form action="delTrans"method="post"><input hidden name="transId" value="<%=data[4][i]._id%>" type="text"><button>delete</button></form></td>
+</tr>
 <%}%>
 </tbody>
 </table>
@@ -128,7 +128,7 @@ dd
 </form>
 
 </div>
-      </div>
+   
 
 
 

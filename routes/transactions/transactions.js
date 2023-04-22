@@ -95,6 +95,21 @@ router.post('/updateTransCat/:id',(req,res)=>{
   res.redirect('../transactions')
   }}
   )
+router.post('/delTrans',(req,res)=>{
+  async function transAdd(){
+  const transId = req.body.transId
+  const id = ObjectId(transId)   
+    try{transPlant(client,id)}
+    catch (error){console.log(error)}
+    }
+    
+    transAdd().catch(console.error);
+    async function transPlant(client,id){
+      const result = await client.db(config.DB_NAME).collection(`${config.COLLECTION_SUBPATH}_transactions`).deleteOne({"_id":id})
+      console.log(result)
+  res.redirect('../transactions')
+  }}
+  )
 
 //////////
 router.post('/manualTransaction',(req,res)=>{

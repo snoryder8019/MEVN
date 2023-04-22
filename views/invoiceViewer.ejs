@@ -23,7 +23,7 @@
   <%= data[1].businessAddress%></p>
     
          <h2> <span class="alert"> invoice total:  $ <%=data[2].invTotal%>.00</span><br>
-          invoice number: tbd<br>
+          invoice id#: <%=data[2]._id%><br>
       </h2>
        <div class="eventBody">
          <strong>service details:</strong><br>
@@ -57,7 +57,7 @@
         <li>Online payment: <a href="https://www.paypal.com"> paypal direct</a> to:<%=options[0].paypalEmail%></li>
     </ul>
     <p>if you have any questions abour invoicing, payment, or you may have seen a bug in this new service, all feedback helps, please let us know!!</p>
-    <p>"version": "1.1.0"</p>
+    <p>"version": "1.1.1"</p>
   </div>
 
      </div>   
