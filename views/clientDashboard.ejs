@@ -13,10 +13,9 @@
   <!--- include('config/header.ejs')%-->
    
       
-  <h1 class="h1Span">Client's DASHBOARD</h1>
-  
   <div class="mainStyle">
-   <div class="eventBody">
+      <div class="eventBody">
+      
 
   <h2><%=dash[0].companyName%><br></h2>
   <%=dash[0].contactName%><br>
@@ -35,6 +34,7 @@
   <table style="border:1px dotted white">
     <thead>
         <th>view invoice</th>
+        <th>date</th>
         <th>inv total</th>
         <th>company invoiced</th>
         <th>paid in full</th>
@@ -43,7 +43,8 @@
         <%for(let i=0;i<data[2][0].length;i++){%>
             <%if(data[2][0][i].invData.companyId.split('|')[0]==dash[0]._id){%>
                 <tr>
-                    <td style="border:1px dotted white"><a href="/invoiceViewer/<%=data[2][0][i]._id%>">view</a></td>
+                    <td style="border:1px dotted white">view: <a href="/invoiceViewer/<%=data[2][0][i]._id%>"><%=data[2][0][i].invData.companyId.split('|')[1].slice(0,3)+"-"+data[2][0][i]._id.toString().slice(-4)%></a></td>
+                    <td style="border:1px dotted white"> <%=new Date(data[2][0][i].date).toDateString()%></td>
                     <td style="border:1px dotted white"> $ <%=data[2][0][i].invTotal%> .00</td>
                     <td style="border:1px dotted white">  <%=data[2][0][i].invData.companyId.split('|')[1]%></td>
                     <td style="border:1px dotted white">  <%=data[2][0][i].status.paid%></td>
@@ -87,7 +88,7 @@
 <p>a memo from scott: Thank you for checking out our newest services online. I am busy coding this business platform that helps keep us paperless, efficient and digital. This may be a broken version, and hoprefully by may it looks waaaaaay better next month! report issues at <a href="/tickets">W2 Tickets</a>
 </p>
 <p>thank you for your patience with me this month!! </p>
-
+<img src="/images/logoW2.png" alt="" class="">
 
 
 </div>

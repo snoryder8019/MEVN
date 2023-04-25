@@ -12,10 +12,13 @@
   
   <div id="backgroundFX">    
       
-      <h1 class="h1Span"><%=options[0].companyName%> Invoice</h1>
+      <h1 class="h1Span"><%=options[0].companyName%> Invoice</h1><img src="/images/logoW2.png" alt="" class="">
+
 
       <div class="eventBody">
-        <h3>date: <%=new Date(data[2].date).toDateString()%><br></h3>
+        <h3>invoice date: <%=new Date(data[2].date).toDateString()%><br></h3>
+        <h4>  invoice id#: <%=data[1].companyName.slice(0,3)+"-"+data[2]._id.toString().slice(-4)%></h4><br>
+        
  <h2 class="logoFont">invoice to: <span class="alert"><%= data[1].companyName%></h2></span>
 <p> <%= data[1].phoneNumber%><br>
   attn: <%= data[1].contactName%><br>
@@ -23,20 +26,27 @@
   <%= data[1].businessAddress%></p>
     
          <h2> <span class="alert"> invoice total:  $ <%=data[2].invTotal%>.00</span><br>
-          invoice id#: <%=data[2]._id%><br>
       </h2>
        <div class="eventBody">
          <strong>service details:</strong><br>
        <% for(let i =0;i<data[0].length;i++){%>
         <table>
-   <tr>
-    <td><h3><%=data[0][i].serviceName%></h3></td>
-    <td>  <h3>   <span class="alert">$<%=data[0][i].cost%>.00</h3></span></td>
-    <td> <%=data[0][i].terms%></td>
-  </tr>
-  
+          <thead>
+            <th>name</th>
+            <th>cost</th>
+            <th>terms</th>
+            <th>details</th>
+          </thead>
+          <td><h3><%=data[0][i].serviceName%></h3></td>
+          <td>  <h3>   <span class="alert">$<%=data[0][i].cost%>.00</h3></span></td>
+          <td> <%=data[0][i].terms%></td>
+          
+          <td>
+            <%=data[0][i].serviceDetails%>
+          </td>
+          <tr>
+
   </table>
-    <%=data[0][i].serviceDetails%>
     <%}%>
   </div>
 
@@ -51,6 +61,60 @@
     <p><strong>Payment Policy Update:</strong> all invoices will be due 15 days after the invoice date. If payment is not received within 30 days of the invoice date, we will add a 1.5% late fee per 30 days to the outstanding balance.</p>
     </div>
     <div class="eventBody">
+    <h2>Pay Now:</h2>
+        <div id="paypal-button-container"></div>
+        <!-- Sample PayPal credentials (client-id) are included -->
+        <script src="https://www.paypal.com/sdk/js?client-id=<%=options[0].companyPaypal%>&currency=USD&intent=capture&enable-funding=venmo" data-sdk-integration-source="integrationbuilder"></script>
+        <script>
+          const paypalButtonsComponent = paypal.Buttons({
+              // optional styling for buttons
+              // https://developer.paypal.com/docs/checkout/standard/customize/buttons-style-guide/
+              style: {
+                color: "gold",
+                shape: "rect",
+                layout: "vertical"
+              },
+
+              // set up the transaction
+              createOrder: (data, actions) => {
+                  // pass in any options from the v2 orders create call:
+                  // https://developer.paypal.com/api/orders/v2/#orders-create-request-body
+                  const createOrderPayload = {
+                      purchase_units: [
+                          {
+                              amount: {
+                                  value: <%=data[2].invTotal%>
+                              }
+                          }
+                      ]
+                  };
+
+                  return actions.order.create(createOrderPayload);
+              },
+
+              // finalize the transaction
+              onApprove: (data, actions) => {
+                  const captureOrderHandler = (details) => {
+                      const payerName = details.payer.name.given_name;
+                      console.log('Transaction completed');
+                  };
+
+                  return actions.order.capture().then(captureOrderHandler);
+              },
+
+              // handle unrecoverable errors
+              onError: (err) => {
+                  console.error('An error prevented the buyer from checking out with PayPal');
+              }
+          });
+
+          paypalButtonsComponent
+              .render("#paypal-button-container")
+              .catch((err) => {
+                  console.error('PayPal Buttons failed to render');
+              });
+        </script>
+  
     <p>We offer the following payment options:</p>
     <ul>
         <li>Mail by check: Payable to <%=options[0].companyName%>, c/o: <%=options[0].companyContact%>, Mail to: <%=options[0].companyAddress%></li>

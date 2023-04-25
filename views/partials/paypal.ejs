@@ -4,7 +4,7 @@
 
         <div id="paypal-button-container"></div>
         <!-- Sample PayPal credentials (client-id) are included -->
-        <script src="https://www.paypal.com/sdk/js?client-id=AbffGFrddfuMXawcglxTT4_FACDovH6KC0Bqij8XdcllJg-0PXd1jOmhzuQgc4lY-04e41KZ2B2AfTMd&currency=USD&intent=capture&enable-funding=venmo" data-sdk-integration-source="integrationbuilder"></script>
+        <script src="https://www.paypal.com/sdk/js?client-id=<%options[0].companyPaypal%>&currency=USD&intent=capture&enable-funding=venmo" data-sdk-integration-source="integrationbuilder"></script>
         <script>
           const paypalButtonsComponent = paypal.Buttons({
               // optional styling for buttons
@@ -23,7 +23,7 @@
                       purchase_units: [
                           {
                               amount: {
-                                  value: <%=cartTotal%>
+                                  value: <%=data[2].invTotal%>
                               }
                           }
                       ]

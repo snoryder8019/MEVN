@@ -13,7 +13,7 @@
         <!----LANDING PAGE CLASS IS GRID DISPLAY-->
         <!----LARGE SCREEN 4 GRID !!!! MEDIUM SCREEN 3 GRID !!!!! SMALL 2 and single GRID-->
  <%if(typeof data[1][0] == 'object'&& data[1][0].imgName){%>
-        <div id="imgPrev"" class="imgPreviewDiv"><img class="imgPreview" src="/<%= data[1][0].imgName%>" alt=""></div>
+        <div id="imgPrev" style="z-index:-15" class="imgPreviewDiv"><img class="imgPreview" src="/<%= data[1][0].imgName%>" alt=""></div>
  <%}%>
         <div class="landingPage">
             <div class="eventBody">

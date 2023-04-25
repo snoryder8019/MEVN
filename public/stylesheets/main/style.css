@@ -129,14 +129,6 @@
     text-align: justify;
   }
 }
-#paypal-button-container {
-  display: none;
-}
-
-#checkoutShrink {
-  display: none;
-}
-
 .cart {
   overflow-y: scroll;
   display: none;
