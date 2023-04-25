@@ -7,27 +7,118 @@
     <%- include('config/header.ejs')%>
     <body>
 <div class="eventBody"><br></div>
-<div class="eventBody">open tickets</div>
 
 <div class="eventBody">
-<table>
-  <thead>
-    <th>issue</th>
-    <th>source</th>
-    <th>IP</th>
-    <th>status</th>
-  </thead>
-  <tbody>
-<%for(let i=0;i<tickets.length;i++){%>
-<tr>
-  <td> <%=tickets[i].issue%></td>
-  <td> <%=tickets[i].source%></td>
-  <td> <%=tickets[i].reportersId%></td>
-  <td> <%=tickets[i].status.open%></td>  
-  <td> <%=Date(tickets[i].status.date)%></td>  
+  <div class="eventBody">open tickets</div>
+  <table>
+    <thead>
+      <th>owner</th>
+      <th>issue</th>
+      <th>source</th>
+      <th>IP</th>
+      <th>status</th>
+      <th>resolved</th>
+      <th>notes</th>
+      <th>date/delete</th>
+    </thead>
+    <tbody>
+      <%for(let i=0;i<tickets.length;i++){%>
+        <%if(tickets[i].status.open==true){%>
+          <tr>
+            <td> <%=tickets[i].reportOwner%></td>
+            <td> <%=tickets[i].issue%></td>
+          <td> <%=tickets[i].source%></td>
+          <td> <%=tickets[i].reportersId%></td>
+          <td><%=tickets[i].status.open%>        <form action="/closeTicket" method="post">
+            <input hidden name="ticketId" type="text" value="<%=tickets[i]._id%>"> 
+             <button type="submit">fixed</button>
+             </form>
+            </td>
+            <td><%=tickets[i].status.resolved%>        <form action="/unresolvedTicket" method="post">
+              <input hidden name="ticketId" type="text" value="<%=tickets[i]._id%>"> 
+              <button type="submit">no fix</button>
+          </form></td>
+      
+          <td>  <form action="/updateTicket" method="post">
+            <input type="text" name="devNotes" value="<%=tickets[i].devNotes%>">
+        
+            <input hidden name="ticketId" type="text" value="<%=tickets[i]._id%>"> 
+            <button type="submit">notate</button>             
+          </form>  
+        </td>
+            <td>
+              <%=Date(tickets[i].status.date)%>
+            </td>  
+            <td> 
+              
+              
+              <form action="/deleteTicket" method="post">
+                <input hidden name="ticketId" type="text" value="<%=tickets[i]._id%>"> 
+                <button type="submit">delete</button>
+              </form>
+            </td>
 </tr>
 
 <%}%>
+<%}%>
+
+</tbody>
+</table>
+</div>
+
+<div class="eventBody">
+  <div class="eventBody">closed tickets</div>
+  <table>
+    <thead>
+      <th>owner</th>
+      <th>issue</th>
+      <th>source</th>
+      <th>IP</th>
+      <th>status</th>
+      <th>resolved</th>
+      <th>notes</th>
+      <th>date/delete</th>
+    </thead>
+    <tbody>
+      <%for(let i=0;i<tickets.length;i++){%>
+     <%if(tickets[i].status.open==false){%>
+      <tr>
+        <td> <%=tickets[i].reportOwner%></td>
+        <td> <%=tickets[i].issue%></td>
+          <td> <%=tickets[i].source%></td>
+          <td> <%=tickets[i].reportersId%></td>
+          <td><%=tickets[i].status.open%>        <form action="/closeTicket" method="post">
+            <input hidden name="ticketId" type="text" value="<%=tickets[i]._id%>"> 
+             <button type="submit">fixed</button>
+             </form>
+          </td>
+          <td><%=tickets[i].status.resolved%>        <form action="/unresolvedTicket" method="post">
+            <input hidden name="ticketId" type="text" value="<%=tickets[i]._id%>"> 
+            <button type="submit">no fix</button>
+          </form></td>
+      
+          <td> <form action="/updateTicket" method="post">
+            <input type="text" name="devNotes" value="<%=tickets[i].devNotes%>">
+             <input hidden name="ticketId" type="text" value="<%=tickets[i]._id%>"> 
+          <button type="submit">notate</button>             
+          </form>  
+        </td>
+            <td>
+              <%=Date(tickets[i].status.date)%>
+            </td>  
+            <td> 
+    
+  
+          <form action="/deleteTicket" method="post">
+            <input hidden name="ticketId" type="text" value="<%=tickets[i]._id%>"> 
+             <button type="submit">delete</button>
+             </form>
+            </td>
+</tr>
+
+<%}%>
+<%}%>
+
 </tbody>
 </table>
 </div>

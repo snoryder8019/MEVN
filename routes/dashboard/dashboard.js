@@ -194,7 +194,7 @@ async function createUser(client,options,custid,invid){
           to:[result1.email+',w2marketing.scott@gmail.com,w2marketing.candace@gmail.com'],
           subject:`${config.COMPANY_NAME} ~ Courtesy Reminder for: ${result1.companyName}`,        
           
-          html:`<body style="margin:2%;padding:1%;text-align:center;background-color:black;color:white">
+          html:`<body style="margin:2%;padding:1%;text-align:center;background-color:black;color:white;">
           <img style="max-width:25%;transform:translateX(-75%);" src="cid:image1"><br>
           <h2>${config.COMPANY_NAME} ~ Avoid any Late Fees</h2><br>
           <h3>you can view your invoice at:</h3><br> 
@@ -226,7 +226,65 @@ async function createUser(client,options,custid,invid){
         res.redirect('../dashboard')
    });
 
+router.post('/updateTicket',(req,res)=>{
+  async function ticketUpdate(){
+    const id =ObjectId(req.body.ticketId)
+    try{await ticketGrab(client,{   
+    devNotes:req.body.devNotes, }   
+    ,id)}
+    catch (error){console.log(error)}
+  }
+  ticketUpdate().catch(console.error);
+  async function ticketGrab(client,options,id){
+   const response = await client.db(config.DB_NAME).collection('tickets_submission').updateOne({"_id":id},{$set:options},{upsert:false})
+    res.redirect('ticketsDashboard')
+  }
+})
+router.post('/unresolvedTicket',(req,res)=>{
 
+  async function ticketUpdate(){
+    const id =ObjectId(req.body.ticketId)
+    try{await ticketGrab(client,{
+      status:{open:false,resolved:false,resolveDate:Date.now()},
+ }   
+    ,id)}
+    catch (error){console.log(error)}
+  }
+  ticketUpdate().catch(console.error);
+  async function ticketGrab(client,options,id){
+   const response = await client.db(config.DB_NAME).collection('tickets_submission').updateOne({"_id":id},{$set:options},{upsert:false})
+    res.redirect('ticketsDashboard')
+  }
+})
+router.post('/closeTicket',(req,res)=>{
+
+  async function ticketUpdate(){
+    const id =ObjectId(req.body.ticketId)
+    try{await ticketGrab(client,{
+      status:{open:false,resolved:true,resolveDate:Date.now()},
+  }   
+    ,id)}
+    catch (error){console.log(error)}
+  }
+  ticketUpdate().catch(console.error);
+  async function ticketGrab(client,options,id){
+   const response = await client.db(config.DB_NAME).collection('tickets_submission').updateOne({"_id":id},{$set:options},{upsert:false})
+    res.redirect('ticketsDashboard')
+  }
+})
+router.post('/deleteTicket',(req,res)=>{
+
+  async function ticketUpdate(){
+    const id =ObjectId(req.body.ticketId)
+    try{await ticketGrab(client,id)}
+    catch (error){console.log(error)}
+  }
+  ticketUpdate().catch(console.error);
+  async function ticketGrab(client,id){
+   const response = await client.db(config.DB_NAME).collection('tickets_submission').deleteOne({"_id":id})
+    res.redirect('ticketsDashboard')
+  }
+})
 
 
 
