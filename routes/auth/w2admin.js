@@ -75,4 +75,19 @@ router.post('/postTicket',(req,res)=>{
 /////////////////////////////////  
 ///////////////ACCOUNTS.JS//////////////////
   //////////////////////////////
+
+  router.post('/checkoutHook',(req,res)=>{
+    console.log(req.body)
+    async function checkoutHook(){
+      try{await getCheckout(client,{
+        paypalData:req.body
+      })}
+      catch(error){console.log(error)}
+    }
+    checkoutHook().catch(console.error);
+    async function getCheckout(client,options){
+      const response = await client.db(config.DB_NAME).collection(`${config.COLLECTION_SUBPATH}_ppTransactions`).insertOne(options)
+     console.log(`Webhook hit checkoutHook: ${response}`)
+    }
+  })
 module.exports = router
