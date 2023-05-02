@@ -115,7 +115,7 @@ router.get('/editor/:?',isAddy, editorHandler);
 const postToClients = (req, res) => {
   const { collectionExtName, contactName, email, companyName, phoneNumber, businessAddress } = req.body;
   const options = {contactName,email,companyName,phoneNumber,businessAddress,
-    status: {active: true,delinquent: false,invoice_list: [],balance: 0}};    
+    status: {active: true,balance: 0}};    
     const handler = postToHandler(collectionExtName, options, 'accounts');
     handler(req, res);
   };

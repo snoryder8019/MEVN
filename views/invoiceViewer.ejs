@@ -57,6 +57,7 @@
 </div>
 <%}%>
   <div class="eventBody">
+    View your account activity here: <a href="/clientDashboard/<%=data[1]._id%>">Clients Dashboard</a>
     <!--SERVICE DETAILS AND PAYMENT LINKS WITH QR CODE-->
     <p><strong>Payment Policy Update:</strong> all invoices will be due 15 days after the invoice date. If payment is not received within 30 days of the invoice date, we will add a 1.5% late fee per 30 days to the outstanding balance.</p>
     </div>
@@ -120,7 +121,7 @@
         <li>Mail by check: Payable to <%=options[0].companyName%>, c/o: <%=options[0].companyContact%>, Mail to: <%=options[0].companyAddress%></li>
         <li>Online payment: <a href="https://www.paypal.com"> paypal direct</a> to:<%=options[0].paypalEmail%></li>
     </ul>
-    <p>if you have any questions abour invoicing, payment, or you may have seen a bug in this new service, all feedback helps, please let us know!!</p>
+    <p>if you have any questions abour invoicing, payment, or you may have seen a bug in this new service, all feedback helps, please <a href="/tickets"> let us know!!</a></p>
     <p>"version": "1.1.1"</p>
   </div>
 

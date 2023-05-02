@@ -21,14 +21,17 @@
              <form method="post" action="/edit/<%=data._id%>">     
                 <input hidden name="<%= Object.keys(data)[0]%>"value ="<%= Object.values(data)[0]%>">           
                 <% for(let i=1;i<Object.keys(data).length-1;i++){%>  
+               
                     <%= Object.keys(data)[i]%>                  
                     <input name="<%= Object.keys(data)[i]%>"value ="<%= Object.values(data)[i]%>">           
+                
                 <%}%>
-               <%= Object.keys(data)[Object.keys(data).length-1]%>
-                <input name="<%= Object.keys(data)[Object.keys(data).length-1]%>" value="<%= Object.values(data)[Object.keys(data).length-1]%>">
+              
+          
+            
                 <button type="submit()">update</button>
-            </form><br>
-            <form method="post" action="/delete/<%=data._id%>"><button type="submit">delete</button></form>
+                <form method="post" action="/delete/<%=data._id%>"><button type="submit">delete</button></form>
+              </form><br>
     </div>
     </div>
     <div id="pageNav">
