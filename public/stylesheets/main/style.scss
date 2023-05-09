@@ -12,16 +12,16 @@ $grey:rgba(97,97,97,.95);
 //TYPEFACE
 @font-face {
   font-family:"combo" ;
-  src: url('../fonts/Grotesque/DarkerGrotesque-Light.ttf');
+  src: url('../../fonts/Grotesque/DarkerGrotesque-Light.ttf');
  // src: url('../fonts/Combo/Combo-Regular.ttf');
 }
 @font-face {
   font-family:"kScript" ;
-  src: url('../fonts/Vujahday/VujahdayScript-Regular.ttf');
+  src: url('../../fonts/Vujahday/VujahdayScript-Regular.ttf');
 }
 @font-face {
   font-family:"righteous" ;
-  src: url('../fonts/Combo/Combo-Regular.ttf');
+  src: url('../../fonts/Combo/Combo-Regular.ttf');
 }
 $fontMain:"combo";
 $fontSecondary:"righteous";
