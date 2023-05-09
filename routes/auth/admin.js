@@ -345,7 +345,8 @@ if(err){
 }
  })
   async function saveBlog(bImgName,data){
- const id = req.body.serviceId
+ const id0 = req.body.serviceId
+ const id =ObjectId(id0)
     try {
       await client.connect();
       await createBlog(client,id,{     
@@ -362,7 +363,8 @@ if(err){
  saveBlog(bImgName).catch(console.error);
    async function createBlog(client,id,newBlog){
     const result = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_services').updateOne({"_id":id},{$set:newBlog},{upsert:false});
-    res.redirect('admin');
+   console.log(result)
+    res.redirect('services');
     }
    }
 )

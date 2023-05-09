@@ -31,14 +31,14 @@
         </p>
         <h1 class="span"><%= data[1][i].cost%></h1><%= data[1][i].terms%><br>
         <div class="imgCont">
-         <%if(typeof data[1][i].imgName){%>
+         <%if('imgName' in data[1][i]){%>
         <img class="invImg" src=" <%= data[1][i].imgName%>" alt="">
      <%}else{%>
      
 
 
      <form action="/postToServices0" enctype="multipart/form-data" method="post" >
-     add image to service
+     No Image Detected
       <h2 style="margin: 0;">Step 1: Attach One Image</h2> 
       <input type="text"name ="serviceId" value="<%=data[1][i]._id%>">
         <input type="file" accept="image/*" name="photo">
