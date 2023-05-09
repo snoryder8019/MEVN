@@ -24,18 +24,30 @@
     
     <%for(let i =0;i<data[1].length;i++){%>    <div>
      <a href="/editor/?_id=<%=data[1][i]._id%>&ext=_services"> <div class="eventBody">
-        <span class="alert"><h2> <%= data[1][i].serviceName%></h2></span><br>
+        <span class="alert"><h2> <%= data[1][i].serviceName%></h2></span></a><br>
        <p>       
          <h3>  <%= data[1][i].serviceCategory%><br></h3>
          <%= data[1][i].serviceDetails%><br>
         </p>
         <h1 class="span"><%= data[1][i].cost%></h1><%= data[1][i].terms%><br>
         <div class="imgCont">
-         
+         <%if(typeof data[1][i].imgName){%>
         <img class="invImg" src=" <%= data[1][i].imgName%>" alt="">
+     <%}else{%>
      
+
+
+     <form action="/postToServices0" enctype="multipart/form-data" method="post" >
+     add image to service
+      <h2 style="margin: 0;">Step 1: Attach One Image</h2> 
+      <input type="text"name ="serviceId" value="<%=data[1][i]._id%>">
+        <input type="file" accept="image/*" name="photo">
+      <h2>Step 2: Submit</h2> 
+        <button onclick="loading('adding post to home page')" type="submit" >Submit</button>
+    </form>
+     <%}%>
       </div>
-      </div></a>
+      </div>
     </div>
       <%}%>
       

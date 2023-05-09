@@ -345,19 +345,12 @@ if(err){
 }
  })
   async function saveBlog(bImgName,data){
- 
+ const id = req.body.serviceId
     try {
       await client.connect();
-      await createBlog(client,{
-        serviceName:req.body.serviceName,
-        postDate:Date.now(),
-        cost:req.body.cost,
-        terms:req.body.terms,
-       serviceCategory:req.body.serviceCategory,
-       serviceDetails:req.body.serviceDetails,
+      await createBlog(client,id,{     
         imgName:bImgName,
-    
-     
+        
       });
      }
      catch(err){
@@ -367,8 +360,8 @@ if(err){
      await client.close();
    }}
  saveBlog(bImgName).catch(console.error);
-   async function createBlog(client,newBlog){
-    const result = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_services').insertOne(newBlog);
+   async function createBlog(client,id,newBlog){
+    const result = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_services').updateOne({"_id":id},{$set:newBlog},{upsert:false});
     res.redirect('admin');
     }
    }
