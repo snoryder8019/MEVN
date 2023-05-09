@@ -128,7 +128,7 @@ const postToServices = (req, res) => {
   const handler = postToHandler(collectionExtName, options, 'services');
   handler(req, res);
 };
-router.post('/postToServices0',isAddy, postToServices);
+router.post('/postToServices',isAddy, postToServices);
 
 
 ////////////////////////////////////////////

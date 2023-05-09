@@ -47,7 +47,7 @@
     
     <div class="eventBody" id="pageAdd">
       <h1>Add Service</h1>
-      <form action="/postToServices" enctype="multipart/form-data" method="post">
+      <form action="/postToServices" method="post">
         <label for="collection-ext-name">collection Ext Name:</label>
         <input type="text" id="collectionExtName" name="collectionExtName" value="_services" hidden required>
         
@@ -74,8 +74,7 @@
         <textarea id="serviceDetails" name="serviceDetails" rows="4" cols="50" required></textarea>
         <br><br>
         
-        <h2 style="margin: 0;">Step 2: Attach One Image</h2> 
-        <input type="file" accept="image/*" name="photo">
+  
         <input type="submit" value="Add Service">
       </form>
     </div>

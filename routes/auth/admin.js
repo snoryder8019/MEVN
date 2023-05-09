@@ -324,7 +324,7 @@ if(err){
 
 
 //////////////////////
-router.post('/postToServices',isAddy,upload.single('photo'), function(req,res){
+router.post('/postToServices0',isAddy,upload.single('photo'), function(req,res){
   //isolate file extention
   const imageData= req.file;
   const ogStr=0;
