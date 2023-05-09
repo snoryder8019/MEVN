@@ -37,10 +37,10 @@
      
 
 
+      No Image Detected
      <form action="/postToServices0" enctype="multipart/form-data" method="post" >
-     No Image Detected
       <h2 style="margin: 0;">Step 1: Attach One Image</h2> 
-      <input type="text"name ="serviceId" value="<%=data[1][i]._id%>">
+      <input hidden type="text"name ="serviceId" value="<%=data[1][i]._id%>">
         <input type="file" accept="image/*" name="photo">
       <h2>Step 2: Submit</h2> 
         <button onclick="loading('adding post to home page')" type="submit" >Submit</button>
@@ -48,6 +48,7 @@
      <%}%>
       </div>
       </div>
+      hide /show
     </div>
       <%}%>
       

@@ -54,6 +54,8 @@ const data={
 //////////////////////////////
 router.get('/productID/:_id',async (req,res)=>{
  const clientIp = req.headers['x-forwarded-for'] || req.ip;
+const url0 = req.url
+const url = url0.split('/')[2]
   console.log(clientIp)
   try {
 const data={
@@ -64,10 +66,18 @@ const data={
         [1]:"_services",
         [2]:"_categories",
         [3]:"_options"               
-    }};
+    },
+   
+  }
+  const data0={
+    subpath:config.COLLECTION_SUBPATH,
+    dbName:config.DB_NAME,
+    ext:"_services",
+    id:url};
       const response = await axios.get(config.DB_URL+'/api/readManyD',{params:data});
-  console.log(response.data)
-    res.render('productID',{data:response.data});
+ const prod = await axios.get(config.DB_URL+'/api/readOneF',{params:data0})
+      console.log(prod.data)
+    res.render('productID',{data:response.data,prod:prod.data});
   } catch (error) {
       res.status(500).json({ error: error.message});
   }})
