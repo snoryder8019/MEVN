@@ -185,7 +185,7 @@ body {
   text-align: center;
   margin: 0;
   padding: 0;
-  background: linear-gradient(to right, rgba(255, 0, 0, 0.674), rgba(255, 242, 0, 0.733), rgba(174, 241, 165, 0.57), rgba(205, 202, 241, 0.857));
+  background: linear-gradient(to right, rgba(255, 0, 0, 0.674), rgba(255, 242, 0, 0.733), rgba(174, 241, 165, 0.57), rgba(174, 241, 165, 0.57), rgba(205, 202, 241, 0.857), rgba(205, 202, 241, 0.857));
   color: white;
 }
 
@@ -233,8 +233,7 @@ body {
   transition-duration: 0.6s;
 }
 .introImg_head {
-  width: 26%;
-  margin-top: 20%;
+  width: 90%;
 }
 @media (min-width: 400px) {
   .introImg_head {
@@ -812,10 +811,9 @@ li .pricing {
 img.okImg, video.okImg {
   animation: 120s ease-in-out infinite slowMove;
   position: fixed;
-  top: 0;
-  left: 0;
+  left: -12%;
   z-index: -1;
-  max-width: 194%;
+  width: 125%;
   filter: brightness(175%) contrast(103%);
   transform-style: preserve-3d;
 }
