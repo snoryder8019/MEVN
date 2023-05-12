@@ -34,21 +34,7 @@
 
 
 
-    <div>
-        <form action="/addToCart" method="post">
-            <input name="prodId" hidden="true" value="<%= prod._id%>"></label>
-            <input name="prodName" hidden="true" value="<%= prod.serviceName%>"></label>
-            <input name="prodPrice" hidden="true" value="<%= prod.cost%>"></label>
-            <input name="prodImg" hidden="true" value="<%= prod.imgName%>"></label>
-            <% if (typeof data.ejsData1 == 'object' && data.ejsData1) { %>
-                <button onclick="loading('adding to cart')" id="productAddButton" type="submit" value="submit()" ><h2>add to cart</h2></button>
-                <%}else{%>
-                    <a href="/login"><div class="navBox">sign in to add to cart</div></a>
-                    <%}%>
-                </form>   
-                <a onclick="loading('...loading previous page'), goBack()"><div class="navBox">back</div></a>
-                <a onclick="loading('getting blogs and inventory')" href="/"><div  class="navBox">home</div></a>
-    </div>
+   
     <div class="indexSpacerBottom"></div>
 </div>
       <%- include('../views/config/footer.ejs')%>

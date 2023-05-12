@@ -1,6 +1,11 @@
-<script src="/javascripts/menu.js"></script>
 <script src="/javascripts/cart.js"></script>
 <script src="/javascripts/bodyLoader.js"></script>
 <script src="/javascripts/loadScreen.js"></script>
-<script src="/javascripts/logoSlide.js"></script>
+<script src="/javascripts/menu.js"></script>
+<%if(config.STYLE=='sook'){%>
+   
+    <script src="/javascripts/logoSlide_sook.js"></script>
+    <%}else{%>
+        <script src="/javascripts/logoSlide.js"></script>
+        <%}%>
 <!--script src="/javascripts/imageRotate.js"></script-->

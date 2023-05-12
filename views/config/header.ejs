@@ -1,7 +1,12 @@
 <script src="/javascripts/cart.js"></script>
 <script src="/javascripts/burgBtn.js"></script>
 <div id="menu" class="menu">
-    <div id="burgBtn" onclick="menuOpen()" class="hamburger">
+    <%if(config.STYLE=='sook'){%>
+        <div id="burgBtn" onclick="menuOpen_sook()" class="hamburger">
+    <%}else{%>
+        <div id="burgBtn" onclick="menuOpen()" class="hamburger">
+    <%}%>
+    
 <div id="hmTop" class="hm"></div>
 <div id="hmMid" class="hm"></div>
 <div id="hmBot" class="hm"></div>

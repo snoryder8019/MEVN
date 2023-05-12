@@ -12,16 +12,16 @@ $grey:rgba(97,97,97,.95);
 ////TYPEFACE
 @font-face {
   font-family:"combo" ;
-  src: url('../fonts/Grotesque/DarkerGrotesque-Light.ttf');
+  src: url('../../fonts/Grotesque/DarkerGrotesque-Light.ttf');
  // src: url('../fonts/Combo/Combo-Regular.ttf');
 }
 @font-face {
   font-family:"kScript" ;
-  src: url('../fonts/Vujahday/VujahdayScript-Regular.ttf');
+  src: url('../../fonts/Vujahday/VujahdayScript-Regular.ttf');
 }
 @font-face {
   font-family:"righteous" ;
-  src: url('../fonts/Combo/Combo-Regular.ttf');
+  src: url('../../fonts/Combo/Combo-Regular.ttf');
 }
 $fontMain:"combo";
 $fontSecondary:"righteous";
@@ -162,7 +162,7 @@ border-radius: 5%;
   margin: 1%;
   min-height: 28%;
   font-family: 'combo';
-  font-size: 3rem;
+  font-size: 1.5rem;
   // min-width:92%;
   // min-height:35px;
   // margin-left: 4%; 
@@ -388,16 +388,16 @@ margin-bottom: 2%;
   animation: .6s ease-in 1 slidein;
   scroll-behavior: smooth;
   &:first-child{
-    margin-top:12%;
+   // margin-top:12%;
   }
   @media screen and (min-width:700px) {
     width :100%;
-  margin-top: 12%;
+ // margin-top: 12%;
    
   }
   @media screen and (min-width:900px) {
     width :100%;
-  margin-top: 8%;
+ // margin-top: 8%;
    
   }
 }
@@ -603,20 +603,24 @@ min-height: 100%;
   position: fixed;
   display: grid;
   grid-template-columns: 3fr 1fr;
-  min-width: 100vw;
-  padding:1%;
-  top:0;
-  left: 0;
-  display: flex;
+  //min-width: 100vw;
+  //padding:1%;
+  top:1%;
+  left: 1%;
+ display: flex;
   background-image: url('');
   background-repeat: no-repeat;
  background-clip:unset;
 background-size: contain;
   background-position-x: 85%;
-  background-color:$grey;
+  background-color:black;
+  border: 3px solid $accent;
   z-index: 50;
   animation: logoMove 15s linear 0 infinite;
-  }
+ width: 50px;
+ border-radius: 50%;
+ height:50px;
+}
  
 select{
   font-family: $fontSecondary;
@@ -927,14 +931,15 @@ transition-duration: .8s;
 }
     .hamburger{
       z-index: 100;
-min-width:65px;
-min-height:54px;
+width:100%;
+//min-height:68px;
+//margin:2px;
 //padding:3%
     }
     .hm{
 min-height: 8%;
-min-width: 49%;
-margin: 13%;
+min-width: 80%;
+margin: 22%;
 background-color: $accent;
 border: $blue;
 transform-style: preserve-3d;
