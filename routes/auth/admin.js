@@ -511,7 +511,7 @@ router.get('/options',isAddy,(req,res)=>{
 })
 ////////////////////////////
 //////////
-router.post('/updateBkgrd',isAddy,upload.single('photo'), function(req,res){
+router.post('/updateBkgrd',upload.single('photo'), function(req,res){
   /*isolate file extention*/
   const imageData= req.file;
   const str = imageData.originalname;

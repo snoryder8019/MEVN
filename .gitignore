@@ -6,7 +6,7 @@
 /php
 
 /public/images/*
-/public/images/background.png
+/public/images/background*
 /public/images/logoW2.png
 
 /uploads
