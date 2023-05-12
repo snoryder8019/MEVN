@@ -5,8 +5,10 @@
 
 /php
 
-/public/images/*
-/public/images/background*
+/public/images/blog
+/public/images/inventory
+/public/images/services
+public/images/blog/background.png
 /public/images/logoW2.png
 
 /uploads
