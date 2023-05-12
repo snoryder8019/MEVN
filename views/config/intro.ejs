@@ -1,5 +1,9 @@
-<div class="introImgDiv_T">    
-        <img class="introImg_head" src="/images/logoW2.png">
+<div class="introImgDiv_T">   
+    <%if(config.STYLE=='sook'){%>
+        <video autoplay loop class="introImg_head" src="/images/videos/welcomeSook.mp4"></video>
+        <%}else{%> 
+            <img class="introImg_head" src="/images/logoW2.png">
+        <%}%> 
        <h1 class="introType"><%=data[3][0].introQuote%></h1>
        <h2> <span class="introType"></span><%=data[3][0].introMOTD%>  <span class="introType"></span></h2> 
  
