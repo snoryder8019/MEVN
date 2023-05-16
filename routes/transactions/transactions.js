@@ -51,7 +51,7 @@ const invCollections = {
 
 
 /////////////CSV UPLOAD
-router.post('/csvUpload',isAddy, upload.single('csv'),async (req, res) => {
+router.post('/csvUpload', upload.single('csv'),async (req, res) => {
     try {
         const filePath = req.file.path;
         const data = await csvtojson().fromFile(filePath);    
