@@ -418,6 +418,7 @@ img.mainImg{
   }
 }
 .eventBody, .navBox, .pplBody{
+  animation:1s ease-in-out 0 1 slidein;
   padding: 2%;
   border: 5px solid $accent;
   background-color: $eventBodyColor;
@@ -960,5 +961,61 @@ background-color: black;
 }
 #hmBot{
  // transform: rotateZ(-45deg) translateY(200%) translateX(15%);
+
+}
+.dashNav{
+  min-height: 100vh;
+ // background-color: black;
+  position: fixed;
+  z-index: 200;
+  top:6%;
+  left: -2%;
+  @media (max-width:768px) {
+    background-color: black;
+display:flex ;
+justify-content: space-between;
+min-height: 0;
+top:auto;
+bottom:0;
+width: 100%;
+padding: 2%;
+  }
+}
+@keyframes twiddle{
+  0%{transform: translateX(0%);}
+  92%{transform: translateX(-1%);}
+  94%{transform: translateX(1%);}
+ 96%{transform: translateX(-1%);}
+  98%{transform: translateX(1%);}
+  100%{transform: translateX(0%);}
+}
+.navBut button{
+  transform-style: preserve-3d;  
+  animation: 15s ease-in-out 0s infinite twiddle;
+  color: white;
+  background-color: $eventBodyColor;
+  font-family: fantasy;
+  margin: 50%;
+  height:70px;
+  width: 70px;
+  border-radius: 19px;
+  @media (max-width:768px) {
+    margin: 0%;
+
+}
+}
+@mixin dashStyle(){
+display:none;
+}
+#analytics{
+@include dashStyle();
+
+}
+#activity{
+  @include dashStyle();
+  
+}
+#settings{
+  @include dashStyle();
 
 }

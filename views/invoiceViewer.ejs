@@ -61,6 +61,8 @@
     <!--SERVICE DETAILS AND PAYMENT LINKS WITH QR CODE-->
     <p><strong>Payment Policy Update:</strong> all invoices will be due 15 days after the invoice date. If payment is not received within 30 days of the invoice date, we will add a 1.5% late fee per 30 days to the outstanding balance.</p>
     </div>
+<%if(data[2].status.paid==false){%>
+    <!--QUICKPAY-->
     <div class="eventBody">
     <h2>Pay Now:</h2>
         <div id="paypal-button-container"></div>
@@ -124,7 +126,12 @@
     <p>if you have any questions abour invoicing, payment, or you may have seen a bug in this new service, all feedback helps, please <a href="/tickets"> let us know!!</a></p>
     <p>"version": "1.1.1"</p>
   </div>
+<%}else{%>
+ <h1 style="background-color:black; pading:2%;position:fixed;color:green;bottom:2%;width:100%;text-align: center;">
 
+  This invoice is paid! thank you!
+</h1>
+  <%}%>
      </div>   
          
   

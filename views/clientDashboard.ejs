@@ -7,22 +7,24 @@
 <meta name="google-site-verification" content="Pvp74_YXTw6uwsBP-6pTFmbwnjXD7_zXP-WUG4FpWU8" />
 <!--end-->
 </head>
-<body onload="listeners()">   
-  <!-- include('config/bkgdImg.ejs')%-->            
+<body>   
+  <%- include('config/bkgdImg.ejs')%></include>           
 
   <!--- include('config/header.ejs')%-->
-   
+   <div class="eventBody"><div class="eventBody">
+    <h2><%=dash[0].companyName%><br></h2>
+    <%=dash[0].contactName%><br>
+    <%=dash[0].email%><br>
+    <%=dash[0].phoneNumber%><br>
+    <%=dash[0].businessAddress%><br>
+  
+   </div></div>
       
-  <div class="mainStyle">
+  <div id="activity" class="">
       <div class="eventBody">
       
 
-  <h2><%=dash[0].companyName%><br></h2>
-  <%=dash[0].contactName%><br>
-  <%=dash[0].email%><br>
-  <%=dash[0].phoneNumber%><br>
-  <%=dash[0].businessAddress%><br>
-
+ 
 
   <% let paytotals =new Number(0)%>
   
@@ -30,6 +32,8 @@
   
   
   <br>
+  <h1 class="logoFont">account activity</h1>
+
   <h2>invoices</h2>
   <table style="border:1px dotted white">
     <thead>
@@ -37,7 +41,7 @@
         <th>date</th>
         <th>inv total</th>
         <th>company invoiced</th>
-        <th>paid in full</th>
+        <th>status</th>
     </thead>
     <tbody>
         <%for(let i=0;i<data[2][0].length;i++){%>
@@ -47,7 +51,13 @@
                     <td style="border:1px dotted white"> <%=new Date(data[2][0][i].date).toDateString()%></td>
                     <td style="border:1px dotted white"> $ <%=data[2][0][i].invTotal%> .00</td>
                     <td style="border:1px dotted white">  <%=data[2][0][i].invData.companyId.split('|')[1]%></td>
-                    <td style="border:1px dotted white">  <%=data[2][0][i].status.paid%></td>
+                   
+                       <%if(data[2][0][i].status.paid==true){%>
+                        <td style="color:black;background-color:green;border:1px dotted rgb(255, 255, 255)">  paid  </td>
+                        <%}else{%>
+                          <td style="color:black;background-color:rgb(254, 149, 149);border:1px dotted rgb(255, 255, 255)">  unpaid </td>
+                          <%}%>
+                     
                     
                 </tr>
                 <%}%>
@@ -82,10 +92,10 @@
                 
               
                 
-                <h2>Current Account Balance: $<%=dash[0].status.balance-paytotals%></h2><br>
+                <h2 style="">Current Account Balance: $<%=dash[0].status.balance-paytotals%></h2><br>
                 
                 
-<p>a memo from scott: Thank you for checking out our newest services online. I am busy coding this business platform that helps keep us paperless, efficient and digital. This may be a broken version, and hoprefully by may it looks waaaaaay better next month! report issues at <a href="/tickets">W2 Tickets</a>
+<p>a memo from scott: if you experience any trouble you may email me directly or open a ticket: <a href="/tickets">W2 Tickets</a>
 </p>
 <p>thank you for your patience with me this month!! </p>
 <img src="/images/logoW2.png" alt="" class="">
@@ -99,9 +109,30 @@
 
    </div>
 
+<div id="analytics" class="">
+<div class="eventBody">
+  <h1 class="logoFont">
+analytics coming soon
+</h1>
+<p>We will report your facebook, ad campaigns and other analytical data here</p>
+</div>
 
+</div>
+<div id="settings" class="">
+<div class="eventBody">
+  <h1 class="logoFont">
+settings coming soon
+</h1>
+<p>our clients will soon be able to connect to several online tools and services provided by W2 Marketing</p>
+</div>
 
+</div>
 
+<div  class="dashNav">
+    <div class="navBut"><button value="activity" id="activityButt">activity</button></div>
+    <div class="navBut"><button  value="analytics" id="analyticsButt">analytics</button></div>
+    <div class="navBut"><button  value="settings" id="settingsButt">settings</button></div>
+</div>
 
 
 
@@ -120,52 +151,54 @@
 
 <script>
     
-    function listeners(){
-        const servicesAdded = document.getElementById('servicesAdded')
-        const costsAdded = document.getElementById('costsAdded')
-        const namesAdded = document.getElementById('namesAdded')
-        const serviceAdd = document.getElementById('serviceAdd')
-        const clientAdd = document.getElementById('clientAdd')
-        const addSvcButton = document.getElementById('addSvcButton')
-        serviceAdd.addEventListener('change', svcChange)
-        addSvcButton.addEventListener('click', svcAdd)
-    }
-    
-    function svcChange(){
-        console.log(event.target.value)
-    }
-    function svcAdd(){
-    console.log(`added ${serviceAdd.value}`)
-    //ADD NAMES AND COSTS
-   const svcId =  serviceAdd.value.split('|')[0] 
-   const svcNamer =  serviceAdd.value.split('|')[1] 
-  const svcCost =  serviceAdd.value.split('|')[2] 
-  const svcData = {  }
-///////SERVICES TABLE///////
-const tRow = document.createElement('div')
-const totalcostEl= document.createElement('h3')
-const namesEl= document.createElement('h3')
-const costText = document.createTextNode(svcCost)
-const namesText = document.createTextNode(svcNamer)
-namesEl.appendChild(namesText)
-totalcostEl.appendChild(costText)
-tRow.appendChild(namesEl)
-tRow.appendChild(totalcostEl)
-   costsAdded.appendChild(tRow)
-   //////////
-   
-  
-   
-    //ADD INPUT ELEMENTS FOR SERVICES
-   const inputEl = document.createElement('input');
-   inputEl.setAttribute('type','text')
-   inputEl.setAttribute('name','serviceName')
-   inputEl.setAttribute('value', serviceAdd.value ) 
-   const hrefEl = document.createElement('button')
-   hrefEl.setAttribute('onclick',`remove(${serviceAdd.value})`)
-   servicesAdded.appendChild(inputEl, hrefEl)
+    function listeners() {
+  const activity = document.getElementById('activity');
+  const analytics = document.getElementById('analytics');
+  const settings = document.getElementById('settings');
+  const dashDivs = [activity, analytics, settings];
 
+  const activityButt = document.getElementById('activityButt');
+  const analyticsButt = document.getElementById('analyticsButt');
+  const settingsButt = document.getElementById('settingsButt');
+  const dashNavButtons = [activityButt, analyticsButt, settingsButt];
 
+  // Function to update the button background color
+  function updateButtonBackground() {
+    dashDivs.forEach(function (div, index) {
+      const button = dashNavButtons[index];
+
+      if (div.style.display === 'block') {
+        button.classList.add('active');
+      } else {
+        button.classList.remove('active');
+      }
+    });
+  }
+
+  // Event listener function
+  function handleButtonClick(index) {
+    return function () {
+      dashDivs.forEach(function (div, i) {
+        if (i === index) {
+          div.style.display = 'block';
+        } else {
+          div.style.display = 'none';
+        }
+      });
+
+      updateButtonBackground(); // Update the button background when a button is clicked
+    };
+  }
+
+  // Add event listeners to the buttons
+  dashNavButtons.forEach(function (button, index) {
+    button.addEventListener('click', handleButtonClick(index));
+  });
+
+  updateButtonBackground(); // Set up the initial button backgrounds
 }
+
+// Call the listeners function on body onload event
+document.body.onload = listeners;
 </script>
 </body> </html>
