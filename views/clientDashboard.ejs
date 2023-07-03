@@ -68,16 +68,15 @@
         <h2>payments</h2>
         <table style="border:1px dotted white">
             <thead>
-                <th style="border:1px dotted white">payment id</th>
-                <th style="border:1px dotted white">amount received</th>
-                <th style="border:1px dotted white">date posted</th>
+               
+                <th style="border:1px dotted white">amount</th>
+                <th style="border:1px dotted white">post date</th>
                 <th style="border:1px dotted white">memo</th>
             </thead>
             <tbody>
                 <%for(let i=0;i<data[4][0].length;i++){%>
                     <%if(data[4][0][i].invClient==dash[0].companyName){%>
-                        <tr>
-                            <td style="border:1px dotted white"><%=data[4][0][i]._id%></td>    
+                        <tr>                             
                             <td style="border:1px dotted white"><%=data[4][0][i].TRANAMT%></td> 
 
                             <% paytotals=paytotals+ new Number(data[4][0][i].TRANAMT)%>   

@@ -220,7 +220,7 @@ const invTotal = parseFloat(result0.invTotal)
           subject:`${config.COMPANY_NAME} ~ Invoice for: ${result1.companyName}`,        
           
           html:`<body style="margin:2%;padding:1%;text-align:center;background-color:black;color:white">
-          <h1>${config.COMPANY_NAME} ~ Invoice Availible</h1><br>
+          <h1>${config.COMPANY_NAME} ~ Invoice Available</h1><br>
           <img style="max-width:25%;transform:translateX(-75%);" src="cid:image1"><br>
           <h3>you can view your invoice at:</h3><br> 
           <a href="https://${config.SITE_URL}/invoiceViewer/${req.url.split('/')[2]}">${config.SITE_URL}/invoiceViewer/${req.url.split('/')[2]}</a><br>
