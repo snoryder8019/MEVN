@@ -12,13 +12,9 @@
     <%for(let i =0;i<data[0].length;i++){%>  
       <%let svcName = data[0][i].serviceName%>
       <%let svcNameSlice = svcName.slice(0,21)%>
-<div class="wixContainer">
-  <div style="background-image: url('<%=data[0][i].imgName%>');" class="wixTitle">
-    <%if(svcName.length>=22){%>
-<h1><%=svcNameSlice%>..</h1>
-<%}else{%>
-<h1><%=svcName%></h1>
-  <%}%>
+<div style="background-image: url('<%=data[0][i].imgName%>');"  class="wixContainer">
+  <div class="wixTitle">
+   <%=data[0][i].serviceName%>
 
 </div>
 <h2>$<%=data[0][i].cost%>.00 | <%=data[0][i].terms%></h2>

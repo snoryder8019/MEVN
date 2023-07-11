@@ -1640,7 +1640,14 @@ th {
 }
 
 .wixContainer {
-  border: 1px solid black;
+  background-size: cover;
+  background-position: center;
+  background-size: 110%;
+  background-repeat: no-repeat;
+  background-color: #e5e5e5;
+  padding: 10px;
+  display: flex;
+  align-items: stretch;
 }
 .wixContainer h2 {
   font-family: "kScript";
@@ -1658,10 +1665,6 @@ th {
 .wixTitle {
   margin: 0;
   padding: 0;
-  background-size: cover;
-  background-position: center;
-  background-size: 110%;
-  background-repeat: no-repeat;
 }
 
 .titleImg {
