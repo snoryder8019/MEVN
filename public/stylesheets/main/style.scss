@@ -1021,8 +1021,10 @@ display:none;
 }
 
 .wixGrid{
+  margin: 1px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+  grid-gap:2px;
   @media (max-width:768px) {
     grid-template-columns: 1fr;
     
