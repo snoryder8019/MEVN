@@ -1,19 +1,33 @@
 const express = require('express');
 const router = express.Router();
-const env = require('dotenv').config()
-const client = require('../../config/mongo');
-const axios = require('axios')
-const fs = require('fs');
-const multer = require('multer');
-const csvtojson = require('csvtojson');
-const upload =multer({dest:"uploads/"});
-const ObjectId = require('mongodb').ObjectId;
-const config = require('../../config/config')
+const { google } = require('googleapis');
 
-const getHandler  = require('../crud/getHandler');
-const deleteHandler = require('../crud/deleteHandler');
-const nodemailer = require('nodemailer')
+// Define the Google My Business API client
+const ggmb = google.mybusiness('v4');
 
+// Define the route to get the locations owned by the user's account
+router.get('/locations', async (req, res) => {
+  try {
+    const accessToken = req.user.accessToken; // Assuming you saved the access token during authentication
 
+    // Create an authentication client and set the access token
+    const authClient = new google.auth.OAuth2();
+    authClient.setCredentials({ access_token: accessToken });
 
-module.exports =router
+    // Call the Google My Business API to get the locations
+    const response = await ggmb.accounts.locations.list({
+      name: 'accounts/self',
+      auth: authClient,
+    });
+
+    const locations = response.data.locations;
+
+    // Return the locations as JSON
+    res.json(locations);
+  } catch (error) {
+    console.error('Error retrieving locations:', error);
+    res.status(500).json({ error: 'Failed to retrieve locations' });
+  }
+});
+
+module.exports = router;

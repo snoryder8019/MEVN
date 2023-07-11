@@ -16,6 +16,7 @@ const blogsRouter = require('./blogs/blogs');
 const cliDashRouter = require('./clientDashboard');
 const w2adminRouter = require('./auth/w2admin');
 const adminRouter =require('./auth/admin');
+const wixRouter =require('./wix/wix');
 const transactionsRouter = require('./transactions/transactions');
 
 router.use('/',(req,res, next)=>{next()})
@@ -34,6 +35,7 @@ router.use('/',accountsRouter);
 router.use('/market',marketRouter);
 router.use('/',invoiceRouter);
 router.use('/',dashboardRouter);
+router.use('/',wixRouter);
 router.use('/',cliDashRouter);
 
 /////////////////////
