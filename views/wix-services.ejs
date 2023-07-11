@@ -11,10 +11,10 @@
   <div class="wixGrid">
     <%for(let i =0;i<data[0].length;i++){%>  
       <%let svcName = data[0][i].serviceName%>
-      <%let svcNameSlice = svcName.slice(0,12)%>
+      <%let svcNameSlice = svcName.slice(0,21)%>
 <div class="wixContainer">
   <div style="background-image: url('<%=data[0][i].imgName%>');" class="wixTitle">
-    <%if(svcName.length>=13){%>
+    <%if(svcName.length>=22){%>
 <h1><%=svcNameSlice%>..</h1>
 <%}else{%>
 <h1><%=svcName%></h1>
