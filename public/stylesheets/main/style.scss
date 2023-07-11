@@ -1019,3 +1019,15 @@ display:none;
   @include dashStyle();
 
 }
+
+.wixGrid{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  @media (max-width:768px) {
+    grid-template-columns: 1fr;
+    
+  }
+}
+.wixContainer{
+  border:1px solid black
+}
