@@ -1625,10 +1625,13 @@ th {
 }
 
 .wixGrid {
+  border: inset 2px solid black;
   margin: 1px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 2px;
+  align-items: center;
+  align-content: center;
 }
 @media (max-width: 768px) {
   .wixGrid {
@@ -1638,6 +1641,27 @@ th {
 
 .wixContainer {
   border: 1px solid black;
+}
+.wixContainer h2 {
+  font-family: "kScript";
+}
+.wixContainer h1 {
+  color: black;
+  font-family: "righteous";
+}
+.wixContainer p {
+  font-family: "conbo";
+}
+
+.wixTitle {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  padding: 1%;
+  background-color: rgba(0, 0, 0, 0.093);
+}
+
+.titleImg {
+  width: 100%;
 }
 
 /*# sourceMappingURL=style.css.map */

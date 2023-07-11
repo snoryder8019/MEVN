@@ -10,8 +10,12 @@
   <div class="wixGrid">
   <%for(let i =0;i<data[0].length;i++){%>  
 <div class="wixContainer">
-<%=data[0][i].serviceName%>
-$<%=data[0][i].cost%>
+  <div class="wixTitle">
+<h1><%=data[0][i].serviceName%></h1>
+<img class="titleImg" src="<%=data[0][i].imgName%>">
+</div>
+<h2>$<%=data[0][i].cost%>.00 | <%=data[0][i].terms%></h2>
+<p><%=data[0][i].serviceDetails%></p>
 
 </div>
 <%}%>
