@@ -1646,6 +1646,8 @@ th {
   font-family: "kScript";
 }
 .wixContainer h1 {
+  margin: 0;
+  padding: 0;
   color: black;
   font-family: "righteous";
 }
@@ -1654,10 +1656,12 @@ th {
 }
 
 .wixTitle {
-  display: grid;
-  grid-template-columns: 3fr 1fr;
-  padding: 1%;
-  background-color: rgba(0, 0, 0, 0.093);
+  margin: 0;
+  padding: 0;
+  background-size: cover;
+  background-position: center;
+  background-size: 110%;
+  background-repeat: no-repeat;
 }
 
 .titleImg {
