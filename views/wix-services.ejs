@@ -25,12 +25,14 @@
   <%let svcDetail = data[0][i].serviceDetails%>
   <%let svcStr = svcDetail.toString()%>
   <%let svcSlice = svcDetail.split("&&")%>
+  <%if(svcSlice.length>=1 || svcSlice!=null){%>
   <ul>
   <% for (let i = 1; i < svcSlice.length; i++) { %>
    <li>   <%= svcSlice[i] %></li>
  
   <% } %>
 </ul>
+<%}%>
 </div>
 </div>
 <%}%>
