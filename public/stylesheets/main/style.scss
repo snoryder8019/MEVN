@@ -1053,20 +1053,56 @@ display:none;
   // padding: 10px;
   // display: flex;
   // align-items: stretch;
+  @media (max-width:768px) {
+    font-size: .9rem;
+  }
   h2{
     font-family: 'kScript';
   }
   h1{
     margin: 0;
     padding: 0;
-   // color: black;
+    // color: black;
     font-family: 'righteous';
+    @media (max-width:768px) {
+      font-size: 1.2rem;
+    }
   }
   p{
     font-family: 'conbo';
   }
+  ul{
+    
+    margin-left: 0;
+    padding-left: 0;
+  }
+  li{
+    
+    white-space:normal;
+    margin-left: 0;
+    padding-left: 0;
+    font-size: .9rem;
+    @media (max-width:768px) {
+      font-size: .8rem;
+    }
+  }
 }
-
+#leadFade{
+  position: absolute;
+  left:0;
+  top:0;
+  min-height: 100%;
+  min-width:4%;
+  background: linear-gradient(to right, rgb(255, 255, 255),rgba(255, 255, 255, 0));
+}
+#endFade{
+  position: absolute;
+  right:0;
+  top:0;
+  min-height: 100%;
+  min-width:4%;
+  background: linear-gradient(to left, rgb(255, 255, 255),rgba(255, 255, 255, 0));
+}
 // .wixTitle{
 //   display: grid;
 //   grid-template-columns: 3fr 1fr;

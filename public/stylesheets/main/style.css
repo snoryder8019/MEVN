@@ -1644,6 +1644,11 @@ th {
   margin: 1%;
   flex: 1;
 }
+@media (max-width: 768px) {
+  .wixContainer {
+    font-size: 0.9rem;
+  }
+}
 .wixContainer h2 {
   font-family: "kScript";
 }
@@ -1652,8 +1657,46 @@ th {
   padding: 0;
   font-family: "righteous";
 }
+@media (max-width: 768px) {
+  .wixContainer h1 {
+    font-size: 1.2rem;
+  }
+}
 .wixContainer p {
   font-family: "conbo";
+}
+.wixContainer ul {
+  margin-left: 0;
+  padding-left: 0;
+}
+.wixContainer li {
+  white-space: normal;
+  margin-left: 0;
+  padding-left: 0;
+  font-size: 0.9rem;
+}
+@media (max-width: 768px) {
+  .wixContainer li {
+    font-size: 0.8rem;
+  }
+}
+
+#leadFade {
+  position: absolute;
+  left: 0;
+  top: 0;
+  min-height: 100%;
+  min-width: 4%;
+  background: linear-gradient(to right, rgb(255, 255, 255), rgba(255, 255, 255, 0));
+}
+
+#endFade {
+  position: absolute;
+  right: 0;
+  top: 0;
+  min-height: 100%;
+  min-width: 4%;
+  background: linear-gradient(to left, rgb(255, 255, 255), rgba(255, 255, 255, 0));
 }
 
 .wixTitle {
