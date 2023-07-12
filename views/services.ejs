@@ -48,7 +48,20 @@
      <%}%>
       </div>
       </div>
-      hide /show
+      <%if(data[1][i].status=="hide" || data[1][i].status==null){%>
+        <form action="/visible" method="post" >
+          <input hidden name="status" value="show" type="text">
+          <input hidden name="_id" value="<%-data[1][i]._id%>" type="text">
+          <button  type="submit">show</button>
+        </form>
+        <%}%>
+        <%if(data[1][i].status=="show" || data[1][i].status==null){%>
+      <form action="/visible" method="post">
+        <input hidden name="status" value="hide" type="text">
+        <input hidden name="_id" value="<%-data[1][i]._id%>" type="text">
+     <button  type="submit">hide</button>
+    </form>
+    <%}%>
     </div>
       <%}%>
       

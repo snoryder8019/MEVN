@@ -10,17 +10,19 @@
 
   <div class="wixGrid">
     <%for(let i =0;i<data[0].length;i++){%>  
+<%if(data[0][i].status=="show"){%>
       <%let svcName = data[0][i].serviceName%>
       <%let svcNameSlice = svcName.slice(0,21)%>
-<div style="background-image: url('<%=data[0][i].imgName%>');"  class="wixContainer">
+<div class="wixContainer">
   <div class="wixTitle">
-   <%=data[0][i].serviceName%>
+  <h1><%=data[0][i].serviceName%></h1> 
 
 </div>
-<h2>$<%=data[0][i].cost%>.00 | <%=data[0][i].terms%></h2>
+<h2 class="divider">$<%=data[0][i].cost%>.00</h2><h2><%=data[0][i].terms%></h2>
 
 
 </div>
+<%}%>
 <%}%>
 </div>
 </body>

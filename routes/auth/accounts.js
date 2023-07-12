@@ -110,7 +110,6 @@ router.get('/editor/:?',isAddy, editorHandler);
   //   };
   // }
 
-
 ///~~~~~~~~~~~~~SERVICES.EJS~~~~~~~~~~~~~~~~~~////
 const postToClients = (req, res) => {
   const { collectionExtName, contactName, email, companyName, phoneNumber, businessAddress } = req.body;

@@ -24,5 +24,22 @@ const invCollections = {
   router.get('/wix',getHandler(invCollections,'wix-services'));
 
 
+  router.post('/visible',(req,res)=>{
+    const idPre = req.body._id
+    const id = ObjectId(idPre)
+    const update = req.body.status
+    async function visibility(){
+  try{await visUpdate(client,id,{
+    status:update
+  })}
+  catch(error){console.log(error)}
+    }
+    visibility().catch(console.error)
+  async function visUpdate(client,id,updateInfo){
+   const response = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+"_services").updateOne({"_id":id},{$set:updateInfo},{upsert:false})
+console.log(response)
+res.redirect('services')
+  }
+  })
 
 module.exports=router
