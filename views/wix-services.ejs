@@ -18,9 +18,20 @@
   <h1><%=data[0][i].serviceName%></h1> 
 
 </div>
-<h2 class="divider">$<%=data[0][i].cost%>.00</h2><h2><%=data[0][i].terms%></h2>
-<h3><%=data[0][i].serviceDetails%></h3>
+<h2 class="divider">$<%=data[0][i].cost%>.00 | <%=data[0][i].terms%></h2>
 
+<!--PARSE SERVICE DETAILS WITH &&-->
+<div class="wixBody">
+  <%let svcDetail = data[0][i].serviceDetails%>
+  <%let svcStr = svcDetail.toString()%>
+  <%let svcSlice = svcDetail.split("&&")%>
+  <ul>
+  <% for (let i = 1; i < svcSlice.length; i++) { %>
+   <li>   <%= svcSlice[i] %></li>
+ 
+  <% } %>
+</ul>
+</div>
 </div>
 <%}%>
 <%}%>

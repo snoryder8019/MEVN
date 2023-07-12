@@ -1638,7 +1638,7 @@ th {
 
 .wixContainer {
   background-color: rgb(0, 0, 0);
-  width: 96%;
+  max-width: 56%;
   white-space: nowrap;
   padding: 2%;
   margin: 1%;
@@ -1668,6 +1668,12 @@ th {
 .divider ::after {
   min-height: 50px;
   border-right: 5px solid #FFD380;
+}
+
+.wixBody {
+  max-width: 80%;
+  overflow-wrap: break-word;
+  text-align: left;
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -1044,7 +1044,7 @@ display:none;
   // background-size: 110%;
   // background-repeat: no-repeat;
    background-color: rgba(0,0,0,1);
-  width: 96%;
+  max-width: 56%;
   white-space: nowrap;
 //  overflow-x: auto;
   padding: 2%;
@@ -1066,6 +1066,7 @@ display:none;
     font-family: 'conbo';
   }
 }
+
 // .wixTitle{
 //   display: grid;
 //   grid-template-columns: 3fr 1fr;
@@ -1086,4 +1087,9 @@ display:none;
    min-height: 50px;
     border-right:5px solid #FFD380 ;
   }
+}
+.wixBody{
+  max-width:80%;
+  overflow-wrap: break-word;
+  text-align: left;
 }
