@@ -1022,7 +1022,7 @@ display:none;
 //combo righteous kScript
 .wixGrid{
   border: inset 2px solid black;
-  margin: 1px;
+ // margin: 1px;
   // display: grid;
   // grid-template-columns:1fr 1fr;
   // grid-gap:2px;
@@ -1030,6 +1030,7 @@ display:none;
   // align-content: center;
   width: 100%;
   display: flex;
+
   overflow-x: scroll;
   @media (max-width:768px) {
     grid-template-columns: 1fr;
@@ -1042,11 +1043,12 @@ display:none;
   // background-position: center;
   // background-size: 110%;
   // background-repeat: no-repeat;
-   background-color: #e5e5e5;
-  width: 100%;
+   background-color: rgba(0,0,0,1);
+  width: 96%;
   white-space: nowrap;
 //  overflow-x: auto;
-  padding: 10px;
+  padding: 2%;
+  margin:1%;
   flex: 1;
   // padding: 10px;
   // display: flex;
@@ -1057,7 +1059,7 @@ display:none;
   h1{
     margin: 0;
     padding: 0;
-    color: black;
+   // color: black;
     font-family: 'righteous';
   }
   p{
