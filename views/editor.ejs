@@ -20,11 +20,11 @@
        
              <form method="post" action="/edit/<%=data._id%>">     
                 <input hidden name="<%= Object.keys(data)[0]%>"value ="<%= Object.values(data)[0]%>">           
-                <% for(let i=1;i<Object.keys(data).length-1;i++){%>  
-               
-                    <%= Object.keys(data)[i]%>                  
-                    <input name="<%= Object.keys(data)[i]%>"value ="<%= Object.values(data)[i]%>">           
-                
+                <% for(let i=1;i<Object.keys(data).length;i++){%>  
+               <%if(Object.keys(data)[i]!=="status"){%>
+                    <%= Object.keys(data)[i]%>        <br>          
+                    <input name="<%= Object.keys(data)[i]%>"value ="<%= Object.values(data)[i]%>"> <br>          
+                <%}%>
                 <%}%>
               
           
