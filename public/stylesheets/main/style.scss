@@ -1079,7 +1079,7 @@ display:none;
   li{
     
     white-space:normal;
-    margin-left: 0;
+    margin-left: 3%;
     padding-left: 0;
     font-size: .9rem;
     @media (max-width:768px) {
@@ -1087,13 +1087,13 @@ display:none;
     }
   }
 }
-#leadFade{
+.infoFade{
   position: absolute;
-  left:0;
-  top:0;
-  min-height: 100%;
-  min-width:4%;
-  background: linear-gradient(to right, rgb(255, 255, 255),rgba(255, 255, 255, 0));
+  left:0%;
+  top:3%;
+
+  z-index: 2;
+  background: linear-gradient(to right, rgb(255, 255, 255),rgba(97, 45, 45, 1));
 }
 #endFade{
   position: absolute;

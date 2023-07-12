@@ -1671,7 +1671,7 @@ th {
 }
 .wixContainer li {
   white-space: normal;
-  margin-left: 0;
+  margin-left: 3%;
   padding-left: 0;
   font-size: 0.9rem;
 }
@@ -1681,13 +1681,12 @@ th {
   }
 }
 
-#leadFade {
+.infoFade {
   position: absolute;
-  left: 0;
-  top: 0;
-  min-height: 100%;
-  min-width: 4%;
-  background: linear-gradient(to right, rgb(255, 255, 255), rgba(255, 255, 255, 0));
+  left: 0%;
+  top: 3%;
+  z-index: 2;
+  background: linear-gradient(to right, rgb(255, 255, 255), rgb(97, 45, 45));
 }
 
 #endFade {
