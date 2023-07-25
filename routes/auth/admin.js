@@ -660,10 +660,10 @@ router.get('/ptf',isAddy, (req, res) => {
 
 
 const oldKeyMap = {
-  trntype: 'transactionType',
-  dtposted: 'postingDate',
-  tranamt: 'amount',
-  fitid: 'transactionId',
+  TRNTYPE: 'transactionType',
+  DTPOSTED: 'postingDate',
+  TRANAMT: 'amount',
+  FITID: 'transactionId',
 };
 
 async function migrateKeys(client) {
