@@ -658,4 +658,56 @@ router.get('/ptf',isAddy, (req, res) => {
 });
 
 
+
+const oldKeyMap = {
+  trntype: 'transactionType',
+  dtposted: 'postingDate',
+  tranamt: 'amount',
+  fitid: 'transactionId',
+};
+
+async function migrateKeys(client) {
+
+
+  try {
+      const db = client.db(config.DB_NAME);
+    const collection = db.collection(`${config.COLLECTION_SUBPATH}_transactions`);
+
+    // Perform key updates for each key in the oldKeyMap
+    for (const oldKey in oldKeyMap) {
+      const newKey = oldKeyMap[oldKey];
+
+      const query = { [oldKey]: { $exists: true } };
+      const update = { $rename: { [oldKey]: newKey } };
+      const options = { multi: true };
+
+      const result = await collection.updateMany(query, update, options);
+
+      console.log(`Key "${oldKey}" updated to "${newKey}" in ${result.modifiedCount} documents.`);
+    }
+
+    console.log('Key migration complete.');
+  } catch (err) {
+    console.error('Error occurred:', err);
+
+}}
+
+// router.post('/keysUpdateUtility',isAddy,migrateKeys)
+
+
+router.post('/keysUpdateUtility', isAddy, (req, res) => {
+  async function kUU() {
+    try {
+      await migrateKeys(client);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  kUU().catch(console.error);
+  res.redirect('transactions')
+});
+
+  
+
 module.exports = router;

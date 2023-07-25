@@ -19,6 +19,10 @@ router.get('/login', function(req, res) {
   const user = req.user
   res.render('login',{user:user, message:""});
   }); 
+router.get('/likeness', function(req, res) {
+  const user = req.user
+  res.render('likeness',{user:user, message:""});
+  }); 
   router.get('/register',async (req, res)=> {
     const clientIp = req.headers['x-forwarded-for'] || req.ip;
     console.log(clientIp)

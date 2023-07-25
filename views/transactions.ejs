@@ -42,13 +42,17 @@
         
         <%for(let i =0;i<data[4].length;i++){%>
             <form action="/updateTransCat/<%=data[4][i]._id%>"method="post">
-<%if(data[4][i].TRANAMT<0){%>
+<%if(data[4][i].amount<0){%>
     <tr style="background-color:rgba(232, 185, 180, 0.381)">
     <%}else{%>
         <tr style="background-color:rgba(144, 238, 144, 0.162)">
     <%}%>
-    <td>  <%=data[4][i].DTPOSTED%></td>
-    <td id="tdMoney" class="total">$ <%=data[4][i].TRANAMT%></td>   
+    <%let amount = data[4][i].amount%>
+    <%let modWhole = amount.split('.')[0]%>
+    <%let modPart = amount.split('.')[1]%>
+    <%let modChange = modPart.slice(0,2)%>
+    <td>  <%=data[4][i].postingDate%></td>
+    <td id="tdMoney" class="total">$ <%=modWhole+"."+modChange%></td>   
     <td>        
         <select name="transType">
               <option value="<%=data[4][i].transType%>"><%=data[4][i].transType%></option>
@@ -71,8 +75,8 @@
             </select>
             </td>
 
-    <td> <input name="transMemo" value="<%=data[4][i].transMemo%>" type="text"></td>
-    <td> <%=data[4][i].MEMO%></td>
+    <td> <input name="transMemo" value="<%=data[4][i].memo%>" type="text"></td>
+    <td> <%=data[4][i].description%></td>
     <td><button type="submit()">update</button></td>
 </form>
    <td><form action="delTrans"method="post"><input hidden name="transId" value="<%=data[4][i]._id%>" type="text"><button>delete</button></form></td>
@@ -105,11 +109,11 @@ dd
       
  
     <h2> <%= Object.keys(data[4][0])[2]%></h2>
-        <input type="date" id="date-input" name="DTPOSTED" pattern="\d{2}-\d{2}-\d{4}" required>
+        <input type="date" id="date-input" name="postingDate" pattern="\d{2}-\d{2}-\d{4}" required>
         <h2> <%= Object.keys(data[4][0])[3]%></h2>
- <input name="TRANAMT">
+ <input name="amount">
         <h2> <%= Object.keys(data[4][0])[6]%></h2>
- <input name="MEMO">
+ <input name="description">
         <select name="transType">
              
                <%for(let i =0;i<data[5].length;i++){%>
