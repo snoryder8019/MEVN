@@ -664,6 +664,7 @@ const oldKeyMap = {
   DTPOSTED: 'postingDate',
   TRANAMT: 'amount',
   FITID: 'transactionId',
+  MEMO:'memo'
 };
 
 async function migrateKeys(client) {
