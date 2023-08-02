@@ -1625,14 +1625,120 @@ th {
 }
 
 .wixGrid {
-  border: inset 2px solid black;
   width: 100%;
   display: flex;
   overflow-x: scroll;
+  border: inset 2px solid black;
 }
 @media (max-width: 768px) {
   .wixGrid {
     grid-template-columns: 1fr;
+  }
+}
+
+.accentDubStyle {
+  font-size: 2rem;
+  color: #c1ff72;
+}
+
+.accentLabStyle {
+  line-height: 1%;
+  font-size: 4rem;
+  color: #910d94;
+}
+
+.dubContainer {
+  background-color: rgb(0, 0, 0);
+  max-width: 56%;
+  white-space: nowrap;
+  padding: 2%;
+  margin: 1%;
+  flex: 1;
+  border: 2px solid #c1ff72;
+  background-color: rgba(255, 255, 255, 0);
+  box-shadow: inset 5px 5px 5px rgba(194, 255, 114, 0.831372549), outset 5px 5px 5px rgba(194, 255, 114, 0.5019607843);
+}
+@media (max-width: 768px) {
+  .dubContainer {
+    font-size: 0.9rem;
+  }
+}
+.dubContainer h2 {
+  font-family: "kScript";
+}
+.dubContainer h1 {
+  margin: 0;
+  padding: 0;
+  font-family: "righteous";
+}
+@media (max-width: 768px) {
+  .dubContainer h1 {
+    font-size: 1.2rem;
+  }
+}
+.dubContainer p {
+  font-family: "conbo";
+}
+.dubContainer ul {
+  margin-left: 0;
+  padding-left: 0;
+}
+.dubContainer li {
+  white-space: normal;
+  margin-left: 3%;
+  padding-left: 0;
+  font-size: 0.9rem;
+}
+@media (max-width: 768px) {
+  .dubContainer li {
+    font-size: 0.8rem;
+  }
+}
+
+.labContainer {
+  background-color: rgb(0, 0, 0);
+  max-width: 56%;
+  white-space: nowrap;
+  padding: 2%;
+  margin: 1%;
+  flex: 1;
+  border: 2px solid #910d94;
+  box-shadow: inset 5px 5px 5px #910d94, outset 5px 5px 5px #910d94;
+}
+@media (max-width: 768px) {
+  .labContainer {
+    font-size: 0.9rem;
+  }
+}
+.labContainer h2 {
+  font-family: "kScript";
+}
+.labContainer h1 {
+  margin: 0;
+  padding: 0;
+  font-family: "righteous";
+}
+@media (max-width: 768px) {
+  .labContainer h1 {
+    font-size: 1.2rem;
+  }
+}
+.labContainer p {
+  font-family: "conbo";
+}
+.labContainer ul {
+  margin-left: 0;
+  padding-left: 0;
+}
+.labContainer li {
+  white-space: normal;
+  margin-left: 3%;
+  padding-left: 0;
+  font-size: 0.9rem;
+}
+@media (max-width: 768px) {
+  .labContainer li {
+    font-size: 0.8rem;
   }
 }
 
