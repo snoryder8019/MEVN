@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
 </head>
-<body style="background-color: rgba(0,0,0,0); color: rgb(255, 255, 255);">
-
+<body style="background-color: rgba(0,0,0,1); color: rgb(255, 255, 255);">
+<canvas id="main"></canvas>
   <div class="wixGrid">
     <%for(let i =0;i<data[0].length;i++){%>  
 <%if(data[0][i].status=="show"){%>
@@ -15,7 +15,9 @@
       <%let svcName = data[0][i].serviceName%>
       <%let svcNameSlice = svcName.slice(0,21)%>
 
-<div class="wixContainer">  
+<div class="wixContainer">
+
+  
   <div class="wixTitle">
   <h1><%=data[0][i].serviceName%></h1> 
 
@@ -30,7 +32,8 @@
   <%if(svcSlice.length>=1 || svcSlice!==null){%>
   <ul>
   <% for (let i = 1; i < svcSlice.length; i++) { %>
-   <li>   <%= svcSlice[i] %></li> 
+   <li>   <%= svcSlice[i] %></li>
+ 
   <% } %>
 </ul>
 <%}%>
@@ -40,5 +43,7 @@
 <%}%>
 <%}%>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script type="module"src="/javascripts/main.js"></script>
 </body>
 </html>

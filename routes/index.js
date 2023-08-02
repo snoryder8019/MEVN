@@ -17,6 +17,7 @@ const cliDashRouter = require('./clientDashboard');
 const w2adminRouter = require('./auth/w2admin');
 const adminRouter =require('./auth/admin');
 const wixRouter =require('./wix/wix');
+const labRouter =require('./theLab/theLab');
 const transactionsRouter = require('./transactions/transactions');
 
 router.use('/',(req,res, next)=>{next()})
@@ -36,6 +37,7 @@ router.use('/market',marketRouter);
 router.use('/',invoiceRouter);
 router.use('/',dashboardRouter);
 router.use('/',wixRouter);
+router.use('/',labRouter);
 router.use('/',cliDashRouter);
 
 /////////////////////

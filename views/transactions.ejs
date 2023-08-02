@@ -44,16 +44,18 @@
             <form action="/updateTransCat/<%=data[4][i]._id%>"method="post">
 <%if(data[4][i].amount<0){%>
     <tr style="background-color:rgba(232, 185, 180, 0.381)">
-    <%}else{%>
-        <tr style="background-color:rgba(144, 238, 144, 0.162)">
-    <%}%>
-    <%let amount = data[4][i].amount%>
-    <%let modWhole = amount.split('.')[0]%>
-    <%let modPart = amount.split('.')[1]%>
-    <%let modChange = modPart.slice(0,2)%>
-    <td>  <%=data[4][i].postingDate%></td>
-    <td id="tdMoney" class="total">$ <%=modWhole+"."+modChange%></td>   
-    <td>        
+        <%}else{%>
+            <tr style="background-color:rgba(144, 238, 144, 0.162)">
+                <%}%>
+                <%let amount = data[4][i].amount%>
+                <%let modWhole = amount.split('.')[0]%>
+                <%let modPart = amount.split('.')[1]%>
+                <%let modChange = modPart.slice(0,2)%>
+                <td>  <%=data[4][i].postingDate%></td>
+                <td id="tdMoney" class="total">$ <%=modWhole+"."+modChange%></td>   
+
+                <%if(data[4][i].transType=='object'&& transType){%>
+                <td>        
         <select name="transType">
               <option value="<%=data[4][i].transType%>"><%=data[4][i].transType%></option>
                <%for(let i =0;i<data[5].length;i++){%>
@@ -61,7 +63,13 @@
             <%}%>
         </select>
         </td>
-        <td>       
+        <%}else{%>
+            <td>
+                <select name="transType" id=""> <option value="no transtype"> "no transtype"</option></select>
+               
+            </td>
+            <%}%>
+        <td>  
             <select name="invClient">
                 <%if(typeof data[4][i]=='object' && data[4][i].invClient){%>
                     <option value="<%=data[4][i].invClient%>"><%=data[4][i].invClient%></option>
