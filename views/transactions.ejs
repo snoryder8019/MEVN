@@ -39,7 +39,7 @@
    
     </thead>
     <tbody>
-        
+        <!--TRANSACTION ROWS of DATA PLACED IN FORM TO UPDATE-->
         <%for(let i =0;i<data[4].length;i++){%>
             <form action="/updateTransCat/<%=data[4][i]._id%>"method="post">
 <%if(data[4][i].amount<0){%>
@@ -93,6 +93,7 @@
 </tbody>
 </table>
 </div>
+<!--CREATE TRANSACTION CATEGORIES-->
 <div class="eventBody">
     <form action="/addTransCat"method="post">
         <h2>Add transaction category</h2>
@@ -111,6 +112,7 @@
 dd
 
 </div>
+<!--MANUAL TRANSACTIONS FORM-->
 <div class="EventBody">
 <form action="/manualTransaction" method="post">
    
@@ -140,29 +142,8 @@ dd
 </form>
 
 </div>
-   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <%}%>
-
-
-<script>
-    
+<script>  
     function listeners(){
         const servicesAdded = document.getElementById('servicesAdded')
         const costsAdded = document.getElementById('costsAdded')
@@ -172,8 +153,7 @@ dd
         const addSvcButton = document.getElementById('addSvcButton')
         serviceAdd.addEventListener('change', svcChange)
         addSvcButton.addEventListener('click', svcAdd)
-    }
-    
+    }    
     function svcChange(){
         console.log(event.target.value)
     }
@@ -195,11 +175,8 @@ totalcostEl.appendChild(costText)
 tRow.appendChild(namesEl)
 tRow.appendChild(totalcostEl)
    costsAdded.appendChild(tRow)
-   //////////
-   
-  
-   
-    //ADD INPUT ELEMENTS FOR SERVICES
+   /////////
+  //ADD INPUT ELEMENTS FOR SERVICES
    const inputEl = document.createElement('input');
    inputEl.setAttribute('type','text')
    inputEl.setAttribute('name','serviceName')
