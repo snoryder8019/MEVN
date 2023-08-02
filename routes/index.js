@@ -18,6 +18,7 @@ const w2adminRouter = require('./auth/w2admin');
 const adminRouter =require('./auth/admin');
 const wixRouter =require('./wix/wix');
 const labRouter =require('./theLab/theLab');
+const dubRouter =require('./dub/dubSquaredMedia');
 const transactionsRouter = require('./transactions/transactions');
 
 router.use('/',(req,res, next)=>{next()})
@@ -38,6 +39,7 @@ router.use('/',invoiceRouter);
 router.use('/',dashboardRouter);
 router.use('/',wixRouter);
 router.use('/',labRouter);
+router.use('/',dubRouter);
 router.use('/',cliDashRouter);
 
 /////////////////////
