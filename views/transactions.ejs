@@ -37,6 +37,7 @@ no data found
             <th>amount</th>
             <th>date</th>
             <th>description</th>
+            <th>memo</th>
         </thead>
         <tbody>
             <!---->
@@ -49,6 +50,7 @@ no data found
                             try {
                                 amount = data[4][i].amount;
                             } catch(error) {
+                                console.log(error)
                                 amount = error;
                             }
                             %>
@@ -61,6 +63,7 @@ no data found
                             try {
                                 postingDate = data[4][i].postingDate;
                             } catch(error) {
+                                console.log(error)
                                 postingDate = error;
                             }
                             %>
@@ -72,10 +75,23 @@ no data found
                             try {
                                 description = data[4][i].description;
                             } catch(error) {
+                                console.log(error)
                                 description = error;
                             }
                             %>
                         <%= description %>
+                    </td>
+                    <td>
+                        <% 
+                            let memo;
+                            try {
+                                memo = data[4][i].memo;
+                            } catch(error) {
+                                console.log(error)
+                                memo = error;
+                            }
+                            %>
+                        <%= memo %>
                     </td>
                 </tr>
                     <% } %>
