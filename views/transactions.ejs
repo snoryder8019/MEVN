@@ -1,0 +1,33 @@
+<!--lets really break down this transaction object-->
+<%if(data){%>
+    <%let dataSetArray = []%>
+datafound
+<br>
+        <%for(i=0;i<Object.keys(data).length;i++){%>
+        <%dataSetArray.push(Object.keys(data)[i])%>
+        <%}%>
+data sets:
+<br>
+<ul>
+            <%for(x=0;x<dataSetArray.length;x++){%>
+            <li>
+                <%=dataSetArray[x]%>
+                <ul>
+                    <%for(let z=0;z<Object.keys(data[x]).length;z++){%>
+                    <li><%=Object.keys(data[x][z])%></li>
+                    <%}%>
+                </ul>
+
+            </li>
+            <%}%>
+</ul>
+<br>
+<%}else{%>
+no data found 
+<br>
+<%}%>
+
+
+
+
+    
