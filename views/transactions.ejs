@@ -1,3 +1,6 @@
+
+
+
 <!--lets really break down this transaction object-->
 <%if(data){%>
     <%let dataSetArray = []%>
@@ -11,10 +14,11 @@ data sets:
 <ul>
             <%for(x=0;x<dataSetArray.length;x++){%>
             <li>
-                <%=dataSetArray[x]%>
+              <h2>  data[<%=dataSetArray[x]%>]:</h2>
                 <ul>
+                 <!--NESTED DYNAMC UL LIs-->
                     <%for(let z=0;z<Object.keys(data[x]).length;z++){%>
-                    <li><%=Object.keys(data[x][z])%></li>
+                    <li><strong><%=z%>: ~~</strong>  <%=Object.values(data[x][z])%></li>
                     <%}%>
                 </ul>
 
@@ -27,6 +31,60 @@ no data found
 <br>
 <%}%>
 
+<% if(data[4]) { %>
+    <table>
+        <thead>
+            <th>amount</th>
+            <th>date</th>
+            <th>description</th>
+        </thead>
+        <tbody>
+            <!---->
+            
+            <% for(let i = 0; i < data[4].length; i++) { %>
+                <tr>
+                    <td>
+                        <% 
+                            let amount;
+                            try {
+                                amount = data[4][i].amount;
+                            } catch(error) {
+                                amount = error;
+                            }
+                            %>
+                        <%= amount%>
+                    </td>
+             
+                    <td>
+                        <% 
+                            let postingDate;
+                            try {
+                                postingDate = data[4][i].postingDate;
+                            } catch(error) {
+                                postingDate = error;
+                            }
+                            %>
+                        <%= postingDate %>
+                    </td>
+                    <td>
+                        <% 
+                            let description;
+                            try {
+                                description = data[4][i].description;
+                            } catch(error) {
+                                description = error;
+                            }
+                            %>
+                        <%= description %>
+                    </td>
+                </tr>
+                    <% } %>
+                    <!---->
+        </tbody>
+    </table>
+<% } else { %>
+    no data 
+<% } %>
 
 
 
