@@ -24,6 +24,38 @@
 <div class="eventBody">
 <h1> transactions</h1>
 
+
+
+<!--lets really break down this transaction object-->
+<%if(data){%>
+    <%let dataSetArray = []%>
+datafound
+<br>
+        <%for(i=0;i<Object.keys(data).length;i++){%>
+        <%dataSetArray.push(Object.keys(data)[i])%>
+        <%}%>
+data sets:
+<br>
+<ul>
+            <%for(x=0;x<dataSetArray.length;x++){%>
+            <li>
+              <h2>  data[<%=dataSetArray[x]%>]:</h2>
+                <ul>
+                 <!--NESTED DYNAMC UL LIs-->
+                    <%for(let z=0;z<Object.keys(data[x]).length;z++){%>
+                    <li><strong><%=z%>: ~~</strong>  <%=Object.values(data[x][z])%></li>
+                    <%}%>
+                </ul>
+
+            </li>
+            <%}%>
+</ul>
+<br>
+<%}else{%>
+no data found 
+<br>
+<%}%>
+
 <%if(typeof data[4]=='object'&&data[4]){%>
 
 <table>
