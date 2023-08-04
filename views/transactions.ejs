@@ -87,7 +87,12 @@
             
             <% for(let i = 0; i < data[4].length; i++) { %>
                 <form action="/updateTransCat/<%=data[4][i]._id%>" method="post">
-                <tr>
+               <%if(data[4][i].amount && data[4][i].amount > 0){%>
+                 <tr style="background-color: rgb(7, 96, 7);">
+                <%}%>
+               <%if(data[4][i].amount && data[4][i].amount < 0){%>
+                 <tr style="background-color: rgb(55, 45, 39);">
+                    <%}%>
                     <td>
                         <% 
                             let amount;
