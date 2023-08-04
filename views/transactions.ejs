@@ -22,11 +22,56 @@
       <a href="/invoice"><button>invoice</button></a>
       <a href="/dashboard"><button>dashboard</button></a>
  
+
+<!--MANAGE THIS INFO PANE IN JS-->
+<div class="eventBody">
+    <div class="eventBody">
+        <form action="/csvUpload" method="post" enctype="multipart/form-data">
+            <input type="file" name="csv">
+            <button type="submit">Upload</button>
+          </form>
+    
+    
+    
+    
+    </div>
+</div>
+
+
+
+<!--MANAGE THIS INFO PANE IN JS-->
+<!--MANUAL TRANSACTIONS FORM-->
+<div class="EventBody">
+    <div class="eventBody">
+    <form action="/manualTransaction" method="post">    
+        <h2>posting date</h2>
+            <input type="text" id="date-input" name="postingDate" pattern="\d{2}-\d{2}-\d{4}" required>
+            <h2>amount</h2>
+     <input name="amount">
+            <h2>description</h2>
+            <input name="description">
+            <h2>invoice payment from:</h2>
+          
+           
+            <select name="invClient"  class="invClient">
+                <option value=""></option>
+                <%for(let i =0;i<data[1].length;i++){%>
+                    <option value="<%=data[1][i].companyName%>"><%=data[1][i].companyName%></option>
+                    <%}%>
+                </select>
+        <button typew ="submit">submit</button>
+    </form>
+</div>
+    </div>
+
+
+      <!--MANAGE THIS TRANSACTION WINDOW IN JS-->
 <div class="eventBody">
 <h1> transactions</h1>
 
 
 <% if(data[4]) { %>
+
     <div class="eventBody">
     <table>
         <thead>
@@ -35,11 +80,13 @@
             <th>co invoiced</th>
             <th>description</th>
             <th>memo</th>
+            <th>update</th>
         </thead>
         <tbody>
             <!---->
             
             <% for(let i = 0; i < data[4].length; i++) { %>
+                <form action="/updateTransCat/<%=data[4][i]._id%>" method="post">
                 <tr>
                     <td>
                         <% 
@@ -115,7 +162,9 @@
                             
                         <%= memo %>
                     </td>
+                    <td><button type="submit()">update</button></td>
                 </tr>
+            </form>
                     <% } %>
                     <!---->
         </tbody>
