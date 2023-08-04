@@ -32,6 +32,7 @@
         <thead>
             <th>amount</th>
             <th>date</th>
+            <th>co invoiced</th>
             <th>description</th>
             <th>memo</th>
         </thead>
@@ -65,6 +66,30 @@
                             %>
                         <%= postingDate %>
                     </td>
+                    <td>
+                        <% 
+                            let invClient;
+                            try {
+                                invClient = data[4][i].invClient;
+                            } catch(error) {
+                                console.log(error)
+                                invClient = 'none to invoice';
+                            }
+                            %>
+                      <select name="invClient">
+                        <option value="<%=invClient%>"> <%= invClient %></option>
+                        <%for(let i =0;i<data[1].length;i++){%>
+                            <option value="<%=data[1][i].companyName%>"><%=data[1][i].companyName%></option>
+                            <%}%>
+                      </select> 
+                    </td>
+
+
+
+
+
+
+
                     <td>
                         <% 
                             let description;
