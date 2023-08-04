@@ -72,16 +72,18 @@
                 <th style="border:1px dotted white">amount</th>
                 <th style="border:1px dotted white">post date</th>
                 <th style="border:1px dotted white">memo</th>
+                <th style="border:1px dotted white">checkNumber</th>
             </thead>
             <tbody>
                 <%for(let i=0;i<data[4][0].length;i++){%>
                     <%if(data[4][0][i].invClient==dash[0].companyName){%>
                         <tr>                             
-                            <td style="border:1px dotted white"><%=data[4][0][i].TRANAMT%></td> 
+                            <td style="border:1px dotted white"><%=data[4][0][i].amount%></td> 
 
-                            <% paytotals=paytotals+ new Number(data[4][0][i].TRANAMT)%>   
-                            <td style="border:1px dotted white"><%=data[4][0][i].DTPOSTED%></td>            
-                            <td style="border:1px dotted white"><%=data[4][0][i].MEMO%></td>    
+                            <% paytotals=paytotals+ new Number(data[4][0][i].amount)%>   
+                            <td style="border:1px dotted white"><%=data[4][0][i].datePosted%></td>            
+                            <td style="border:1px dotted white"><%=data[4][0][i].memo%></td>    
+                            <td style="border:1px dotted white"><%=data[4][0][i].checkNumber%></td>    
                             
                         </tr>
                         <%}%>
