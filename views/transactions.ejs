@@ -52,7 +52,13 @@
                 <%let modWhole = amount.split('.')[0]%>
                 <%let modPart = amount.split('.')[1]%>
                 <%let modChange = modPart.slice(0,2)%>
-                <td>  <%=data[4][i].postingDate%></td>
+                <td> 
+                    <%if(data[4][i].postingDate){%>
+                     <%=data[4][i].postingDate%>
+                     <%}else{%>
+                        no posting
+                        <%}%>
+                    </td>
                 <td id="tdMoney" class="total">$ <%=modWhole+"."+modChange%></td>   
 
                 <%if(data[4][i].transType=='object'&& data[4][i].transType){%>
@@ -72,7 +78,7 @@
             <%}%>
         <td>  
             <select name="invClient">
-                <%if(typeof data[4][i]=='object' && data[4][i].invClient){%>
+                <%if(typeof data[4][i].invClient=='object' && data[4][i].invClient){%>
                     <option value="<%=data[4][i].invClient%>"><%=data[4][i].invClient%></option>
                     <option value="none">none to invoice</option>
                     <%}else{%>
@@ -84,16 +90,33 @@
             </select>
             </td>
 
-    <td> <input name="transMemo" value="<%=data[4][i].memo%>" type="text"></td>
-    <td> <%=data[4][i].description%></td>
+    <td> <%if(data[4][i].memo){%>
+        <input name="transMemo" value="<%=data[4][i].memo%>" type="text">
+        <%}else{%>
+            model needs update
+            <%}%>
+        </td>
+    <td>
+        <%if(data[4][i].description){%>
+        <%=data[4][i].description%>
+    <%}else{%>
+        no description
+        <%}%>
+    </td>
     <td><button type="submit()">update</button></td>
 </form>
    <td><form action="delTrans"method="post"><input hidden name="transId" value="<%=data[4][i]._id%>" type="text"><button>delete</button></form></td>
 </tr>
 <%}else{%>
     <tr>
-        <td><%=data[4][i].postingDate%></td>
-        <td style="min-width:100%"> data model needs update</td>
+        <td>
+            <%if(data[4][i].postingDate){%>
+            <%=data[4][i].postingDate%>
+        <%}else{%>
+        no posting date
+            <%}%>
+        </td>
+        <td style="min-width:100%"> error with .amount or .postingDate</td>
 
     </tr>
 <%}%>
