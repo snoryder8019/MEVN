@@ -66,7 +66,7 @@ const invCollections = {
   markPaid().catch(console.error);
   async function postPayment(client,payParams){
     const pay = await client.db(config.DB_NAME).collection(`${config.COLLECTION_SUBPATH}_invoice`).updateOne({"_id":payParams.id},{$set:payParams.payStatus},{$upsert:false})
-  console.log(pay)
+
   res.redirect('dashboard')
 }
   })
@@ -92,7 +92,7 @@ const invCollections = {
     markPaid().catch(console.error);
     async function postPayment(client,payParams){
       const pay = await client.db(config.DB_NAME).collection(`${config.COLLECTION_SUBPATH}_invoice`).updateOne({"_id":payParams.id},{$set:payParams.payStatus},{$upsert:false})
-    console.log(pay)
+
     res.redirect('dashboard')
   }
     })
@@ -129,16 +129,13 @@ const invCollections = {
        const cliResult = await client.db(config.DB_NAME).collection(`${config.COLLECTION_SUBPATH}_clients`).findOne({"_id":params.cliId})
        const invResult = await client.db(config.DB_NAME).collection(`${config.COLLECTION_SUBPATH}_invoice`).findOne({"_id":params.invId})
        const currentBal = invResult.invTotal
-       console.log(cliResult.status.balance)//this works
-       console.log(currentBal)//this works
+    
        const newBalance0 = cliResult.status.balance-currentBal
        const newBalance = {status:{active:true,balance:newBalance0}}
-       console.log(newBalance)//this works
-       console.log(params.cliId)//this works
+
        const finalCli = await client.db(config.DB_NAME).collection(`${config.COLLECTION_SUBPATH}_clients`).updateOne({"_id":params.cliId},{$set:newBalance},{upsert:false})
        const finalInv = await client.db(config.DB_NAME).collection(`${config.COLLECTION_SUBPATH}_invoice`).updateOne({"_id":params.invId},{$set:params.draftStatus},{upsert:false})
-       console.log(finalCli)//this works
-       console.log(finalInv)//this works
+ 
        // const result = await client.db(config.DB_NAME).collection(`${config.COLLECTION_SUBPATH}_invoice`).updateOne({"_id":payParams.id},{$set:params.status},{$upsert:false})
         res.redirect('dashboard')
     }
@@ -157,7 +154,7 @@ async function main(){
 
   try { 
     const today = new Date() 
-    console.log(`${req.body.notify_cust_id}\n${req.body.notify_inv_id}`)
+   
     await createUser(client,{     
      noticeLast:{today,type:Date}         
    },
@@ -177,7 +174,7 @@ async function createUser(client,options,custid,invid){
  let result1 = await client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+"_clients").findOne({"_id":custid});
  const invMessage = "if you have any questions or think I have made an error, please let me know, Thank you!"
 
- console.log(result1)
+
 
 
 //////////////////////////////

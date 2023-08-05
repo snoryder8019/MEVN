@@ -37,20 +37,7 @@ const invCollections = {
     5:'_transCat'
   };
  router.get('/transactions',isAddy,getHandler(invCollections,'transactions'));
-///////////////////////////////////////////////
-////~~~~~~~~~~~~`CSV UPLOAD~~~~~~~~~~~~~~~///
-// router.post('/csvUpload', upload.single('csv'),async (req, res) => {
-//     try {
-//         const filePath = req.file.path;
-//         const data = await csvtojson().fromFile(filePath);    
-//         const result = await client.db(config.DB_NAME).collection(`${config.COLLECTION_SUBPATH}_transactions`).insertMany(data);
-//        // res.sendStatus(200);
-//       console.log(result)
-//        res.redirect('transactions');
-//       } catch (err) {
-//         console.log(err);
-//       }
-//     });
+
 // Function to convert a single key from space-separated to camel case
 function camelCaseKey(key) {
   const words = key.split(' ');
@@ -94,7 +81,7 @@ router.post('/addTransCat',(req,res)=>{
   transAdd().catch(console.error);
   async function transPlant(client,options){
     const result = await client.db(config.DB_NAME).collection(`${config.COLLECTION_SUBPATH}_transCat`).insertOne(options)
- console.log(result)
+
  res.redirect('transactions')
 }}
   )
