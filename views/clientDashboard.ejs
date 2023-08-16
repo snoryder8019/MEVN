@@ -71,6 +71,7 @@
                
                 <th style="border:1px dotted white">amount</th>
                 <th style="border:1px dotted white">post date</th>
+                <th style="border:1px dotted white">description</th>
                 <th style="border:1px dotted white">memo</th>
                 <th style="border:1px dotted white">checkNumber</th>
             </thead>
@@ -81,11 +82,13 @@
                             <td style="border:1px dotted white"><%=data[4][0][i].amount%></td> 
 
                             <% paytotals=paytotals+ new Number(data[4][0][i].amount)%>   
-                            <td style="border:1px dotted white"><%=data[4][0][i].datePosted%></td>            
+                            <td style="border:1px dotted white"><%=data[4][0][i].postingDate%></td>            
+                            <td style="border:1px dotted white"><%=data[4][0][i].description%></td>    
                             <td style="border:1px dotted white"><%=data[4][0][i].memo%></td>    
                             <td style="border:1px dotted white"><%=data[4][0][i].checkNumber%></td>    
                             
                         </tr>
+                        <tr><td style="border:1px dotted white"><%=data[4][0][i].extendedDescription%></td>   </tr>
                         <%}%>
                         <%}%>
                     </tbody>
