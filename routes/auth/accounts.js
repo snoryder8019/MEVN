@@ -2,10 +2,11 @@ const express = require('express');
 const router = express.Router();
 const axios = require('axios')
 const config = require('../../config/config')
-
+const client = require('../../config/mongo');
 const getHandler  = require('../crud/getHandler');
 const postToHandler  = require('../crud/postToHandler');
-
+const { ObjectID } = require('mongodb');
+const ObjectId = require('mongodb').ObjectId;
 
 //////////////////middleware
 function isAddy(req,res,next){
@@ -190,4 +191,30 @@ postRequest();
 /////////////////////////////////  
 ///////////////ACCOUNTS.JS//////////////////
   //////////////////////////////
+
+  router.get('/deactivateAccount/:boolean/:id', (req,res)=>{
+    async function inactive(){
+      const idQ= req.params.id
+      const booP= req.params.boolean
+      const boo = JSON.parse(booP)
+      console.log(req.query)
+      console.log(req.params)
+const id = ObjectId(idQ)
+//console.log(id)
+      try{await makeInact(client,id,{
+        status:{
+          active:boo,
+          balance:0
+        }
+      })}
+      catch(error){console.log(error)}
+    }
+    inactive().catch(console.error)
+    async function makeInact(client,id,update){
+     const response= await client.db(config.DB_NAME).collection(`${config.COLLECTION_SUBPATH}_clients`).updateOne({"_id":id},{$set:update},{upsert:false})
+    console.log(response)
+     res.redirect('/accounts')
+    }
+  }
+  )
 module.exports = router

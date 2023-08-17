@@ -23,18 +23,21 @@
       <a href="/invoice"><button>invoice</button></a>
     <div  id="pageCard" class="landingPage">
       <%for(let i =0;i<data[4].length;i++){%>
+        <%if(data[4][i].status.active==true){%>
         <div class="eventBody">
         <a href="/editor/?_id=<%=data[4][i]._id%>&ext=_clients">
-            <span class="alert"><h2> <%= data[4][i].companyName%></h2></span><br>
+          <a href="/clientDashboard/<%=data[4][i]._id%>"> <span class="alert"><h2> <%= data[4][i].companyName%></h2></span></a><br>
             <%= data[4][i].contactName%><br>
             <%= data[4][i].email%><br>
             <%= data[4][i].phoneNumber%><br>
             <%= data[4][i].businessAddress%><br>
 
          balance: $ <%=data[4][i].status.balance%>.00<br>
-         <a href="/clientDashboard/<%=data[4][i]._id%>">view dash</a>
+         <a href="/clientDashboard/<%=data[4][i]._id%>">view dash</a><br><br>
+         <a href="/deactivateAccount/false/<%=data[4][i]._id%>">deactivate account</a>
         </a>
       </div>
+        <%}%>
         <%}%>
       </div>
         
@@ -118,7 +121,19 @@
     
   </div>
   
-  
+  <div class="eventBody">
+    <div class="eventBody">
+      inactive list
+      <%for(let i =0;i<data[4].length;i++){%>
+        <%if(data[4][i].status.active==false){%>
+          <div style="border:1px dashed white">
+          <span class="alert">  <h2> <%=data[4][i].companyName%></h2></span>
+          <a href="/deactivateAccount/true/<%=data[4][i]._id%>">activate account</a>
+        </div>
+          <%}%>
+        <%}%>
+    </div>
+  </div>
   
 </div>
 
