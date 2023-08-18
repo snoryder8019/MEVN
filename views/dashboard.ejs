@@ -46,7 +46,7 @@
    <td style="border:1px dashed white"><a href="/clientDashboard/<%=data[2][i].invData.companyId.split('|')[0]%>"> <%=data[2][i].invData.companyId.split('|')[1]%></a></td>
    <td style="border:1px dashed white"> <%=data[2][i].invTotal%></td>
    <td style="border:1px dashed white"> <%=data[2][i].partialPayments%></td>
-  <td style="border:1px dashed white"><%=data[2][i].due.toLocaleString()%></td>
+  <td style="border:1px dashed white"><%=new Date(data[2][i].due).toLocaleString().split(',')[0]%></td>
   <td style="border:1px dashed white">
     <form action="/reDraft"method="post"><input hidden name="inv_id" type="text"value="<%=data[2][i]._id%>"><input hidden type="text"name="_id_client" value="<%=data[2][i].invData.companyId%>"><button>draft</button></form>
     <form action="/markPaid"method="post"><input hidden type="text"name="_id" value="<%=data[2][i]._id%>"><button>paid</button></form>
@@ -76,8 +76,10 @@
         <table style="border:1px dashed white">
             <thead style="text-align: center;">
                 <th>comapny</th> 
+                <th>service name</th> 
                 <th>total paid</th> 
               
+               <th>date</th> 
                <th>payment date</th> 
                <th>mark paid</th>
             </thead>
@@ -92,9 +94,11 @@
 <tr>
 
    <td style="border:1px dashed white"> <%=data[2][i].invData.companyId.split('|')[1]%></td>
+   <td style="border:1px dashed white"> <%=data[2][i].invData.serviceName.split('|')[1]%></td>
    <td style="border:1px dashed white"> <%=data[2][i].invTotal%></td>
 
-  <td style="border:1px dashed white"><%Date(data[2][i].paymentDate).toLocaleString()%></td>
+  <td style="border:1px dashed white"><%=new Date(data[2][i].date).toLocaleString().split(',')[0]%></td>
+  <td style="border:1px dashed white"><%=new Date(data[2][i].paymentDate).toLocaleString().split(',')[0]%></td>
   <td style="border:1px dashed white"><form action="/unPaid"method="post"><input hidden type="text"name="_id" value="<%=data[2][i]._id%>"><button>revert</button></form></td>
 </tr>
 
