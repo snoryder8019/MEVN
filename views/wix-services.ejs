@@ -10,7 +10,7 @@
 
   <div class="wixGrid">
     <%for(let i =0;i<data[0].length;i++){%>  
-<%if(data[0][i].status=="show"){%>
+<%if(data[0][i].status=="show" && data[0][i].serviceCategory!="theLab"&& data[0][i].serviceCategory!="dubSquaredMedia"){%>
 
       <%let svcName = data[0][i].serviceName%>
       <%let svcNameSlice = svcName.slice(0,21)%>
