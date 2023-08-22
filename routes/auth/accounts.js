@@ -123,8 +123,8 @@ const postToClients = (req, res) => {
 
   //~~~~~~~~~~~~~~~~~SERVICES.EJS~~~~~~~~~~/////
 const postToServices = (req, res) => {
-  const { collectionExtName, serviceName, cost,terms,serviceCategory, serviceDetail } = req.body;
-  const options = {serviceName,cost,terms,serviceCategory,serviceDetail};
+  const { collectionExtName, serviceName, cost,terms,serviceCategory, serviceDetails } = req.body;
+  const options = {serviceName,cost,terms,serviceCategory,serviceDetails};
   const handler = postToHandler(collectionExtName, options, 'services');
   handler(req, res);
 };
