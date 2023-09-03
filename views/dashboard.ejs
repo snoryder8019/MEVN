@@ -29,7 +29,7 @@
             <thead style="text-align: center;">           
                <th>comapny</th> 
                <th>inv total</th> 
-               <th>partial payments</th>
+             
                <th>due date</th> 
                <th>actions</th>
              
@@ -45,8 +45,7 @@
 <tr>
    <td style="border:1px dashed white"><a href="/clientDashboard/<%=data[2][i].invData.companyId.split('|')[0]%>"> <%=data[2][i].invData.companyId.split('|')[1]%></a></td>
    <td style="border:1px dashed white"> <%=data[2][i].invTotal%></td>
-   <td style="border:1px dashed white"> <%=data[2][i].partialPayments%></td>
-  <td style="border:1px dashed white"><%=data[2][i].due%></td>
+   <td style="border:1px dashed white"><%=data[2][i].due%></td>
   <td style="border:1px dashed white">
     <form action="/reDraft"method="post"><input hidden name="inv_id" type="text"value="<%=data[2][i]._id%>"><input hidden type="text"name="_id_client" value="<%=data[2][i].invData.companyId%>"><button>draft</button></form>
     <form action="/markPaid"method="post"><input hidden type="text"name="_id" value="<%=data[2][i]._id%>"><button>paid</button></form>
