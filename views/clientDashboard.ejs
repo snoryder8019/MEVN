@@ -50,7 +50,7 @@
                     <td style="border:1px dotted white">view: <a href="/invoiceViewer/<%=data[2][0][i]._id%>"><%=data[2][0][i].invData.companyId.split('|')[1].slice(0,3)+"-"+data[2][0][i]._id.toString().slice(-4)%></a></td>
                     <td style="border:1px dotted white"> <%=new Date(data[2][0][i].date).toDateString()%></td>
                     <td style="border:1px dotted white"> $ <%=data[2][0][i].invTotal%> .00</td>
-                    <td style="border:1px dotted white">  <%=data[2][0][i].invData.companyId.split('|')[1]%></td>
+                    <td style="border:1px dotted white">  <%data[2][0][i].invData.companyId.split('|')[1]%></td>
                    
                        <%if(data[2][0][i].status.paid==true){%>
                         <td style="color:black;background-color:green;border:1px dotted rgb(255, 255, 255)">  paid  </td>
