@@ -98,7 +98,7 @@
                         if (Array.isArray(data[2][i].invData.serviceName)) {
                           serviceNames = data[2][i].invData.serviceName;
                         } else {
-                          serviceNames = data[2][i].invData.serviceName.split('|');
+                          serviceNames = String(data[2][i].invData.serviceName).split('|');
                         }
                         for(let j = 1; j < serviceNames.length; j++) { 
                     %>
@@ -112,6 +112,7 @@
                       } 
                     %>
                   </td>
+                  
                   
                   
                 <td style="border:1px dashed white"> <%=data[2][i].invTotal%></td>
