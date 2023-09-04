@@ -72,74 +72,41 @@
     <div class="eventBody">
         <h2>paid invoices</h2>
 
-      <!-- Open Invoices Table -->
-<table style="border:1px dashed white">
-    <thead style="text-align: center;">           
-      <th>company</th> 
-      <th>inv total</th> 
-      <th>due date</th> 
-      <th>actions</th>
-    </thead>
-    <tbody>
-      <% try { %>
-        <% if(typeof data[2] == 'object' && data[2]) { %>
-          <% for(let i = 0; i < data[2].length; i++) { %>
-            <% if(data[2][i].status.paid == false && data[2][i].status.draft == false) { %>
-              <tr>
-                <td style="border:1px dashed white"><a href="/clientDashboard/<%=data[2][i].invData.companyId.split('|')[0]%>"> <%=data[2][i].invData.companyId.split('|')[1]%></a></td>
-                <td style="border:1px dashed white"> <%=data[2][i].invTotal%></td>
-                <td style="border:1px dashed white"><%= new Date(data[2][i].due).toLocaleDateString() %></td>
-                <td style="border:1px dashed white">
-                  <!-- ... your form actions ... -->
-                </td>
-              </tr>
-            <% } %>
-          <% } %>
-        <% } %>
-      <% } catch (error) { %>
-        <tr>
-          <td colspan="4">Error: <%= error.message %></td>
-        </tr>
-      <% } %>
-    </tbody>
-  </table>
-  
-  <!-- Paid Invoices Table -->
-  <table style="border:1px dashed white">
-    <thead style="text-align: center;">           
-      <th>company</th> 
-      <th>service name</th> 
-      <th>total paid</th> 
-      <th>date</th> 
-      <th>payment date</th> 
-      <th>mark paid</th>
-    </thead>
-    <tbody>
-      <% try { %>
-        <% if(typeof data[2] == 'object' && data[2]) { %>
-          <% for(let i = 0; i < data[2].length; i++) { %>
-            <% if(data[2][i].status.paid == true) { %>
-              <tr>
-                <td style="border:1px dashed white"> <%=data[2][i].invData.companyId.split('|')[1]%></td>
-                <td style="border:1px dashed white"> <%=data[2][i].invData.serviceName.split('|')[1]%></td>
-                <td style="border:1px dashed white"> <%=data[2][i].invTotal%></td>
-                <td style="border:1px dashed white"><%= new Date(data[2][i].date).toLocaleDateString() %></td>
-                <td style="border:1px dashed white"><%= new Date(data[2][i].paymentDate).toLocaleDateString() %></td>
-                <td style="border:1px dashed white">
-                  <!-- ... your form actions ... -->
-                </td>
-              </tr>
-            <% } %>
-          <% } %>
-        <% } %>
-      <% } catch (error) { %>
-        <tr>
-          <td colspan="6">Error: <%= error.message %></td>
-        </tr>
-      <% } %>
-    </tbody>
-  </table>
-  
+        <table style="border:1px dashed white">
+            <thead style="text-align: center;">
+                <th>comapny</th> 
+                <th>service name</th> 
+                <th>total paid</th> 
+              
+               <th>date</th> 
+               <th>payment date</th> 
+               <th>mark paid</th>
+            </thead>
+        <tbody>
+
+        <%if(typeof data[2]=='object' && data[2]){%>
+           <%for(let i=0;i<data[2].length;i++){%>
+            <%if(data[2][i].status.paid==true){%>
+
+           
+<!--.toLocaleDateString()-->
+<tr>
+
+   <td style="border:1px dashed white"> <%=data[2][i].invData.companyId.split('|')[1]%></td>
+   <td style="border:1px dashed white"> <%=data[2][i].invData.serviceName.split('|')[1]%></td>
+   <td style="border:1px dashed white"> <%=data[2][i].invTotal%></td>
+
+  <td style="border:1px dashed white"><%=data[2][i].date%></td>
+  <td style="border:1px dashed white"><%=data[2][i].paymentDate%></td>
+  <td style="border:1px dashed white"><form action="/unPaid"method="post"><input hidden type="text"name="_id" value="<%=data[2][i]._id%>"><button>revert</button></form></td>
+</tr>
+
+<!---->
+            <%}%>
+            <%}%>
+            <%}%>
+        </tbody>
+    </table>
     </div>
 
 
