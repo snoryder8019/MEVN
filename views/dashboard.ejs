@@ -94,17 +94,25 @@
                 <td style="border:1px dashed white">
                     <% 
                       try {
-                        const serviceNames = data[2][i].invData.serviceName.split('|');
+                        let serviceNames = [];
+                        if (Array.isArray(data[2][i].invData.serviceName)) {
+                          serviceNames = data[2][i].invData.serviceName;
+                        } else {
+                          serviceNames = data[2][i].invData.serviceName.split('|');
+                        }
                         for(let j = 1; j < serviceNames.length; j++) { 
                     %>
                       <%= serviceNames[j] %><% if(j < serviceNames.length - 1) { %>, <% } %>
                     <% 
                         }
                       } catch (error) {
-                        %>Error: <%= error.message %><%
+                    %>
+                      Error: <%= error.message %>
+                    <% 
                       } 
                     %>
                   </td>
+                  
                   
                 <td style="border:1px dashed white"> <%=data[2][i].invTotal%></td>
                 <td style="border:1px dashed white"><%= new Date(data[2][i].date).toLocaleDateString() %></td>
