@@ -188,7 +188,7 @@ async function createUser(client,options,custid,invid){
   const image = fs.readFileSync('./public/images/logoW2.png');
       let mailOptions = {
           from:"W2 Marketing" ,
-          to:[result1.email+',w2marketing.scott@gmail.com,w2marketing.candace@gmail.com'],
+          to:[result1.email+',scott@w2marketing.biz,w2marketing.candace@gmail.com'],
           subject:`${config.COMPANY_NAME} ~ Courtesy Reminder for: ${result1.companyName}`,        
           
           html:`<body style="margin:2%;padding:1%;text-align:center;background-color:black;color:white;">
