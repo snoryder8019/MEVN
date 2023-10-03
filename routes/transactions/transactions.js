@@ -231,22 +231,25 @@ router.post('/addTransCat',(req,res)=>{
  res.redirect('transactions')
 }}
   )
-router.post('/updateTransCat/:id',(req,res)=>{
-  async function transAdd(){
-    const url = req.url.split('/')[2]
-  const id = ObjectId(url)
-    const options = req.body
-    try{transPlant(client,id,options)}
-    catch (error){console.log(error)}
-    }
+  router.post('/updateTransCat/:id', async (req, res) => {
+    const url = req.url.split('/')[2];
+    const id = ObjectId(url);
+    const options = req.body;
     
-    transAdd().catch(console.error);
-    async function transPlant(client,id,body){
-      const result = await client.db(config.DB_NAME).collection(`${config.COLLECTION_SUBPATH}_transactions`).updateOne({"_id":id},{$set:body},{upsert:false})
-      console.log(result)
-  res.redirect('../transactions')
-  }}
-  )
+    try {
+        await transPlant(client, id, options);
+        res.status(200).send('Updated successfully.');
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Error updating transaction.');
+    }
+});
+
+async function transPlant(client, id, body) {
+    const result = await client.db(config.DB_NAME).collection(`${config.COLLECTION_SUBPATH}_transactions`).updateOne({"_id": id}, { $set: body }, { upsert: false });
+    console.log(result);
+}
+
 router.post('/delTrans',(req,res)=>{
   async function transAdd(){
   const transId = req.body.transId
