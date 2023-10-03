@@ -12,9 +12,63 @@
   <%- include('config/bkgdImg.ejs')%>            
 
   <%- include('config/header.ejs')%>
-   
+
+   <div id="utilities">
+
+    <div class="eventBody">
+        <div class="eventBody">
+            <form action="/csvUpload" method="post" enctype="multipart/form-data">
+                <input type="file" name="csv">
+                <button type="submit">Upload</button>
+              </form>
+        
+        
+        
+        
+        </div>
+    </div>
+    
+    
+    
+    <div class="eventBody"><form action="/adjustDates"method="post" ><button type="submit">adjust Dates</button></form></div>
+
+    <div class="eventBody"><form action="/moveDuplicates"method="post" ><button type="submit">move Duplacates</button></form></div>
+    
+    
+<!--MANAGE THIS INFO PANE IN JS-->
+<!--MANUAL TRANSACTIONS FORM-->
+<div class="EventBody">
+    <div class="eventBody">
+        <form action="/manualTransaction" method="post">    
+            <h2>Posting Date</h2>
+            <input type="text" id="date-input" name="postingDate" pattern="\d{2}-\d{2}-\d{4}" required>
+            
+            <h2>Amount</h2>
+            <input type="text" name="amount" required> <!-- It's a good idea to specify input type, e.g., "number" -->
+
+            <h2>Description</h2>
+            <input type="text" name="description" required>
+
+            <h2>Invoice Payment From:</h2>
+            <select name="invClient" class="invClient">
+                <option value=""></option>
+                <% for(let i = 0; i < data[1].length; i++) { %>
+                    <option value="<%= data[1][i].companyName %>"><%= data[1][i].companyName %></option>
+                <% } %>
+            </select>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</div>
+
+    
+
+   </div>
       
       <h1 class="h1Span">TRANSACTIONS</h1>
+      
+
+  <button id="transUtilities">UTILITIES</button>
       <a href="/services"><button>services</button></a>
       <a href="/accounts"><button>accounts</button></a>
       <a href="/admin"><button>admin</button></a>
@@ -26,11 +80,6 @@
 
 
 <!---->
-<div class="eventBody"><form action="/adjustDates"method="post" ><button type="submit">adjust Dates</button></form></div>
-
-<div class="eventBody"><form action="/moveDuplicates"method="post" ><button type="submit">move Duplacates</button></form></div>
-
-
 
 
 
@@ -40,45 +89,6 @@
 <!---->
 
 <!--MANAGE THIS INFO PANE IN JS-->
-<div class="eventBody">
-    <div class="eventBody">
-        <form action="/csvUpload" method="post" enctype="multipart/form-data">
-            <input type="file" name="csv">
-            <button type="submit">Upload</button>
-          </form>
-    
-    
-    
-    
-    </div>
-</div>
-
-
-
-<!--MANAGE THIS INFO PANE IN JS-->
-<!--MANUAL TRANSACTIONS FORM-->
-<div class="EventBody">
-    <div class="eventBody">
-    <form action="/manualTransaction" method="post">    
-        <h2>posting date</h2>
-            <input type="text" id="date-input" name="postingDate" pattern="\d{2}-\d{2}-\d{4}" required>
-            <h2>amount</h2>
-     <input name="amount">
-            <h2>description</h2>
-            <input name="description">
-            <h2>invoice payment from:</h2>
-          
-           
-            <select name="invClient"  class="invClient">
-                <option value=""></option>
-                <%for(let i =0;i<data[1].length;i++){%>
-                    <option value="<%=data[1][i].companyName%>"><%=data[1][i].companyName%></option>
-                    <%}%>
-                </select>
-        <button typew ="submit">submit</button>
-    </form>
-</div>
-    </div>
 
 
       <!--MANAGE THIS TRANSACTION WINDOW IN JS-->
@@ -278,6 +288,21 @@
         });
       }
     });
+
+    document.addEventListener('DOMContentLoaded', function() {
+    const transUtilitiesBtn = document.getElementById('transUtilities');
+    const utilitiesDiv = document.getElementById('utilities');
+
+    transUtilitiesBtn.addEventListener('click', function() {
+        const currentDisplay = getComputedStyle(utilitiesDiv).display;
+        if (currentDisplay === 'block') {
+            utilitiesDiv.style.display = 'none';
+        } else {
+            utilitiesDiv.style.display = 'block';
+        }
+    });
+});
+
     </script>
     
 </body>

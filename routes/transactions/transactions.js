@@ -148,24 +148,63 @@ router.post('/csvUpload', upload.single('csv'), async (req, res) => {
     const filePath = req.file.path;
     const data = await csvtojson().fromFile(filePath);
 
-    // Convert keys to camel case for each object in the 'data' array
+    const normalizeKey = (key) => {
+      const lowerKey = key.toLowerCase().trim();
+      const mappings = {
+        'transaction id': 'transactionId',
+        'posting date': 'postingDate',
+        'effective date': 'effectiveDate',
+        'transaction type': 'transactionType',
+        'amt': 'amount',
+        'check no.': 'checkNumber',
+        'ref no.': 'referenceNumber',
+        'desc': 'description',
+        'transaction cat.': 'transactionCategory',
+        'transaction category': 'transactionCategory',
+        'typ': 'type',
+        'bal': 'balance',
+        'memo note': 'memo',
+        'ext. description': 'extendedDescription',
+        'date': 'postingDate',
+        'description': 'description',
+        'gross': 'amount',
+        'balance': 'balance',
+        'time': 'time',
+        'time zone': 'timeZone',
+        'currency': 'currency',
+        'fee': 'fee',
+        'net': 'net',
+        'from email address': 'emailAddress',
+        'name': 'name',
+        'bank name': 'bankName',
+        'bank account': 'bankAccount',
+        'shipping and handling amount': 'shippingAndHandlingAmount',
+        'sales tax': 'salesTax',
+        'invoice id': 'invoiceId',
+        'reference txn id': 'referenceTxnId'
+      };
+      return mappings[lowerKey] || key;
+    };
+
     const camelCasedData = data.map(item => {
-      const camelCasedItem = {};
+      const normalizedItem = {};
       for (const key in item) {
-        const camelCasedKey = camelCaseKey(key);
-        camelCasedItem[camelCasedKey] = item[key];
+        const normalizedKey = normalizeKey(key);
+        normalizedItem[normalizedKey] = item[key];
       }
-      return camelCasedItem;
+      if (normalizedItem.emailAddress) {
+        normalizedItem.description = `${normalizedItem.description} (Email: ${normalizedItem.emailAddress})`;
+      }
+      return normalizedItem;
     });
 
-    // Remove duplicates
-    const uniqueTransactions = removeDuplicateTransactions(camelCasedData);
+    console.log(`Number of transactions in CSV: ${data.length}`);
 
-    // MongoDB client setup
-    // const client = new client(config.DB_URL, { useUnifiedTopology: true });
-    // await client.connect();
+    // Temporarily comment out this line to bypass deduplication:
+    // const uniqueTransactions = removeDuplicateTransactions(camelCasedData);
+    // console.log(`Number of unique transactions: ${uniqueTransactions.length}`);
 
-    const result = await client.db(config.DB_NAME).collection(`${config.COLLECTION_SUBPATH}_transactions`).insertMany(uniqueTransactions);
+    const result = await client.db(config.DB_NAME).collection(`${config.COLLECTION_SUBPATH}_transactions`).insertMany(camelCasedData, { ordered: false });
 
     console.log(result);
     res.redirect('transactions');
@@ -225,20 +264,26 @@ router.post('/delTrans',(req,res)=>{
   )
 
 //////////
-router.post('/manualTransaction',(req,res)=>{
-  async function createTrans(){
-    const options = req.body
-    console.log(options)
-    try{addTrans(client,options)}
-    catch(error){console.log(error)}
+router.post('/manualTransaction', async (req, res) => {
+  const options = {
+      postingDate: req.body.postingDate,
+      amount: req.body.amount,
+      description: req.body.description,
+      invoiceClient: req.body.invClient  // renamed to a more descriptive key
+  };
+
+  console.log(options);
+
+  try {
+      const response = await client.db(config.DB_NAME).collection(`${config.COLLECTION_SUBPATH}_transactions`).insertOne(options);
+      console.log(response);
+      res.redirect('transactions');
+  } catch (error) {
+      console.error(error);
+      res.status(500).send('Error adding transaction.');
   }
-  createTrans().catch(console.error);
-  async function addTrans(client,options){
-    const response = await client.db(config.DB_NAME).collection(`${config.COLLECTION_SUBPATH}_transactions`).insertOne(options)
-  console.log(response)
-  res.redirect('transactions')
-  }
-})
+});
+
 ////////////////////////
 
 ///////////////////////////////////
