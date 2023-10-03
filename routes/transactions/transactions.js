@@ -43,24 +43,22 @@ if(req.user.isAdmin==true){
     
     while (await cursor.hasNext()) {
       const doc = await cursor.next();
-      let adjustedDate;
+      let adjustedDate = null;
   
-      if (typeof doc.date === 'number') {
-        adjustedDate = new Date(doc.date).toISOString();
-      } else if (typeof doc.date === 'string') {
-        // Handle YYYY-MM-DD
-        if (/\d{4}-\d{2}-\d{2}/.test(doc.date)) {
-          adjustedDate = new Date(doc.date).toISOString();
+      if (doc.postingDate) {
+        // Handle MM-DD-YYYY
+        if (/^\d{2}-\d{2}-\d{4}$/.test(doc.postingDate)) {
+          adjustedDate = doc.postingDate;
         } 
-        // Handle YYYY/MM/DD
-        else if (/\d{4}\/\d{2}\/\d{2}/.test(doc.date)) {
-          const correctedDate = doc.date.replace(/\//g, '-');
-          adjustedDate = new Date(correctedDate).toISOString();
+        // Handle M/D/YYYY
+        else if (/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(doc.postingDate)) {
+          const [month, day, year] = doc.postingDate.split('/');
+          adjustedDate = `${month.padStart(2, '0')}-${day.padStart(2, '0')}-${year}`;
         }
       }
   
       if (adjustedDate) {
-        await collection.updateOne({ _id: doc._id }, { $set: { date: adjustedDate } });
+        await collection.updateOne({ _id: doc._id }, { $set: { postingDate: adjustedDate } });
       }
     }
   
