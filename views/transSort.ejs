@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Transactions for <%= month %> <%= year %></title>
+</head>
+<body>
+  <h1>Transactions for <%= month %> <%= year %></h1>
+  <ul>
+    <% transactions.forEach((transaction) => { %>
+      <li>
+        Transaction ID: <%= transaction.transactionId %>, 
+        Date: <%= new Date(transaction.date).toLocaleDateString() %>
+      </li>
+    <% }); %>
+  </ul>
+</body>
+</html>

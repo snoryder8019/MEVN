@@ -26,6 +26,106 @@ if(req.user.isAdmin==true){
   next()
 }
   }}
+  //////////////////////////////
+  function removeDuplicateTransactions(transactions) {
+    const seen = new Set();
+    return transactions.filter(transaction => {
+      const duplicate = seen.has(transaction.id);
+      seen.add(transaction.id);
+      console.log(duplicate)
+      return !duplicate;
+    });
+  }
+  //////////////////////////////
+  router.post('/adjustDates', async (req, res) => {
+    const collection = client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_transactions');
+    const cursor = collection.find({});
+    
+    while (await cursor.hasNext()) {
+      const doc = await cursor.next();
+      let adjustedDate;
+  
+      if (typeof doc.date === 'number') {
+        adjustedDate = new Date(doc.date).toISOString();
+      } else if (typeof doc.date === 'string') {
+        // Handle YYYY-MM-DD
+        if (/\d{4}-\d{2}-\d{2}/.test(doc.date)) {
+          adjustedDate = new Date(doc.date).toISOString();
+        } 
+        // Handle YYYY/MM/DD
+        else if (/\d{4}\/\d{2}\/\d{2}/.test(doc.date)) {
+          const correctedDate = doc.date.replace(/\//g, '-');
+          adjustedDate = new Date(correctedDate).toISOString();
+        }
+      }
+  
+      if (adjustedDate) {
+        await collection.updateOne({ _id: doc._id }, { $set: { date: adjustedDate } });
+      }
+    }
+  
+    res.status(200).send('Dates adjusted');
+  });
+  
+  ////////////////////////////
+  ////////////////////////////
+
+  router.post('/moveDuplicates', async (req, res) => {
+    console.log("Endpoint /moveDuplicates called");
+  
+    const transactionCollection = client.db(client.DB_NAME).collection(config.COLLECTION_SUBPATH+'_transactions');
+    const recyclingCollection = client.db(client.DB_NAME).collection(config.COLLECTION_SUBPATH+'_recycling');
+  
+    console.log("Aggregating transactions to find duplicates...");
+  
+    const aggCursor = transactionCollection.aggregate([
+      { $group: { _id: "$transactionId", count: { $sum: 1 }, docs: { $push: "$$ROOT" } } },
+      { $match: { count: { $gt: 1 } } }
+    ]);
+  
+    while (await aggCursor.hasNext()) {
+      const group = await aggCursor.next();
+      const duplicates = group.docs.slice(1); // Keep one, move the rest
+  
+      console.log(`Found duplicates for transactionId: ${group._id}`);
+  
+      for (const doc of duplicates) {
+        console.log(`Moving document with _id: ${doc._id} to _recycling collection`);
+        await recyclingCollection.insertOne(doc);
+        await transactionCollection.deleteOne({ _id: doc._id });
+      }
+    }
+  
+    console.log("Finished moving duplicates.");
+    res.status(200).send('Duplicates moved');
+  });
+  ////////////////////////////
+  ////////////////////////////
+  
+  router.get('/transSort/:month/:year', async (req, res) => {
+    console.log("Endpoint /transactions/:month/:year called");
+  
+    const { month, year } = req.params;
+    const startDate = new Date(`${year}-${month}-01T00:00:00Z`);
+    const endDate = new Date(new Date(startDate).setMonth(startDate.getMonth() + 1));
+  
+    console.log(`Fetching transactions for ${month} ${year}...`);
+  
+    const transactionCollection = client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_transactions');
+    const transactions = await transactionCollection.find({
+      postingDate: {
+        $gte: startDate,
+        $lt: endDate
+      }
+    }).toArray();
+  
+    console.log(`Found ${transactions.length} transactions.`);
+  
+    // Render the transactions using EJS
+    res.render('transSort', { transactions, month, year });
+  });
+  
+  ////////////////////////////
 ///////////////////////////////////////
 ///~~~~~~~~~~~TRANSACTIONS.EJS~~~~~~~~~~~~~~///
 const invCollections = {
@@ -60,14 +160,23 @@ router.post('/csvUpload', upload.single('csv'), async (req, res) => {
       return camelCasedItem;
     });
 
-    const result = await client.db(config.DB_NAME).collection(`${config.COLLECTION_SUBPATH}_transactions`).insertMany(camelCasedData);
+    // Remove duplicates
+    const uniqueTransactions = removeDuplicateTransactions(camelCasedData);
+
+    // MongoDB client setup
+    // const client = new client(config.DB_URL, { useUnifiedTopology: true });
+    // await client.connect();
+
+    const result = await client.db(config.DB_NAME).collection(`${config.COLLECTION_SUBPATH}_transactions`).insertMany(uniqueTransactions);
 
     console.log(result);
     res.redirect('transactions');
   } catch (err) {
     console.log(err);
+    res.status(500).json({ error: err.message });
   }
 });
+
     ///////////////////////////////////////////
 router.post('/addTransCat',(req,res)=>{
   async function transAdd(){
