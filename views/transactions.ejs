@@ -269,11 +269,11 @@
           const dateCell = row.querySelector('td[name=date]');
           if (dateCell) {
             const dateParts = dateCell.textContent.trim().split('-'); // Assuming date format is DD-MM-YYYY
-            if ((month === "" || dateParts[1] === month) && (year === "" || dateParts[2] === year)) {
-              row.style.display = '';
-            } else {
-              row.style.display = 'none';
-            }
+            if ((month === "" || dateParts[0] === month) && (year === "" || dateParts[2] === year)) {
+  row.style.display = '';
+} else {
+  row.style.display = 'none';
+}
           }
         });
       }
