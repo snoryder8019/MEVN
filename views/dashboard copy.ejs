@@ -72,85 +72,41 @@
     <div class="eventBody">
         <h2>paid invoices</h2>
 
+        <table style="border:1px dashed white">
+            <thead style="text-align: center;">
+                <th>comapny</th> 
+                <th>service name</th> 
+                <th>total paid</th> 
+              
+               <th>date</th> 
+               <th>payment date</th> 
+               <th>mark paid</th>
+            </thead>
+        <tbody>
 
-  
-  <!-- Paid Invoices Table -->
-  <table style="border:1px dashed white">
-    <thead style="text-align: center;">           
-      <th>company</th> 
-      <th>service name</th> 
-      <th>total paid</th> 
-      <th>date</th> 
-      <th>payment date</th> 
-      <th>mark paid</th>
-    </thead>
-    <tbody>
-      <% try { %>
-        <% if(typeof data[2] == 'object' && data[2]) { %>
-          <% for(let i = 0; i < data[2].length; i++) { %>
-            <% if(data[2][i].status.paid == true) { %>
-              <tr>
-                <td style="border:1px dashed white"> <%=data[2][i].invData.companyId.split('|')[1]%></td>
-                <td style="border:1px dashed white">
-                    <% 
-                      try {
-                        let serviceNames = [];
-                        if (Array.isArray(data[2][i].invData.serviceName)) {
-                          serviceNames = data[2][i].invData.serviceName;
-                        } else {
-                          serviceNames = String(data[2][i].invData.serviceName).split('|');
-                        }
-                        for(let j = 1; j < serviceNames.length; j++) { 
-                    %>
-                      <%= serviceNames[j] %><% if(j < serviceNames.length - 1) { %>, <% } %>
-                    <% 
-                        }
-                      } catch (error) {
-                    %>
-                      Error: <%= error.message %>
-                    <% 
-                      } 
-                    %>
-                  </td>
-                  
-                  
-                  
-                <td style="border:1px dashed white"> <%=data[2][i].invTotal%></td>
-                <td style="border:1px dashed white"><%= new Date(data[2][i].date).toLocaleDateString() %></td>
-                <td style="border:1px dashed white">
-  <% 
-    try {
-      const paymentDate = data[2][i].paymentDate ? data[2][i].paymentDate : data[2][i].status.paymentDate;
-      if (paymentDate) {
-  %>
-    <%= new Date(paymentDate).toLocaleDateString() %>
-  <% 
-      } else {
-  %>
-    N/A
-  <% 
-      }
-    } catch (error) {
-  %>
-    Error: <%= error.message %>
-  <% 
-    } 
-  %>
-</td>
+        <%if(typeof data[2]=='object' && data[2]){%>
+           <%for(let i=0;i<data[2].length;i++){%>
+            <%if(data[2][i].status.paid==true){%>
 
-             <td style="border:1px dashed white"><form action="/unPaid"method="post"><input hidden type="text"name="_id" value="<%=data[2][i]._id%>"><button>revert</button></form></td>
-              </tr>
-            <% } %>
-          <% } %>
-        <% } %>
-      <% } catch (error) { %>
-        <tr>
-          <td colspan="6">Error: <%= error.message %></td>
-        </tr>
-      <% } %>
-    </tbody>
-  </table>
-  
+           
+<!--.toLocaleDateString()-->
+<tr>
+
+   <td style="border:1px dashed white"> <%=data[2][i].invData.companyId.split('|')[1]%></td>
+   <td style="border:1px dashed white"> <%=data[2][i].invData.serviceName.split('|')[1]%></td>
+   <td style="border:1px dashed white"> <%=data[2][i].invTotal%></td>
+
+  <td style="border:1px dashed white"><%=data[2][i].date%></td>
+  <td style="border:1px dashed white"><%=data[2][i].paymentDa <td style="border:1px dashed white"><form action="/unPaid"method="post"><input hidden type="text"name="_id" value="<%=data[2][i]._id%>"><button>revert</button></form></td>
+ 
+</tr>
+
+<!---->
+            <%}%>
+            <%}%>
+            <%}%>
+        </tbody>
+    </table>
     </div>
 
 

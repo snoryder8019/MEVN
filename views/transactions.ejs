@@ -8,13 +8,67 @@
 <meta name="google-site-verification" content="Pvp74_YXTw6uwsBP-6pTFmbwnjXD7_zXP-WUG4FpWU8" />
 <!--end-->
 </head>
-<body onload="listeners()">   
+<body>   
   <%- include('config/bkgdImg.ejs')%>            
 
   <%- include('config/header.ejs')%>
-   
+
+   <div id="utilities">
+
+    <div class="eventBody">
+        <div class="eventBody">
+            <form action="/csvUpload" method="post" enctype="multipart/form-data">
+                <input type="file" name="csv">
+                <button type="submit">Upload</button>
+              </form>
+        
+        
+        
+        
+        </div>
+    </div>
+    
+    
+    
+    <div class="eventBody"><form action="/adjustDates"method="post" ><button type="submit">adjust Dates</button></form></div>
+
+    <div class="eventBody"><form action="/moveDuplicates"method="post" ><button type="submit">move Duplacates</button></form></div>
+    
+    
+<!--MANAGE THIS INFO PANE IN JS-->
+<!--MANUAL TRANSACTIONS FORM-->
+<div class="EventBody">
+    <div class="eventBody">
+        <form action="/manualTransaction" method="post">    
+            <h2>Posting Date</h2>
+            <input type="text" id="date-input" name="postingDate" pattern="\d{2}-\d{2}-\d{4}" required>
+            
+            <h2>Amount</h2>
+            <input type="text" name="amount" required> <!-- It's a good idea to specify input type, e.g., "number" -->
+
+            <h2>Description</h2>
+            <input type="text" name="description" required>
+
+            <h2>Invoice Payment From:</h2>
+            <select name="invClient" class="invClient">
+                <option value=""></option>
+                <% for(let i = 0; i < data[1].length; i++) { %>
+                    <option value="<%= data[1][i].companyName %>"><%= data[1][i].companyName %></option>
+                <% } %>
+            </select>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</div>
+
+    
+
+   </div>
       
       <h1 class="h1Span">TRANSACTIONS</h1>
+      
+
+  <button id="transUtilities">UTILITIES</button>
       <a href="/services"><button>services</button></a>
       <a href="/accounts"><button>accounts</button></a>
       <a href="/admin"><button>admin</button></a>
@@ -23,57 +77,55 @@
       <a href="/dashboard"><button>dashboard</button></a>
  
 
-<!--MANAGE THIS INFO PANE IN JS-->
-<div class="eventBody">
-    <div class="eventBody">
-        <form action="/csvUpload" method="post" enctype="multipart/form-data">
-            <input type="file" name="csv">
-            <button type="submit">Upload</button>
-          </form>
-    
-    
-    
-    
-    </div>
-</div>
 
 
+<!---->
+
+
+
+
+
+
+<!---->
 
 <!--MANAGE THIS INFO PANE IN JS-->
-<!--MANUAL TRANSACTIONS FORM-->
-<div class="EventBody">
-    <div class="eventBody">
-    <form action="/manualTransaction" method="post">    
-        <h2>posting date</h2>
-            <input type="text" id="date-input" name="postingDate" pattern="\d{2}-\d{2}-\d{4}" required>
-            <h2>amount</h2>
-     <input name="amount">
-            <h2>description</h2>
-            <input name="description">
-            <h2>invoice payment from:</h2>
-          
-           
-            <select name="invClient"  class="invClient">
-                <option value=""></option>
-                <%for(let i =0;i<data[1].length;i++){%>
-                    <option value="<%=data[1][i].companyName%>"><%=data[1][i].companyName%></option>
-                    <%}%>
-                </select>
-        <button typew ="submit">submit</button>
-    </form>
-</div>
-    </div>
 
 
       <!--MANAGE THIS TRANSACTION WINDOW IN JS-->
 <div class="eventBody">
+
+    <select id="sortDropdown">
+        <option value="amount">Amount</option>
+        <option value="date">Date</option>
+        <!-- Add more options here -->
+      </select>
+
+      <select id="monthDropdown">
+        <option value="">All Months</option>
+        <option value="01">January</option>
+        <option value="02">February</option>
+        <!-- ... -->
+        <option value="03">March</option>
+        <option value="04">April</option>
+        <option value="05">May</option>
+        <option value="06">June</option>
+        <option value="07">July</option>
+        <option value="08">August</option>
+        <option value="09">September</option>
+        <option value="10">October</option>
+        <option value="11">November</option>
+        <!-- ... -->
+        <option value="12">December</option>
+      </select>
+      
+      <input type="text" id="yearInput" placeholder="Year">
 <h1> transactions</h1>
 
 
 <% if(data[4]) { %>
 
     <div class="eventBody">
-    <table>
+    <table id="transactionTable">
         <thead>
             <th>amount</th>
             <th>date</th>
@@ -93,7 +145,7 @@
                <%if(data[4][i].amount && data[4][i].amount < 0){%>
                  <tr style="background-color: rgb(55, 45, 39);">
                     <%}%>
-                    <td>
+                    <td name="amount">
                         <% 
                             let amount;
                             try {
@@ -106,7 +158,7 @@
                         <%= amount%>
                     </td>
              
-                    <td>
+                    <td name="date">
                         <% 
                             let postingDate;
                             try {
@@ -180,6 +232,79 @@
 <% } %>
 
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const sortDropdown = document.getElementById('sortDropdown');
+      const monthDropdown = document.getElementById('monthDropdown');
+      const yearInput = document.getElementById('yearInput');
+      const table = document.getElementById('transactionTable');
+      
+      // Sorting
+      if (sortDropdown && table) {
+        sortDropdown.addEventListener('change', function() {
+          const sortBy = this.value;
+          sortTable(table, sortBy);
+        });
+      }
+    
+      function sortTable(table, sortBy) {
+        const rows = Array.from(table.querySelectorAll('tbody tr'));
+        const sortedRows = rows.sort((a, b) => {
+          const cellA = a.querySelector(`td[name=${sortBy}]`);
+          const cellB = b.querySelector(`td[name=${sortBy}]`);
+          
+          if (cellA && cellB) {
+            return cellA.textContent.localeCompare(cellB.textContent, undefined, {numeric: true});
+          }
+          return 0;
+        });
+    
+        const tbody = table.querySelector('tbody');
+        tbody.innerHTML = '';
+        sortedRows.forEach(row => tbody.appendChild(row));
+      }
+    
+      // Filtering
+      if (monthDropdown && yearInput && table) {
+        monthDropdown.addEventListener('change', filterTable);
+        yearInput.addEventListener('input', filterTable);
+      }
+    
+      function filterTable() {
+        const month = monthDropdown.value;
+        const year = yearInput.value;
+        const rows = Array.from(table.querySelectorAll('tbody tr'));
+        
+        rows.forEach(row => {
+          const dateCell = row.querySelector('td[name=date]');
+          if (dateCell) {
+            const dateParts = dateCell.textContent.trim().split('-'); // Assuming date format is DD-MM-YYYY
+            if ((month === "" || dateParts[0] === month) && (year === "" || dateParts[2] === year)) {
+  row.style.display = '';
+} else {
+  row.style.display = 'none';
+}
+          }
+        });
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+    const transUtilitiesBtn = document.getElementById('transUtilities');
+    const utilitiesDiv = document.getElementById('utilities');
+
+    transUtilitiesBtn.addEventListener('click', function() {
+        const currentDisplay = getComputedStyle(utilitiesDiv).display;
+        if (currentDisplay === 'block') {
+            utilitiesDiv.style.display = 'none';
+        } else {
+            utilitiesDiv.style.display = 'block';
+        }
+    });
+});
+
+    </script>
+    
 </body>
 </html>
 
