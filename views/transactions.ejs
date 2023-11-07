@@ -123,147 +123,105 @@
 
 
 <% if(data[4]) { %>
-
     <div class="eventBody">
-    <table id="transactionTable">
-        <thead>
-            <th>amount</th>
-            <th>date</th>
-            <th>co invoiced</th>
-            <th>description</th>
-            <th>memo</th>
-            <th>update</th>
-        </thead>
-        <tbody>
-            <!---->
-            
-            <% for(let i = 0; i < data[4].length; i++) { %>
-                <form action="/updateTransCat/<%=data[4][i]._id%>" method="post">
-               <%if(data[4][i].amount && data[4][i].amount > 0){%>
-                 <tr style="background-color: rgb(7, 96, 7);">
-                <%}%>
-               <%if(data[4][i].amount && data[4][i].amount < 0){%>
-                 <tr style="background-color: rgb(55, 45, 39);">
-                    <%}%>
-                    <td name="amount">
-                        <% 
-                            let amount;
-                            try {
-                                amount = data[4][i].amount;
-                            } catch(error) {
-                                console.log(error)
-                                amount = error;
-                            }
-                            %>
-                        <%= amount%>
-                    </td>
-             
-                    <td name="date">
-                        <% 
-                            let postingDate;
-                            try {
-                                postingDate = data[4][i].postingDate;
-                            } catch(error) {
-                                console.log(error)
-                                postingDate = error;
-                            }
-                            %>
-                        <%= postingDate %>
-                    </td>
-                    <td>
-                        <% 
-                            let invClient;
-                            try {
-                                invClient = data[4][i].invClient;
-                            } catch(error) {
-                                console.log(error)
-                                invClient = 'none to invoice';
-                            }
-                            %>
-                      <select name="invClient">
-                        <option value="<%=invClient%>"> <%= invClient %></option>
-                        <%for(let i =0;i<data[1].length;i++){%>
-                            <option value="<%=data[1][i].companyName%>"><%=data[1][i].companyName%></option>
-                            <%}%>
-                      </select> 
-                    </td>
-
-
-
-
-
-
-
-                    <td>
-                        <% 
-                            let description;
-                            try {
-                                description = data[4][i].description;
-                            } catch(error) {
-                                console.log(error)
-                                description = error;
-                            }
-                            %>
-                        <%= description %>
-                    </td>
-                    <td>
-                        <% 
-                            let memo;
-                            try {
-                                memo = data[4][i].memo;
-                            } catch(error) {
-                                console.log(error)
-                                memo = error;
-                            }
-                            %>
-                            
-                        <%= memo %>
-                    </td>
-                    <td><button type="submit()">update</button></td>
-                </form>
-                <form action="/delTrans" method="post">
-                    <input name="transId" type="hidden" value="<%= data[4][i]._id %>">
-                    <td><button type="submit">delete</button></td>
-                  </form>
-                  
-            </tr>
+        <table id="transactionTable">
+            <thead>
+                <th>amount</th>
+                <th>date</th>
+                <th>co invoiced</th>
+                <th>description</th>
+                <th>memo</th>
+                <th>update</th>
+            </thead>
+            <tbody>
+                <% for(let i = 0; i < data[4].length; i++) { %>
+                    <form action="/updateTransCat/<%=data[4][i]._id%>" method="post">
+                    <% if(data[4][i].amount && data[4][i].amount > 0){ %>
+                        <tr style="background-color: rgb(7, 96, 7);">
                     <% } %>
-                    <!---->
-        </tbody>
-    </table>
-</div>
-<% } else { %>
-    no data 
-<% } %>
-
-</div>
+                    <% if(data[4][i].amount && data[4][i].amount < 0){ %>
+                        <tr style="background-color: rgb(55, 45, 39);">
+                    <% } %>
+                        <td name="amount">
+                            <%= data[4][i].amount %>
+                        </td>
+                        <td name="date">
+                            <% 
+                                let postingDate;
+                                try {
+                                    postingDate = new Date(data[4][i].postingDate).toISOString().substring(0, 10);
+                                } catch(error) {
+                                    console.log(error)
+                                    postingDate = 'Invalid Date';
+                                }
+                            %>
+                            <%= postingDate %>
+                        </td>
+                        <td>
+                            <% 
+                                let invClient = '';
+                                try {
+                                    if(data[4][i].invClient) {
+                                        invClient = data[4][i].invClient;
+                                    }
+                                } catch(error) {
+                                    console.log(error)
+                                }
+                            %>
+                            <select name="invClient">
+                                <option value="<%=invClient%>"> <%= invClient %></option>
+                                <% for(let j = 0; j < data[1].length; j++){ %>
+                                    <option value="<%=data[1][j].companyName%>"><%=data[1][j].companyName%></option>
+                                <% } %>
+                            </select> 
+                        </td>
+                        <td>
+                            <%= data[4][i].description %>
+                        </td>
+                        <td>
+                            <%= data[4][i].memo %>
+                        </td>
+                        <td><button type="submit">update</button></td>
+                    </form>
+                    <form action="/delTrans" method="post">
+                        <input name="transId" type="hidden" value="<%= data[4][i]._id %>">
+                        <td><button type="submit">delete</button></td>
+                    </form>
+                </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+    <% } else { %>
+        no data 
+    <% } %>
+    </div>
+    
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+      document.addEventListener('DOMContentLoaded', function() {
       const sortDropdown = document.getElementById('sortDropdown');
-      const monthDropdown = document.getElementById('monthDropdown');
-      const yearInput = document.getElementById('yearInput');
       const table = document.getElementById('transactionTable');
       
-      // Sorting
       if (sortDropdown && table) {
         sortDropdown.addEventListener('change', function() {
           const sortBy = this.value;
           sortTable(table, sortBy);
         });
       }
-    
+      
       function sortTable(table, sortBy) {
         const rows = Array.from(table.querySelectorAll('tbody tr'));
-        const sortedRows = rows.sort((a, b) => {
-          const cellA = a.querySelector(`td[name=${sortBy}]`);
-          const cellB = b.querySelector(`td[name=${sortBy}]`);
-          
-          if (cellA && cellB) {
-            return cellA.textContent.localeCompare(cellB.textContent, undefined, {numeric: true});
-          }
-          return 0;
-        });
-    
+        const sortedRows = sortBy === "date" ?
+          rows.sort((a, b) => a.dataset.timestamp - b.dataset.timestamp) :
+          rows.sort((a, b) => {
+            const cellA = a.querySelector(`td[name=${sortBy}]`);
+            const cellB = b.querySelector(`td[name=${sortBy}]`);
+            if (cellA && cellB) {
+              return cellA.textContent.localeCompare(cellB.textContent, undefined, {numeric: true});
+            }
+            return 0;
+          });
+
         const tbody = table.querySelector('tbody');
         tbody.innerHTML = '';
         sortedRows.forEach(row => tbody.appendChild(row));

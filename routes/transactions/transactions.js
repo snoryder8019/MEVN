@@ -211,7 +211,7 @@ router.post('/addTransCat',(req,res)=>{
     
     try {
         await transPlant(client, id, options);
-        res.status(200).send('Updated successfully.');
+        res.redirect('transactions');
     } catch (error) {
         console.log(error);
         res.status(500).send('Error updating transaction.');
