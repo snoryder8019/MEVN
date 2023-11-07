@@ -41,7 +41,7 @@ const invCollections = {
     3:'_options'
   };
 //
-  router.get('/invoice',getHandler(invCollections,'invoice'));
+  router.get('/invoice',isAddy,getHandler(invCollections,'invoice'));
 router.post('/renderInvoice',(req,res)=>{
   function invTotal() {
       let invData = req.body
