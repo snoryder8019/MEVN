@@ -27,77 +27,50 @@ if(req.user.isAdmin==true){
 }
   }}
   //////////////////////////////
-  function removeDuplicateTransactions(transactions) {
-    const seen = new Set();
-    return transactions.filter(transaction => {
-      const duplicate = seen.has(transaction.id);
-      seen.add(transaction.id);
-      console.log(duplicate)
-      return !duplicate;
-    });
-  }
-  //////////////////////////////
-  router.post('/adjustDates', async (req, res) => {
-    const collection = client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_transactions');
-    const cursor = collection.find({});
-    
-    while (await cursor.hasNext()) {
-      const doc = await cursor.next();
-      let adjustedDate = null;
-  
-      if (doc.postingDate) {
-        // Handle MM-DD-YYYY
-        if (/^\d{2}-\d{2}-\d{4}$/.test(doc.postingDate)) {
-          adjustedDate = doc.postingDate;
-        } 
-        // Handle M/D/YYYY
-        else if (/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(doc.postingDate)) {
-          const [month, day, year] = doc.postingDate.split('/');
-          adjustedDate = `${month.padStart(2, '0')}-${day.padStart(2, '0')}-${year}`;
-        }
-      }
-  
-      if (adjustedDate) {
-        await collection.updateOne({ _id: doc._id }, { $set: { postingDate: adjustedDate } });
-      }
-    }
-  
-    res.status(200).send('Dates adjusted');
-  });
-  
-  ////////////////////////////
-  ////////////////////////////
+// Combined endpoint to normalize dates, remove duplicates, and retain invClient key
+router.post('/processTransactions', async (req, res) => {
+  const transactionCollection = client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH + '_transactions');
+  const recyclingCollection = client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH + '_recycling');
 
-  router.post('/moveDuplicates', async (req, res) => {
-    console.log("Endpoint /moveDuplicates called");
-  
-    const transactionCollection = client.db(client.DB_NAME).collection(config.COLLECTION_SUBPATH+'_transactions');
-    const recyclingCollection = client.db(client.DB_NAME).collection(config.COLLECTION_SUBPATH+'_recycling');
-  
-    console.log("Aggregating transactions to find duplicates...");
-  
-    const aggCursor = transactionCollection.aggregate([
-      { $group: { _id: "$transactionId", count: { $sum: 1 }, docs: { $push: "$$ROOT" } } },
-      { $match: { count: { $gt: 1 } } }
-    ]);
-  
-    while (await aggCursor.hasNext()) {
-      const group = await aggCursor.next();
-      const duplicates = group.docs.slice(1); // Keep one, move the rest
-  
-      console.log(`Found duplicates for transactionId: ${group._id}`);
-  
-      for (const doc of duplicates) {
-        console.log(`Moving document with _id: ${doc._id} to _recycling collection`);
-        await recyclingCollection.insertOne(doc);
-        await transactionCollection.deleteOne({ _id: doc._id });
+  // Normalize Dates to Date.now() timestamp
+  const cursor = transactionCollection.find({});
+  while (await cursor.hasNext()) {
+    const doc = await cursor.next();
+    await transactionCollection.updateOne({ _id: doc._id }, { $set: { postingDate: Date.now() } });
+  }
+
+  // Remove duplicates and move them to _recycling
+  const seen = new Map();
+  const aggCursor = transactionCollection.aggregate([
+    { $group: { _id: "$transactionId", count: { $sum: 1 }, docs: { $push: "$$ROOT" } } },
+    { $match: { count: { $gt: 1 } } }
+  ]);
+
+  while (await aggCursor.hasNext()) {
+    const group = await aggCursor.next();
+    const duplicates = group.docs.slice(1); // Keep one, move the rest
+
+    for (const duplicate of duplicates) {
+      // Retain invClient information if it exists
+      if (duplicate.invClient) {
+        await recyclingCollection.insertOne({ ...duplicate, retainedInvClient: duplicate.invClient });
+      } else {
+        await recyclingCollection.insertOne(duplicate);
       }
+      await transactionCollection.deleteOne({ _id: duplicate._id });
     }
-  
-    console.log("Finished moving duplicates.");
-    res.status(200).send('Duplicates moved');
-  });
-  ////////////////////////////
+  }
+
+  // Filter and retain non-duplicate transactions with invClient key
+  const allTransactions = await transactionCollection.find({}).toArray();
+  const uniqueTransactions = allTransactions.filter(t => seen.has(t.transactionId) ? false : seen.set(t.transactionId, true));
+
+  await transactionCollection.deleteMany({});
+  await transactionCollection.insertMany(uniqueTransactions);
+
+  res.status(200).send('Transactions processed');
+});
+
   ////////////////////////////
   
   router.get('/transSort/:month/:year', async (req, res) => {
@@ -253,7 +226,7 @@ async function transPlant(client, id, body) {
 router.post('/delTrans',(req,res)=>{
   async function transAdd(){
   const transId = req.body.transId
-  const id = ObjectId(transId)   
+  const id =ObjectId(transId)   
     try{transPlant(client,id)}
     catch (error){console.log(error)}
     }
