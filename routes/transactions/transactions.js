@@ -27,50 +27,38 @@ if(req.user.isAdmin==true){
 }
   }}
   //////////////////////////////
-// Combined endpoint to normalize dates, remove duplicates, and retain invClient key
-router.post('/processTransactions', async (req, res) => {
-  const transactionCollection = client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH + '_transactions');
-  const recyclingCollection = client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH + '_recycling');
-
-  // Normalize Dates to Date.now() timestamp
-  const cursor = transactionCollection.find({});
-  while (await cursor.hasNext()) {
-    const doc = await cursor.next();
-    await transactionCollection.updateOne({ _id: doc._id }, { $set: { postingDate: Date.now() } });
-  }
-
-  // Remove duplicates and move them to _recycling
-  const seen = new Map();
-  const aggCursor = transactionCollection.aggregate([
-    { $group: { _id: "$transactionId", count: { $sum: 1 }, docs: { $push: "$$ROOT" } } },
-    { $match: { count: { $gt: 1 } } }
-  ]);
-
-  while (await aggCursor.hasNext()) {
-    const group = await aggCursor.next();
-    const duplicates = group.docs.slice(1); // Keep one, move the rest
-
-    for (const duplicate of duplicates) {
-      // Retain invClient information if it exists
-      if (duplicate.invClient) {
-        await recyclingCollection.insertOne({ ...duplicate, retainedInvClient: duplicate.invClient });
+  router.post('/processTransactions', async (req, res) => {
+    console.log("Starting to process transactions");
+  
+    const transactionCollection = client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH + '_transactions');
+    const recyclingCollection = client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH + '_recycling');
+  
+    console.log("Collections initialized");
+  
+    // Normalize Dates to Date.now() timestamp
+    const cursor = transactionCollection.find({});
+    while (await cursor.hasNext()) {
+      const doc = await cursor.next();
+      console.log("Processing document:", doc);
+  
+      if (doc.postingDate && typeof doc.postingDate === 'string') {
+        const timestamp = new Date(doc.postingDate).getTime();
+        console.log("Converting postingDate to timestamp for document ID:", doc._id);
+        await transactionCollection.updateOne({ _id: doc._id }, { $set: { postingDate: timestamp } });
+        console.log("Updated document ID:", doc._id, "with new timestamp:", timestamp);
       } else {
-        await recyclingCollection.insertOne(duplicate);
+        console.log("No conversion needed for document ID:", doc._id);
       }
-      await transactionCollection.deleteOne({ _id: duplicate._id });
     }
-  }
-
-  // Filter and retain non-duplicate transactions with invClient key
-  const allTransactions = await transactionCollection.find({}).toArray();
-  const uniqueTransactions = allTransactions.filter(t => seen.has(t.transactionId) ? false : seen.set(t.transactionId, true));
-
-  await transactionCollection.deleteMany({});
-  await transactionCollection.insertMany(uniqueTransactions);
-
-  res.status(200).send('Transactions processed');
-});
-
+  
+    console.log("Date normalization complete");
+  
+    // ... [rest of your code for removing duplicates and processing transactions]
+  
+    res.status(200).send('Transactions processed');
+    console.log("Processing complete");
+  });
+  
   ////////////////////////////
   
   router.get('/transSort/:month/:year', async (req, res) => {
@@ -116,76 +104,103 @@ function camelCaseKey(key) {
   return camelCaseWords.join('');
 }
 
+// router.post('/csvUpload', upload.single('csv'), async (req, res) => {
+//   try {
+//     const filePath = req.file.path;
+//     const data = await csvtojson().fromFile(filePath);
+
+//     const normalizeKey = (key) => {
+//       const lowerKey = key.toLowerCase().trim();
+//       const mappings = {
+//         'transaction id': 'transactionId',
+//         'posting date': 'postingDate',
+//         'effective date': 'effectiveDate',
+//         'transaction type': 'transactionType',
+//         'amt': 'amount',
+//         'check no.': 'checkNumber',
+//         'ref no.': 'referenceNumber',
+//         'desc': 'description',
+//         'transaction cat.': 'transactionCategory',
+//         'transaction category': 'transactionCategory',
+//         'typ': 'type',
+//         'bal': 'balance',
+//         'memo note': 'memo',
+//         'ext. description': 'extendedDescription',
+//         'date': 'postingDate',
+//         'description': 'description',
+//         'gross': 'amount',
+//         'balance': 'balance',
+//         'time': 'time',
+//         'time zone': 'timeZone',
+//         'currency': 'currency',
+//         'fee': 'fee',
+//         'net': 'net',
+//         'from email address': 'emailAddress',
+//         'name': 'name',
+//         'bank name': 'bankName',
+//         'bank account': 'bankAccount',
+//         'shipping and handling amount': 'shippingAndHandlingAmount',
+//         'sales tax': 'salesTax',
+//         'invoice id': 'invoiceId',
+//         'reference txn id': 'referenceTxnId'
+//       };
+//       return mappings[lowerKey] || key;
+//     };
+////
 router.post('/csvUpload', upload.single('csv'), async (req, res) => {
-  try {
-    const filePath = req.file.path;
-    const data = await csvtojson().fromFile(filePath);
+  const filePath = req.file.path;
+  const data = await csvtojson().fromFile(filePath);
 
-    const normalizeKey = (key) => {
-      const lowerKey = key.toLowerCase().trim();
-      const mappings = {
-        'transaction id': 'transactionId',
-        'posting date': 'postingDate',
-        'effective date': 'effectiveDate',
-        'transaction type': 'transactionType',
-        'amt': 'amount',
-        'check no.': 'checkNumber',
-        'ref no.': 'referenceNumber',
-        'desc': 'description',
-        'transaction cat.': 'transactionCategory',
-        'transaction category': 'transactionCategory',
-        'typ': 'type',
-        'bal': 'balance',
-        'memo note': 'memo',
-        'ext. description': 'extendedDescription',
-        'date': 'postingDate',
-        'description': 'description',
-        'gross': 'amount',
-        'balance': 'balance',
-        'time': 'time',
-        'time zone': 'timeZone',
-        'currency': 'currency',
-        'fee': 'fee',
-        'net': 'net',
-        'from email address': 'emailAddress',
-        'name': 'name',
-        'bank name': 'bankName',
-        'bank account': 'bankAccount',
-        'shipping and handling amount': 'shippingAndHandlingAmount',
-        'sales tax': 'salesTax',
-        'invoice id': 'invoiceId',
-        'reference txn id': 'referenceTxnId'
-      };
-      return mappings[lowerKey] || key;
-    };
-
-    const camelCasedData = data.map(item => {
-      const normalizedItem = {};
-      for (const key in item) {
-        const normalizedKey = normalizeKey(key);
-        normalizedItem[normalizedKey] = item[key];
-      }
-      if (normalizedItem.emailAddress) {
-        normalizedItem.description = `${normalizedItem.description} (Email: ${normalizedItem.emailAddress})`;
-      }
-      return normalizedItem;
-    });
-
-    console.log(`Number of transactions in CSV: ${data.length}`);
-
-    // Temporarily comment out this line to bypass deduplication:
-    // const uniqueTransactions = removeDuplicateTransactions(camelCasedData);
-    // console.log(`Number of unique transactions: ${uniqueTransactions.length}`);
-
-    const result = await client.db(config.DB_NAME).collection(`${config.COLLECTION_SUBPATH}_transactions`).insertMany(camelCasedData, { ordered: false });
-
-    console.log(result);
-    res.redirect('transactions');
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: err.message });
+  const normalizeKey = (key) => {
+    const lowerKey = key.toLowerCase().trim();
+          const mappings = {
+    'transaction id': 'transactionId',
+            'posting date': 'postingDate',
+            'effective date': 'effectiveDate',
+            'transaction type': 'transactionType',
+            'amt': 'amount',
+            'check no.': 'checkNumber',
+            'ref no.': 'referenceNumber',
+            'desc': 'description',
+            'transaction cat.': 'transactionCategory',
+            'transaction category': 'transactionCategory',
+            'typ': 'type',
+            'bal': 'balance',
+            'memo note': 'memo',
+            'ext. description': 'extendedDescription',
+            'date': 'postingDate',
+            'description': 'description',
+            'gross': 'amount',
+            'balance': 'balance',
+            'time': 'time',
+            'time zone': 'timeZone',
+            'currency': 'currency',
+            'fee': 'fee',
+            'net': 'net',
+            'from email address': 'emailAddress',
+            'name': 'name',
+            'bank name': 'bankName',
+            'bank account': 'bankAccount',
+            'shipping and handling amount': 'shippingAndHandlingAmount',
+            'sales tax': 'salesTax',
+            'invoice id': 'invoiceId',
+            'reference txn id': 'referenceTxnId'
   }
+    return mappings[key.toLowerCase().trim()] || key;
+  };
+
+  const camelCasedData = data.map(item => {
+    const normalizedItem = {};
+    Object.keys(item).forEach(key => {
+      normalizedItem[normalizeKey(key)] = key === 'postingDate' ? new Date(item[key]).getTime() : item[key];
+    });
+    return normalizedItem;
+  });
+
+  await client.db(config.DB_NAME).collection(`${config.COLLECTION_SUBPATH}_transactions`).insertMany(camelCasedData, { ordered: false });
+  res.redirect('transactions');
 });
+
 
     ///////////////////////////////////////////
 router.post('/addTransCat',(req,res)=>{

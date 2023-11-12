@@ -9,7 +9,7 @@
     <% transactions.forEach((transaction) => { %>
       <li>
         Transaction ID: <%= transaction.transactionId %>, 
-        Date: <%= new Date(transaction.date).toLocaleDateString() %>
+        Date: <%= new Date(transaction.postingDate * 1000).toLocaleDateString() %> <!-- Convert from Unix timestamp to Date -->
       </li>
     <% }); %>
   </ul>
