@@ -30,7 +30,7 @@
     
     
     
-    <div class="eventBody"><form action="/processTransactions"method="post" ><button type="submit">process transactions</button></form></div>
+    <div class="eventBody"><form action="/processCollection"method="post" ><button type="submit">process collection</button></form></div>
 
     <div class="eventBody"><form action="/moveDuplicates"method="post" ><button type="submit">move Duplacates</button></form></div>
     
@@ -145,18 +145,25 @@
                         <td name="amount">
                             <%= data[4][i].amount %>
                         </td>
-                        <td name="date">
-                            <% 
-                                let postingDate;
-                                try {
-                                    postingDate = new Date(data[4][i].postingDate).toISOString().substring(0, 10);
-                                } catch(error) {
-                                    console.log(error)
-                                    postingDate = 'Invalid Date';
-                                }
-                            %>
-                            <%= postingDate %>
-                        </td>
+                     <td name="date">
+    <% 
+        let postingDate;
+        try {
+            // Ensure the timestamp is in milliseconds
+            const timestamp = data[4][i].postingDate*1000 ; 
+
+            // Create a new Date object and format the date
+         postingDate = timestamp
+        //     postingDate = new Date(timestamp).toISOString();
+        } catch(error) {
+            console.log(error);
+            postingDate = 'Invalid Date';
+        }
+    %>
+    <%= postingDate %>
+</td>
+
+                        
                         <td>
                             <% 
                                 let invClient = '';

@@ -276,6 +276,58 @@ router.post('/manualTransaction', async (req, res) => {
 });
 
 ////////////////////////
+router.post('/processCollection', async (req, res) => {
+  try {
+      const collection = client.db(config.DB_NAME).collection(`${config.COLLECTION_SUBPATH}_transactions`);
+      
+      // Fetch all records
+      const records = await collection.find({}).toArray();
+      console.log(`Fetched ${records.length} records`);
+
+      // Normalize dates and create a map for tracking duplicates
+      let duplicatesMap = {};
+      records.forEach(record => {
+          // Normalize date format (example: YYYY-MM-DD)
+          record.postingDate = new Date(record.postingDate).toISOString().split('T')[0];
+
+          // Create a key for identifying duplicates (based on your criteria)
+          const duplicateKey = `${record.postingDate}-${record.amount}-${record.description}`;
+          if (!duplicatesMap[duplicateKey]) {
+              duplicatesMap[duplicateKey] = [];
+          }
+          duplicatesMap[duplicateKey].push(record);
+      });
+
+      console.log('Duplicates map created');
+
+      // Process duplicates
+      for (let key in duplicatesMap) {
+          if (duplicatesMap[key].length > 1) {
+              console.log(`Processing duplicates for key: ${key}`);
+
+              // Sort by 'invClient' presence, retain the one with 'invClient'
+              duplicatesMap[key].sort((a, b) => b.invClient ? 1 : -1);
+              let recordToKeep = duplicatesMap[key][0];
+              console.log(`Retaining record with ID: ${recordToKeep._id}`);
+
+              // Delete other duplicates
+              for (let i = 1; i < duplicatesMap[key].length; i++) {
+                  await collection.deleteOne({ _id: duplicatesMap[key][i]._id });
+                  console.log(`Deleted duplicate with ID: ${duplicatesMap[key][i]._id}`);
+              }
+
+              // Optionally update the retained record if needed
+              // await collection.updateOne({ _id: recordToKeep._id }, { $set: updatedFields });
+          }
+      }
+
+      console.log('Collection processing completed successfully');
+      res.send('Collection processed successfully.');
+  } catch (error) {
+      console.error(error);
+      res.status(500).send('Error processing collection.');
+  }
+});
 
 ///////////////////////////////////
   module.exports =router
