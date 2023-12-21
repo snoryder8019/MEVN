@@ -14,6 +14,7 @@
         <div>
         <h1 class="h1Span"><%=title%></h1>
         <div class="eventBody">
+         
       <p>*We keep info private and do not sell information about our registrants</p>
   <form action="/contactform" method="POST">
     <br><h2>name</h2>
@@ -21,13 +22,7 @@
       <br><h2>email address</h2>
       <input id="regEmail" type="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="valid email characters not recognized">
 
-      <select name="regType" id="">
-        <option name ="vendor" value="being a vendor"><h2>Have a Question</h2></option>
-        <option name ="member" value="member"><h2>Commission a Design</h2></option>       
-        <option name ="feedback" value="quote"><h2>I need an Estimate</h2></option>
-        <option name ="feedback" value="feedback"><h2>I want to pitch an idea</h2></option>
-
-      </select>
+   <input type="hidden" name="regType">
       <p>Opt in to receive messages from <%=data[3][0].companyName%></p>
       
       <input id="regBox" type="checkbox" name="agree"><br>
@@ -37,6 +32,7 @@
       <textarea name="message" cols="30" rows="10"></textarea>
       <button disabled onclick="loading('sending message... redirecting Home ')" id="regSubmit" type="submit"><h2>submit form</h2></button>
 </form>
+
 </div>
 </div>
 <div></div>

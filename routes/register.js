@@ -5,6 +5,7 @@ var client = require('../config/mongo');
 const axios = require('axios')
 var config = require('../config/config');
 const nodemailer = require('nodemailer')
+const nodeSchedule = require('node-schedule');
 // const accountSid = process.env.TWILIO_ACCOUNT_SID;
 // const authToken = process.env.TWILIO_AUTH_TOKEN;
 // const twilioClient = require('twilio')(accountSid, authToken);//middleware
@@ -26,7 +27,7 @@ router.get('/likeness', function(req, res) {
   router.get('/register',async (req, res)=> {
     const clientIp = req.headers['x-forwarded-for'] || req.ip;
     console.log(clientIp)
-  
+  const user = req.user;
     try {
   const data={
           subpath:config.COLLECTION_SUBPATH,
@@ -39,14 +40,12 @@ router.get('/likeness', function(req, res) {
   }};
         const response = await axios.get(config.DB_URL+'/api/readManyD',{params:data});
     console.log(req.cookies.user)
-     res.render('register',{title:"send us a message",data:response.data});
+     res.render('register',{title:"send us a message",data:response.data, user:user});
     } catch (error) {
       res.status(500).json({error});
     }
   });
 router.post('/regUser', (req,res) => {
- 
-
   async function main(){
    try { 
     await createUser(client,{    
@@ -89,55 +88,41 @@ const user = req.user
  
 })
 
-router.post('/contactform', (req,res) => {
-  // const messagingServiceSid = 'MG3fbb6ed2b097681e40887cfd1074546a'
-  // const numbers = ['+16822414402','+16822305399']
-  // numbers.forEach(number => {
-  //   twilioClient.messages
-  //     .create({
-  //       body: 'from coach scott: test from w2',
-  //       messagingServiceSid: messagingServiceSid,
-  //      // from: '+18886174452',
-  //       to:number
-  //     })
-  //     .then(message => console.log(`SMS sent to ${message.to}`))
-  //     .catch(error => console.error(`Error sending SMS to ${number}:`, error));
-  // });
 
+// In-memory storage for IP tracking (consider using a database for production)
+let ipSubmissionTimes = {};
 
+// Schedule Messaging Service
+nodeSchedule.scheduleJob('0 */2 * * *', () => {
+  // Your messaging service code here
+  console.log('Running scheduled messaging service');
+  // ... (twilioClient messaging code)
+});
 
+router.post('/contactform', (req, res) => {
+  const ip = req.ip; // Get IP address of the requester
+  const currentTime = new Date();
 
-    console.log("posts initiated")
-    let transporter = nodemailer.createTransport({
-      service: 'Gmail',
-      port:587,
-      auth:{
-          user: process.env.EMAILNAME,
-          pass:process.env.EMAILPASS,   
-        }
-  })
-      let mailOptions = {
-          from:'W2 MArketing WebApp ~ from '+ req.body.fname ,
-          to:'w2marketing.scott@gmail.com',        
-          subject:'W2 Marketing Contact Form',
-          text: req.body.message,
-          html:'<head><style>body{background-color:black;color:white}</style></head><body><h1><span>You Received a message from a guest on your website about <h2>'+req.body.regType+'</h2></span> </h1><br><h1>'+req.body.fname+' says: </h1><br><h2>'+req.body.message+'</h2><br>'+req.body.email+'</body>'
-      };
-      transporter.sendMail(mailOptions,function(error,info){
-          if(error){
-              console.log("transporter "+error);  
-          }
-          else{
-          console.log('email sent'+ info.response)
+  // Check if the IP has submitted in the last 2 hours
+  if (ipSubmissionTimes[ip] && (currentTime - ipSubmissionTimes[ip]) < 2 * 60 * 60 * 1000) {
+    // IP has submitted within the last 2 hours, suspend processing
+    console.log(`IP ${ip} is temporarily suspended from submitting`);
+    return res.status(429).send('Too many requests. Please try again later.');
+  }
 
+  // Update the submission time for this IP
+  ipSubmissionTimes[ip] = currentTime;
 
-          }        
-      })
+  // Your existing email sending code
+  let transporter = nodemailer.createTransport({ /* ... */ });
+  let mailOptions = { /* ... */ };
+  transporter.sendMail(mailOptions, function(error, info) {
+    // ...
+  });
 
-  
+  return res.redirect('/');
+});
 
-   return res.redirect('/');
-     })
 
 
   module.exports = router;
