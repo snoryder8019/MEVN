@@ -226,6 +226,39 @@ router.post('/addTransCat',(req,res)=>{
  res.redirect('transactions')
 }}
   )
+////////
+router.post('/invClientAssign', (req, res) => {
+  async function assignInvClient() {
+    const transactionId = ObjectId(req.body.transactionId); // Assuming you have a way to send transactionId
+    const companyName = req.body.companyName;
+    
+    try {
+      await updateInvClient(client, transactionId, companyName);
+      console.log(`Updated invClient for transactionId: ${transactionId}, companyName: ${companyName}`);
+    } catch (error) {
+      console.error(error);
+    }
+
+    // Redirect to the referring page
+    res.redirect(req.get('Referrer') || 'transactions');
+  }
+
+  assignInvClient().catch(console.error);
+});
+
+async function updateInvClient(client, transactionId, companyName) {
+  return client.db(config.DB_NAME)
+               .collection(`${config.COLLECTION_SUBPATH}_transactions`)
+               .updateOne(
+                 { _id: transactionId },
+                 { $set: { invClient: companyName } }
+               );
+}
+
+
+////////
+
+
   router.post('/updateTransCat/:id', async (req, res) => {
     const url = req.url.split('/')[2];
     const id = ObjectId(url);

@@ -37,6 +37,17 @@ NEW TRANSACTIONOS
 
 <button id="filterButton">filter</button>
 </div>
+<div class="eventBody">
+    <form action="/csvUpload" method="post" enctype="multipart/form-data">
+        <div>
+            <label for="csv">Upload CSV:</label>
+            <input type="file" id="csv" name="csv" accept=".csv">
+        </div>
+        <div>
+            <button type="submit">Upload</button>
+        </div>
+    </form>
+</div>
 <%if(typeof data[4]=='object'&& data[4]){%>
 <table style="background-color: grey;">
     <thead>
