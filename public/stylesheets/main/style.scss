@@ -1132,9 +1132,13 @@ color:#c1ff72
   width:100%
 }
 .divider{
+  overflow-x: auto;
   ::after{
    min-height: 50px;
     border-right:5px solid #FFD380 ;
+  }
+  @media (max-width:768px) {
+    font-size: .8rem;
   }
 }
 .wixBody{

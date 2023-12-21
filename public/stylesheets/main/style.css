@@ -1812,9 +1812,17 @@ th {
   width: 100%;
 }
 
+.divider {
+  overflow-x: auto;
+}
 .divider ::after {
   min-height: 50px;
   border-right: 5px solid #FFD380;
+}
+@media (max-width: 768px) {
+  .divider {
+    font-size: 0.8rem;
+  }
 }
 
 .wixBody {
