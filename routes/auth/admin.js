@@ -25,7 +25,7 @@ if(req.user.isAdmin==true){
 }
   }}
 ////////////////////////////////////
-router.get('/admin',async (req, res)=> {
+router.get('/admin',isAddy,async (req, res)=> {
   const clientIp = req.headers['x-forwarded-for'] || req.ip;
   console.log(clientIp)
 
