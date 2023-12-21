@@ -29,13 +29,14 @@ NEW TRANSACTIONOS
     <%- include('forms/years')%>
 
 </select>
+<button id="filterButton">filter</button>
+ type:
 <select name="sortType" id="sortType">
     <option value="ALL">all</option>
     <option value="CREDIT">credit</option>
     <option value="DEBIT">debit</option>
 </select>
 
-<button id="filterButton">filter</button>
 </div>
 <div class="eventBody">
     <form action="/csvUpload" method="post" enctype="multipart/form-data">
@@ -48,7 +49,7 @@ NEW TRANSACTIONOS
         </div>
     </form>
 </div>
-<%if(typeof data[4]=='object'&& data[4]){%>
+<%if(typeof transactions=='object'&& transactions){%>
 <table style="background-color: grey;">
     <thead>
         <th>date</th>
@@ -58,18 +59,18 @@ NEW TRANSACTIONOS
         <th>update</th>
     </thead>
     <tbody>
-        <%for(let i =0;i<data[4].length;i++){%>
+        <%for(let i =0;i<transactions.length;i++){%>
         
-            <tr class="transaction" data-type="<%= data[4][i].transactionType %>">
-            <td><%= new Date(data[4][i].postingDate).toLocaleDateString('en-US') %></td>
-            <td><%= data[4][i].amount%></td>
-        <td><%= data[4][i].memo%></td>
+            <tr class="transaction" data-type="<%= transactions[i].transactionType %>">
+            <td><%= new Date(transactions[i].postingDate).toLocaleDateString('en-US') %></td>
+            <td><%= transactions[i].amount%></td>
+        <td><%= transactions[i].memo || transactions[i].extendedDescription%></td>
 <!--FORM TO ASSIGN INVCLIENT-->
-<td><select name="companyName" id="invClient_<%=data[4][i]._id%>">
-    <option value="<%=data[4][i].invClient%>"><%=data[4][i].invClient%></option>
+<td><select name="companyName" id="invClient_<%=transactions[i]._id%>">
+    <option value="<%=transactions[i].invClient%>"><%=transactions[i].invClient%></option>
 <form action="/inClientAssign" method="post">
-    <%for(let i=0;i<data[1].length;i++){%>
-        <option value="<%=data[1][i].companyName%>"><%=data[1][i].companyName%></option>
+    <%for(let i=0;i<clients.length;i++){%>
+        <option value="<%=clients[i].companyName%>"><%=clients[i].companyName%></option>
         <%}%>
     </select></td>
     <td>

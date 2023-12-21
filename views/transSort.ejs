@@ -27,40 +27,35 @@
     <%- include('forms/years')%>
     
   </select>
-  
+  <button id="filterButton">filter</button>
+  type:
   <select name="sortType" id="sortType">
     <option value="ALL">all</option>
     <option value="CREDIT">credit</option>
     <option value="DEBIT">debit</option>
   </select>
   
-  <button id="filterButton">filter</button>
 </div>
 <%if(typeof transactions=='object'&& transactions){%>
-  <table style="background-color: grey;">
-    <div class="eventBody">
-
-      NEW TRANSACTIONS beginning : <%= transactions[0].postingDate%>
-    </div>
+<table style="background-color: grey;">
     <thead>
-      <th>date</th>
-      <th>amount</th>
-      <th>description</th>
-      <th>client</th>
-      <th>update</th>
+        <th>date</th>
+        <th>amount</th>
+        <th>description</th>
+        <th>client</th>
+        <th>update</th>
     </thead>
     <tbody>
         <%for(let i =0;i<transactions.length;i++){%>
-       
-          <tr class="transaction" data-type="<%= transactions[i].transactionType %>">
-        <td><%= transactions[i].postingDate%></td>
-        <td><%= transactions[i].amount%></td>
+        
+            <tr class="transaction" data-type="<%= transactions[i].transactionType %>">
+            <td><%= new Date(transactions[i].postingDate).toLocaleDateString('en-US') %></td>
+            <td><%= transactions[i].amount%></td>
         <td><%= transactions[i].memo || transactions[i].extendedDescription%></td>
 <!--FORM TO ASSIGN INVCLIENT-->
-<form action="/invClientAssign" method="post">
-  <input type="hidden" name="transactionId" value="<%=transactions[i]._id%>">
-  <td><select name="companyName" id="invClient_<%=transactions[i]._id%>">
+<td><select name="companyName" id="invClient_<%=transactions[i]._id%>">
     <option value="<%=transactions[i].invClient%>"><%=transactions[i].invClient%></option>
+<form action="/inClientAssign" method="post">
     <%for(let i=0;i<clients.length;i++){%>
         <option value="<%=clients[i].companyName%>"><%=clients[i].companyName%></option>
         <%}%>

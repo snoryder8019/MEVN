@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const transactions_mappings = require('./transactions_mappings')
 const client = require('../../config/mongo');
 const multer = require('multer');
 const csvtojson = require('csvtojson');
@@ -59,15 +60,41 @@ const endDate = new Date(Date.UTC(year, month, 1));
 ////////////
 ///////////////////////////////////////
 ///~~~~~~~~~~~TRANSACTIONS.EJS~~~~~~~~~~~~~~///
-const invCollections = {
-    0: '_services',
-    1: '_clients',
-    2:'_invoice',
-    3:'_options',
-    4:'_transactions',
-    5:'_transCat'
-  };
- router.get('/transactions',isAddy,getHandler(invCollections,'transactions'));
+// const invCollections = {
+//     0: '_services',
+//     1: '_clients',
+//     2:'_invoice',
+//     3:'_options',
+//     4:'_transactions',
+//     5:'_transCat'
+//   };
+//  router.get('/transactions',isAddy,getHandler(invCollections,'transactions'));
+router.get('/transactions', async (req, res) => {
+  try {
+    const currentDate = new Date();
+    const startDate = new Date();
+    startDate.setDate(currentDate.getDate() - 120); // Set to 120 days ago
+
+    // Fetch recent transactions
+    const transactionCollection = client.db(config.DB_NAME).collection(`${config.COLLECTION_SUBPATH}_transactions`);
+    const recentTransactions = await transactionCollection.find({
+      postingDate: { 
+        $gte: startDate, 
+        $lte: currentDate 
+      }
+    }).sort({ postingDate: -1 }).toArray();
+
+    // Fetch client data
+    const clientsCollection = client.db(config.DB_NAME).collection(`${config.COLLECTION_SUBPATH}_clients`);
+    const clients = await clientsCollection.find({}).toArray();
+
+    // Render the EJS view with transactions and client data
+    res.render('transactions', { transactions: recentTransactions, clients:clients });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error fetching recent transactions.');
+  }
+});
 
 // Function to convert a single key from space-separated to camel case
 function camelCaseKey(key) {
@@ -76,107 +103,38 @@ function camelCaseKey(key) {
   return camelCaseWords.join('');
 }
 
-// router.post('/csvUpload', upload.single('csv'), async (req, res) => {
-//   try {
-//     const filePath = req.file.path;
-//     const data = await csvtojson().fromFile(filePath);
-
-//     const normalizeKey = (key) => {
-//       const lowerKey = key.toLowerCase().trim();
-//       const mappings = {
-//         'transaction id': 'transactionId',
-//         'posting date': 'postingDate',
-//         'effective date': 'effectiveDate',
-//         'transaction type': 'transactionType',
-//         'amt': 'amount',
-//         'check no.': 'checkNumber',
-//         'ref no.': 'referenceNumber',
-//         'desc': 'description',
-//         'transaction cat.': 'transactionCategory',
-//         'transaction category': 'transactionCategory',
-//         'typ': 'type',
-//         'bal': 'balance',
-//         'memo note': 'memo',
-//         'ext. description': 'extendedDescription',
-//         'date': 'postingDate',
-//         'description': 'description',
-//         'gross': 'amount',
-//         'balance': 'balance',
-//         'time': 'time',
-//         'time zone': 'timeZone',
-//         'currency': 'currency',
-//         'fee': 'fee',
-//         'net': 'net',
-//         'from email address': 'emailAddress',
-//         'name': 'name',
-//         'bank name': 'bankName',
-//         'bank account': 'bankAccount',
-//         'shipping and handling amount': 'shippingAndHandlingAmount',
-//         'sales tax': 'salesTax',
-//         'invoice id': 'invoiceId',
-//         'reference txn id': 'referenceTxnId'
-//       };
-//       return mappings[lowerKey] || key;
-//     };
-////
 router.post('/csvUpload', upload.single('csv'), async (req, res) => {
   const filePath = req.file.path;
   const data = await csvtojson().fromFile(filePath);
 
   const normalizeKey = (key) => {
-    const lowerKey = key.toLowerCase().trim();
-          const mappings = {
-    'transaction id': 'transactionId',
-            'posting date': 'postingDate',
-            'effective date': 'effectiveDate',
-            'transaction type': 'transactionType',
-            'amt': 'amount',
-            'check no.': 'checkNumber',
-            'ref no.': 'referenceNumber',
-            'desc': 'description',
-            'transaction cat.': 'transactionCategory',
-            'transaction category': 'transactionCategory',
-            'typ': 'type',
-            'bal': 'balance',
-            'memo note': 'memo',
-            'ext. description': 'extendedDescription',
-            'date': 'postingDate',
-            'description': 'description',
-            'gross': 'amount',
-            'balance': 'balance',
-            'time': 'time',
-            'time zone': 'timeZone',
-            'currency': 'currency',
-            'fee': 'fee',
-            'net': 'net',
-            'from email address': 'emailAddress',
-            'name': 'name',
-            'bank name': 'bankName',
-            'bank account': 'bankAccount',
-            'shipping and handling amount': 'shippingAndHandlingAmount',
-            'sales tax': 'salesTax',
-            'invoice id': 'invoiceId',
-            'reference txn id': 'referenceTxnId'
-  }
-    return mappings[key.toLowerCase().trim()] || key;
+    const originalKey = key;
+    const mappedKey = transactions_mappings[key.toLowerCase().trim()];
+    const finalKey = mappedKey ? mappedKey : camelCaseKey(key);
+    console.log(`Original key: ${originalKey}, Normalized key: ${finalKey}`);
+    return finalKey;
   };
 
-  const camelCasedData = data.map(item => {
+  const processedData = data.map(item => {
     const normalizedItem = {};
     Object.keys(item).forEach(key => {
       // Convert dates to BSON format
-      if (['postingDate', 'effectiveDate'].includes(key)) {
-        normalizedItem[normalizeKey(key)] = new Date(item[key]);
+      const normalizedKey = normalizeKey(key);
+      if (['postingDate', 'effectiveDate'].includes(normalizedKey)) {
+        normalizedItem[normalizedKey] = new Date(item[key]);
       } else {
-        normalizedItem[normalizeKey(key)] = item[key];
+        normalizedItem[normalizedKey] = item[key];
       }
     });
     return normalizedItem;
   });
 
-  await client.db(config.DB_NAME).collection(`${config.COLLECTION_SUBPATH}_transactions`).insertMany(camelCasedData, { ordered: false });
+  console.log('Processed Data:', processedData);
+
+  await client.db(config.DB_NAME).collection(`${config.COLLECTION_SUBPATH}_transactions`).insertMany(processedData, { ordered: false });
   res.redirect('transactions');
 });
+
 
 ///////////////////////////////////////////////
 
