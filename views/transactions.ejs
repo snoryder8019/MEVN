@@ -109,10 +109,16 @@ NEW TRANSACTIONOS
     const transactions = document.querySelectorAll('.transaction');
 
     sortTypeSelect.addEventListener('change', function() {
-        const selectedType = this.value;
+        const selectedType = this.value.toLowerCase();
         transactions.forEach(tr => {
-            const transactionType = tr.getAttribute('data-type');
-            if (selectedType === 'ALL' || selectedType === transactionType) {
+            const transactionType = tr.getAttribute('data-type').toLowerCase();
+
+            // Handle different cases like 'CREDIT', 'Credit', 'DEBIT', 'Debit'
+            const isCredit = selectedType === 'credit' && transactionType.includes('credit');
+            const isDebit = selectedType === 'debit' && transactionType.includes('debit');
+            const isAll = selectedType === 'all';
+
+            if (isAll || isCredit || isDebit) {
                 tr.style.display = ''; // Show the transaction
             } else {
                 tr.style.display = 'none'; // Hide the transaction
@@ -120,6 +126,7 @@ NEW TRANSACTIONOS
         });
     });
 });
+
 </script>
 
   
