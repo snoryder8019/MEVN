@@ -27,64 +27,36 @@ if(req.user.isAdmin==true){
 }
   }}
   //////////////////////////////
-  router.post('/processTransactions', async (req, res) => {
-    console.log("Starting to process transactions");
-  
-    const transactionCollection = client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH + '_transactions');
-    const recyclingCollection = client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH + '_recycling');
-  
-    console.log("Collections initialized");
-  
-    // Normalize Dates to Date.now() timestamp
-    const cursor = transactionCollection.find({});
-    while (await cursor.hasNext()) {
-      const doc = await cursor.next();
-      console.log("Processing document:", doc);
-  
-      if (doc.postingDate && typeof doc.postingDate === 'string') {
-        const timestamp = new Date(doc.postingDate).getTime();
-        console.log("Converting postingDate to timestamp for document ID:", doc._id);
-        await transactionCollection.updateOne({ _id: doc._id }, { $set: { postingDate: timestamp } });
-        console.log("Updated document ID:", doc._id, "with new timestamp:", timestamp);
-      } else {
-        console.log("No conversion needed for document ID:", doc._id);
-      }
-    }
-  
-    console.log("Date normalization complete");
-  
-    // ... [rest of your code for removing duplicates and processing transactions]
-  
-    res.status(200).send('Transactions processed');
-    console.log("Processing complete");
-  });
   
   ////////////////////////////
-  
   router.get('/transSort/:month/:year', async (req, res) => {
-    console.log("Endpoint /transactions/:month/:year called");
-  
+    console.log("Endpoint /transSort/:month/:year called");
+
     const { month, year } = req.params;
-    const startDate = new Date(`${year}-${month}-01T00:00:00Z`);
-    const endDate = new Date(new Date(startDate).setMonth(startDate.getMonth() + 1));
-  
+    const startDate = new Date(Date.UTC(year, month - 1, 1));
+const endDate = new Date(Date.UTC(year, month, 1));
+
     console.log(`Fetching transactions for ${month} ${year}...`);
-  
+
     const transactionCollection = client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_transactions');
     const transactions = await transactionCollection.find({
-      postingDate: {
-        $gte: startDate,
-        $lt: endDate
-      }
+        postingDate: { $gte: startDate, $lt: endDate }
     }).toArray();
-  
+
+    console.log("Transactions fetched:", transactions);
+
+    // Fetch data from _clients collection
+    const clientsCollection = client.db(config.DB_NAME).collection(config.COLLECTION_SUBPATH+'_clients');
+    const clients = await clientsCollection.find({}).toArray();
+
+    console.log("Clients fetched:", clients);
+
     console.log(`Found ${transactions.length} transactions.`);
-  
-    // Render the transactions using EJS
-    res.render('transSort', { transactions, month, year });
-  });
-  
-  ////////////////////////////
+
+    res.render('transSort', { transactions, clients, month, year });
+});
+
+////////////
 ///////////////////////////////////////
 ///~~~~~~~~~~~TRANSACTIONS.EJS~~~~~~~~~~~~~~///
 const invCollections = {
@@ -192,13 +164,48 @@ router.post('/csvUpload', upload.single('csv'), async (req, res) => {
   const camelCasedData = data.map(item => {
     const normalizedItem = {};
     Object.keys(item).forEach(key => {
-      normalizedItem[normalizeKey(key)] = key === 'postingDate' ? new Date(item[key]).getTime() : item[key];
+      // Convert dates to BSON format
+      if (['postingDate', 'effectiveDate'].includes(key)) {
+        normalizedItem[normalizeKey(key)] = new Date(item[key]);
+      } else {
+        normalizedItem[normalizeKey(key)] = item[key];
+      }
     });
     return normalizedItem;
   });
 
   await client.db(config.DB_NAME).collection(`${config.COLLECTION_SUBPATH}_transactions`).insertMany(camelCasedData, { ordered: false });
   res.redirect('transactions');
+});
+
+///////////////////////////////////////////////
+
+
+router.get('/convertDatesToBson', async (req, res) => {
+  const transactionCollection = client.db(config.DB_NAME).collection(`${config.COLLECTION_SUBPATH}_transactions`);
+
+  const transactions = await transactionCollection.find({}).toArray();
+  console.log(`Found ${transactions.length} transactions. Starting conversion...`);
+
+  let convertedCount = 0;
+  for (const transaction of transactions) {
+    const updatedFields = {};
+    if (transaction.postingDate && typeof transaction.postingDate === 'string') {
+      updatedFields.postingDate = new Date(transaction.postingDate);
+    }
+    if (transaction.effectiveDate && typeof transaction.effectiveDate === 'string') {
+      updatedFields.effectiveDate = new Date(transaction.effectiveDate);
+    }
+
+    if (Object.keys(updatedFields).length > 0) {
+      await transactionCollection.updateOne({ _id: transaction._id }, { $set: updatedFields });
+      console.log(`Transaction ID ${transaction._id} updated with new dates.`);
+      convertedCount++;
+    }
+  }
+
+  console.log(`Date conversion complete. Total converted: ${convertedCount}.`);
+  res.send(`Date conversion complete. Total converted: ${convertedCount}.`);
 });
 
 
@@ -275,59 +282,6 @@ router.post('/manualTransaction', async (req, res) => {
   }
 });
 
-////////////////////////
-router.post('/processCollection', async (req, res) => {
-  try {
-      const collection = client.db(config.DB_NAME).collection(`${config.COLLECTION_SUBPATH}_transactions`);
-      
-      // Fetch all records
-      const records = await collection.find({}).toArray();
-      console.log(`Fetched ${records.length} records`);
-
-      // Normalize dates and create a map for tracking duplicates
-      let duplicatesMap = {};
-      records.forEach(record => {
-          // Normalize date format (example: YYYY-MM-DD)
-          record.postingDate = new Date(record.postingDate).toISOString().split('T')[0];
-
-          // Create a key for identifying duplicates (based on your criteria)
-          const duplicateKey = `${record.postingDate}-${record.amount}-${record.description}`;
-          if (!duplicatesMap[duplicateKey]) {
-              duplicatesMap[duplicateKey] = [];
-          }
-          duplicatesMap[duplicateKey].push(record);
-      });
-
-      console.log('Duplicates map created');
-
-      // Process duplicates
-      for (let key in duplicatesMap) {
-          if (duplicatesMap[key].length > 1) {
-              console.log(`Processing duplicates for key: ${key}`);
-
-              // Sort by 'invClient' presence, retain the one with 'invClient'
-              duplicatesMap[key].sort((a, b) => b.invClient ? 1 : -1);
-              let recordToKeep = duplicatesMap[key][0];
-              console.log(`Retaining record with ID: ${recordToKeep._id}`);
-
-              // Delete other duplicates
-              for (let i = 1; i < duplicatesMap[key].length; i++) {
-                  await collection.deleteOne({ _id: duplicatesMap[key][i]._id });
-                  console.log(`Deleted duplicate with ID: ${duplicatesMap[key][i]._id}`);
-              }
-
-              // Optionally update the retained record if needed
-              // await collection.updateOne({ _id: recordToKeep._id }, { $set: updatedFields });
-          }
-      }
-
-      console.log('Collection processing completed successfully');
-      res.send('Collection processed successfully.');
-  } catch (error) {
-      console.error(error);
-      res.status(500).send('Error processing collection.');
-  }
-});
 
 ///////////////////////////////////
   module.exports =router

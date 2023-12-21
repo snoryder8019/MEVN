@@ -1,17 +1,120 @@
+
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Transactions for <%= month %> <%= year %></title>
+  <head>
+    
+    <%- include('config/head.ejs')%>
+<!--GOOGLE-->
+<meta name="google-site-verification" content="Pvp74_YXTw6uwsBP-6pTFmbwnjXD7_zXP-WUG4FpWU8" />
+<!--end-->
 </head>
-<body>
-  <h1>Transactions for <%= month %> <%= year %></h1>
-  <ul>
-    <% transactions.forEach((transaction) => { %>
-      <li>
-        Transaction ID: <%= transaction.transactionId %>, 
-        Date: <%= new Date(transaction.postingDate * 1000).toLocaleDateString() %> <!-- Convert from Unix timestamp to Date -->
-      </li>
-    <% }); %>
-  </ul>
+<body>   
+  <%- include('config/bkgdImg.ejs')%>            
+
+  <%- include('config/header.ejs')%>
+<div>...</div>
+<div>...</div>
+<div>...</div>
+<div>...</div>
+NEW TRANSACTIONOS
+
+<div class="eventBody">
+
+  <select name="sortMonth" id="sortMonth">
+     <%- include('forms/months')%>
+  </select>
+  
+  <select name="sortYear" id="sortYear">
+      <%- include('forms/years')%>
+  
+  </select>
+  
+  <select name="sortType" id="sortType">
+    <option value="ALL">all</option>
+    <option value="CREDIT">credit</option>
+    <option value="DEBIT">debit</option>
+</select>
+
+  <button id="filterButton">filter</button>
+  </div>
+<%if(typeof transactions=='object'&& transactions){%>
+<table style="background-color: grey;">
+    <thead>
+        <th>date</th>
+        <th>amount</th>
+        <th>description</th>
+        <th>client</th>
+        <th>update</th>
+    </thead>
+    <tbody>
+        <%for(let i =0;i<transactions.length;i++){%>
+       
+          <tr class="transaction" data-type="<%= transactions[i].transactionType %>">
+        <td><%= transactions[i].postingDate%></td>
+        <td><%= transactions[i].amount%></td>
+        <td><%= transactions[i].memo%></td>
+<!--FORM TO ASSIGN INVCLIENT-->
+<td><select name="companyName" id="invClient_<%=transactions[i]._id%>">
+    <option value="<%=transactions[i].invClient%>"><%=transactions[i].invClient%></option>
+<form action="/inClientAssign" method="post">
+    <%for(let i=0;i<clients.length;i++){%>
+        <option value="<%=clients[i].companyName%>"><%=clients[i].companyName%></option>
+        <%}%>
+    </select></td>
+    <td>
+    <button type="submit">update</button>
+    </td>
+</form>
+    <!---->
+
+        </tr>
+     
+        <%}%>
+</tbody>
+</table>
+<%}%>
+
+
+
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      const sortMonth = document.getElementById('sortMonth');
+      const sortYear = document.getElementById('sortYear');
+      const filterButton = document.getElementById('filterButton');
+
+      filterButton.addEventListener('click', sendRequest);
+
+      function sendRequest() {
+          const month = sortMonth.value;
+          const year = sortYear.value;
+
+          if(month && year) {
+              window.location.href = `/transSort/${month}/${year}`;
+          }
+      }
+  });
+  document.addEventListener('DOMContentLoaded', function() {
+    const sortTypeSelect = document.getElementById('sortType');
+    const transactions = document.querySelectorAll('.transaction');
+
+    sortTypeSelect.addEventListener('change', function() {
+        const selectedType = this.value;
+        transactions.forEach(tr => {
+            const transactionType = tr.getAttribute('data-type');
+            if (selectedType === 'ALL' || selectedType === transactionType) {
+                tr.style.display = ''; // Show the transaction
+            } else {
+                tr.style.display = 'none'; // Hide the transaction
+            }
+        });
+    });
+});
+</script>
+
+    
 </body>
 </html>
+
+    

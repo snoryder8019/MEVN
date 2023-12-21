@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -7,13 +8,54 @@
 <meta name="google-site-verification" content="Pvp74_YXTw6uwsBP-6pTFmbwnjXD7_zXP-WUG4FpWU8" />
 <!--end-->
 </head>
-<body onload="listeners()">   
+<body>   
   <%- include('config/bkgdImg.ejs')%>            
 
   <%- include('config/header.ejs')%>
-   
+
+   <div id="utilities">
+    <div class="eventBody">
+        <div class="eventBody">
+            <form action="/csvUpload" method="post" enctype="multipart/form-data">
+                <input type="file" name="csv">
+                <button type="submit">Upload</button>
+              </form>        
+        </div>
+    </div>
+  <!--MANAGE THIS INFO PANE IN JS-->
+<!--MANUAL TRANSACTIONS FORM-->
+<div class="EventBody">
+    <div class="eventBody">
+        <form action="/manualTransaction" method="post">    
+            <h2>Posting Date</h2>
+            <input type="text" id="date-input" name="postingDate" pattern="\d{2}-\d{2}-\d{4}" required>
+            
+            <h2>Amount</h2>
+            <input type="text" name="amount" required> <!-- It's a good idea to specify input type, e.g., "number" -->
+
+            <h2>Description</h2>
+            <input type="text" name="description" required>
+
+            <h2>Invoice Payment From:</h2>
+            <select name="invClient" class="invClient">
+                <option value=""></option>
+                <% for(let i = 0; i < data[1].length; i++) { %>
+                    <option value="<%= data[1][i].companyName %>"><%= data[1][i].companyName %></option>
+                <% } %>
+            </select>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</div>
+
+    
+
+   </div>
       
       <h1 class="h1Span">TRANSACTIONS</h1>
+      
+
+  <button id="transUtilities">UTILITIES</button>
       <a href="/services"><button>services</button></a>
       <a href="/accounts"><button>accounts</button></a>
       <a href="/admin"><button>admin</button></a>
@@ -21,233 +63,206 @@
       <a href="/invoice"><button>invoice</button></a>
       <a href="/dashboard"><button>dashboard</button></a>
  
+
+
+
+<!---->
+
+
+
+
+
+
+<!---->
+
+<!--MANAGE THIS INFO PANE IN JS-->
+
+
+      <!--MANAGE THIS TRANSACTION WINDOW IN JS-->
 <div class="eventBody">
+
+    <select id="sortDropdown">
+        <option value="amount">Amount</option>
+        <option value="date">Date</option>
+        <!-- Add more options here -->
+      </select>
+
+      <select id="monthDropdown">
+        <option value="">All Months</option>
+        <option value="01">January</option>
+        <option value="02">February</option>
+        <!-- ... -->                                                                                  
+        <option value="03">March</option>
+        <option value="04">April</option>
+        <option value="05">May</option>
+        <option value="06">June</option>
+        <option value="07">July</option>
+        <option value="08">August</option>
+        <option value="09">September</option>
+        <option value="10">October</option>
+        <option value="11">November</option>
+        <!-- ... -->
+        <option value="12">December</option>
+      </select>
+      
+      <input type="text" id="yearInput" placeholder="Year">
 <h1> transactions</h1>
 
 
+<% if(data[4]) { %>
+    <div class="eventBody">
+        <table id="transactionTable">
+            <thead>
+                <th>amount</th>
+                <th>date</th>
+                <th>co invoiced</th>
+                <th>description</th>
+                <th>memo</th>
+                <th>update</th>
+            </thead>
+            <tbody>
+                <% for(let i = 0; i < data[4].length; i++) { %>
+                    <form action="/updateTransCat/<%=data[4][i]._id%>" method="post">
+                    <% if(data[4][i].amount && data[4][i].amount > 0){ %>
+                        <tr style="background-color: rgb(7, 96, 7);">
+                    <% } %>
+                    <% if(data[4][i].amount && data[4][i].amount < 0){ %>
+                        <tr style="background-color: rgb(55, 45, 39);">
+                    <% } %>
+                        <td name="amount">
+                            <%= data[4][i].amount %>
+                        </td>
+                     <td name="date">
+    <% 
+        let postingDate;
+        try {
+            // Ensure the timestamp is in milliseconds
+            const timestamp = data[4][i].postingDate*1000 ; 
 
-<!--lets really break down this transaction object-->
-<%if(data){%>
-    <%let dataSetArray = []%>
-datafound
-<br>
-        <%for(i=0;i<Object.keys(data).length;i++){%>
-        <%dataSetArray.push(Object.keys(data)[i])%>
-        <%}%>
-data sets:
-<br>
-<ul>
-            <%for(x=0;x<dataSetArray.length;x++){%>
-            <li>
-              <h2>  data[<%=dataSetArray[x]%>]:</h2>
-                <ul>
-                 <!--NESTED DYNAMC UL LIs-->
-                    <%for(let z=0;z<Object.keys(data[x]).length;z++){%>
-                    <li><strong><%=z%>: ~~</strong>  <%=Object.values(data[x][z])%></li>
-                    <%}%>
-                </ul>
+            // Create a new Date object and format the date
+         postingDate = timestamp
+        //     postingDate = new Date(timestamp).toISOString();
+        } catch(error) {
+            console.log(error);
+            postingDate = 'Invalid Date';
+        }
+    %>
+    <%= postingDate %>
+</td>
 
-            </li>
-            <%}%>
-</ul>
-<br>
-<%}else{%>
-no data found 
-<br>
-<%}%>
-
-<%if(typeof data[4]=='object'&&data[4]){%>
-
-<table>
-    <thead>           
-       <th>date</th> 
-       <th>amount</th> 
-       <th>categorize</th> 
-       <th>co invoiced</th> 
-       <th>memo</th> 
-       <th>info</th> 
-       <th>update</th> 
-       <th>delete</th> 
-   
-    </thead>
-    <tbody>
-        <!--TRANSACTION ROWS of DATA PLACED IN FORM TO UPDATE-->
-        <%for(let i =0;i<data[4].length;i++){%>
-            <form action="/updateTransCat/<%=data[4][i]._id%>"method="post">
-<%if(data[4][i].amount){%>
-                <%if(data[4][i].amount<0){%>
-    <tr style="background-color:rgba(232, 185, 180, 0.381)">
-        <%}else{%>
-            <tr style="background-color:rgba(144, 238, 144, 0.162)">
-                <%}%>
-                <%let amount = data[4][i].amount%>
-                <%let modWhole = amount.split('.')[0]%>
-                <%let modPart = amount.split('.')[1]%>
-                <%let modChange = modPart.slice(0,2)%>
-                <td> 
-                    <%if(data[4][i].postingDate){%>
-                     <%=data[4][i].postingDate%>
-                     <%}else{%>
-                        no posting date
-                        <%}%>
-                    </td>
-                <td id="tdMoney" class="total">$ <%=modWhole+"."+modChange%></td>   
-
-                <%if(data[4][i].transType=='object'&& data[4][i].transType){%>
-                <td>        
-        <select name="transType">
-              <option value="<%=data[4][i].transType%>"><%=data[4][i].transType%></option>
-               <%for(let i =0;i<data[5].length;i++){%>
-            <option value="<%=data[5][i].transType%>"><%=data[5][i].transType%></option>
-            <%}%>
-        </select>
-        </td>
-        <%}else{%>
-            <td>
-                <select name="transType" id=""> <option value="no transtype"> "no transtype"</option></select>
-               
-            </td>
-            <%}%>
-        <td>  
-            <select name="invClient">
-                <%if(typeof data[4][i].invClient=='object' && data[4][i].invClient){%>
-                    <option value="<%=data[4][i].invClient%>"><%=data[4][i].invClient%></option>
-                    <option value="none">none to invoice</option>
-                    <%}else{%>
-                <option value="none">none to invoice</option>
-                <%}%>
-                <%for(let i =0;i<data[1].length;i++){%>
-                <option value="<%=data[1][i].companyName%>"><%=data[1][i].companyName%></option>
-                <%}%>
-            </select>
-            </td>
-
-    <td> <%if(data[4][i].memo){%>
-        <input name="transMemo" value="<%=data[4][i].memo%>" type="text">
-        <%}else{%>
-            model needs update
-            <%}%>
-        </td>
-    <td>
-        <%if(data[4][i].description){%>
-        <%=data[4][i].description%>
-    <%}else{%>
-        no description
-        <%}%>
-    </td>
-    <td><button type="submit()">update</button></td>
-</form>
-   <td><form action="delTrans"method="post"><input hidden name="transId" value="<%=data[4][i]._id%>" type="text"><button>delete</button></form></td>
-</tr>
-<%}else{%>
-    <tr>
-        <td>
-            <%if(data[4][i].postingDate){%>
-            <%=data[4][i].postingDate%>
-        <%}else{%>
-        no posting date
-            <%}%>
-        </td>
-        <td style="min-width:100%"> error with .amount or .postingDate</td>
-
-    </tr>
-<%}%>
-<%}%>
-</tbody>
-</table>
-</div>
-<!--CREATE TRANSACTION CATEGORIES-->
-<div class="eventBody">
-    <form action="/addTransCat"method="post">
-        <h2>Add transaction category</h2>
-<input type="text" name="transType">
-<button type="submit">add</button>
-    </form>
-</div>
-<div class="eventBody">
-    <form action="/csvUpload" method="post" enctype="multipart/form-data">
-        <input type="file" name="csv">
-        <button type="submit">Upload</button>
-      </form>
-
-
-
-
-</div>
-<!--MANUAL TRANSACTIONS FORM-->
-<div class="EventBody">
-<form action="/manualTransaction" method="post">
-   
+                        
+                        <td>
+                            <% 
+                                let invClient = '';
+                                try {
+                                    if(data[4][i].invClient) {
+                                        invClient = data[4][i].invClient;
+                                    }
+                                } catch(error) {
+                                    console.log(error)
+                                }
+                            %>
+                            <select name="invClient">
+                                <option value="<%=invClient%>"> <%= invClient %></option>
+                                <% for(let j = 0; j < data[1].length; j++){ %>
+                                    <option value="<%=data[1][j].companyName%>"><%=data[1][j].companyName%></option>
+                                <% } %>
+                            </select> 
+                        </td>
+                        <td>
+                            <%= data[4][i].description %>
+                        </td>
+                        <td>
+                            <%= data[4][i].memo %>
+                        </td>
+                        <td><button type="submit">update</button></td>
+                    </form>
+                    <form action="/delTrans" method="post">
+                        <input name="transId" type="hidden" value="<%= data[4][i]._id %>">
+                        <td><button type="submit">delete</button></td>
+                    </form>
+                </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+    <% } else { %>
+        no data 
+    <% } %>
+    </div>
+    
+<script>
+      document.addEventListener('DOMContentLoaded', function() {
+      const sortDropdown = document.getElementById('sortDropdown');
+      const table = document.getElementById('transactionTable');
       
- 
-    <h2> <%= Object.keys(data[4][0])[2]%></h2>
-        <input type="date" id="date-input" name="postingDate" pattern="\d{2}-\d{2}-\d{4}" required>
-        <h2> <%= Object.keys(data[4][0])[3]%></h2>
- <input name="amount">
-        <h2> <%= Object.keys(data[4][0])[6]%></h2>
- <input name="description">
-        <select name="transType">
-             
-               <%for(let i =0;i<data[5].length;i++){%>
-            <option value="<%=data[5][i].transType%>"><%=data[5][i].transType%></option>
-            <%}%>
-        </select>
-        scott-make this dynamic
-       
-        <select name="invClient"  class="invClient">
-            <option value="none">none</option>
-            <%for(let i =0;i<data[1].length;i++){%>
-                <option value="<%=data[1][i].companyName%>"><%=data[1][i].companyName%></option>
-                <%}%>
-            </select>
-    <button typew ="submit">submit</button>
-</form>
+      if (sortDropdown && table) {
+        sortDropdown.addEventListener('change', function() {
+          const sortBy = this.value;
+          sortTable(table, sortBy);
+        });
+      }
+      
+      function sortTable(table, sortBy) {
+        const rows = Array.from(table.querySelectorAll('tbody tr'));
+        const sortedRows = sortBy === "date" ?
+          rows.sort((a, b) => a.dataset.timestamp - b.dataset.timestamp) :
+          rows.sort((a, b) => {
+            const cellA = a.querySelector(`td[name=${sortBy}]`);
+            const cellB = b.querySelector(`td[name=${sortBy}]`);
+            if (cellA && cellB) {
+              return cellA.textContent.localeCompare(cellB.textContent, undefined, {numeric: true});
+            }
+            return 0;
+          });
 
-</div>
-<%}%>
-<script>  
-    function listeners(){
-        const servicesAdded = document.getElementById('servicesAdded')
-        const costsAdded = document.getElementById('costsAdded')
-        const namesAdded = document.getElementById('namesAdded')
-        const serviceAdd = document.getElementById('serviceAdd')
-        const clientAdd = document.getElementById('clientAdd')
-        const addSvcButton = document.getElementById('addSvcButton')
-        serviceAdd.addEventListener('change', svcChange)
-        addSvcButton.addEventListener('click', svcAdd)
-    }    
-    function svcChange(){
-        console.log(event.target.value)
-    }
-    function svcAdd(){
-    console.log(`added ${serviceAdd.value}`)
-    //ADD NAMES AND COSTS
-   const svcId =  serviceAdd.value.split('|')[0] 
-   const svcNamer =  serviceAdd.value.split('|')[1] 
-  const svcCost =  serviceAdd.value.split('|')[2] 
-  const svcData = {  }
-///////SERVICES TABLE///////
-const tRow = document.createElement('div')
-const totalcostEl= document.createElement('h3')
-const namesEl= document.createElement('h3')
-const costText = document.createTextNode(svcCost)
-const namesText = document.createTextNode(svcNamer)
-namesEl.appendChild(namesText)
-totalcostEl.appendChild(costText)
-tRow.appendChild(namesEl)
-tRow.appendChild(totalcostEl)
-   costsAdded.appendChild(tRow)
-   /////////
-  //ADD INPUT ELEMENTS FOR SERVICES
-   const inputEl = document.createElement('input');
-   inputEl.setAttribute('type','text')
-   inputEl.setAttribute('name','serviceName')
-   inputEl.setAttribute('value', serviceAdd.value ) 
-   const hrefEl = document.createElement('button')
-   hrefEl.setAttribute('onclick',`remove(${serviceAdd.value})`)
-   servicesAdded.appendChild(inputEl, hrefEl)
-
-
+        const tbody = table.querySelector('tbody');
+        tbody.innerHTML = '';
+        sortedRows.forEach(row => tbody.appendChild(row));
+      }
+    
+      // Filtering
+      if (monthDropdown && yearInput && table) {
+        monthDropdown.addEventListener('change', filterTable);
+        yearInput.addEventListener('input', filterTable);
+      }
+    
+      function filterTable() {
+        const month = monthDropdown.value;
+        const year = yearInput.value;
+        const rows = Array.from(table.querySelectorAll('tbody tr'));
+        
+        rows.forEach(row => {
+          const dateCell = row.querySelector('td[name=date]');
+          if (dateCell) {
+            const dateParts = dateCell.textContent.trim().split('-'); // Assuming date format is DD-MM-YYYY
+            if ((month === "" || dateParts[0] === month) && (year === "" || dateParts[2] === year)) {
+  row.style.display = '';
+} else {
+  row.style.display = 'none';
 }
-</script>
-</body> </html>
+          }
+        });
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+    const transUtilitiesBtn = document.getElementById('transUtilities');
+    const utilitiesDiv = document.getElementById('utilities');
+
+    transUtilitiesBtn.addEventListener('click', function() {
+        const currentDisplay = getComputedStyle(utilitiesDiv).display;
+        if (currentDisplay === 'block') {
+            utilitiesDiv.style.display = 'none';
+        } else {
+            utilitiesDiv.style.display = 'block';
+        }
+    });
+});
+
+    </script>
+    
+</body>
+</html>
+
+    
