@@ -64,6 +64,10 @@ function onError(error) {
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
+    case '500':
+      console.error(bind + 'returned 500')
+      process.exit(1);
+      break;
     case 'EACCES':
       console.error(bind + ' requires elevated privileges');
       process.exit(1);

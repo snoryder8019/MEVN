@@ -11,6 +11,7 @@ router.get('/',async (req, res)=> {
   const clientIp = req.headers['x-forwarded-for'] || req.ip;
   console.log(clientIp)
   try {
+    console.log(`index route`)
 const data={
         subpath:config.COLLECTION_SUBPATH,
         dbName:config.DB_NAME,
@@ -24,8 +25,10 @@ const data={
  // console.log(response.data)
    res.render('index',{data:response.data});
   } catch (error) {
-    res.status(500).json({ error: error.message});
+    console.error(error);
+    res.status(500).json({ error: error.message });
   }
+  
 });
 router.get('/faqs',(req,res)=>{
     const options = {

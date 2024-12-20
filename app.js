@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose')
-
+const initDB = require('./config/mongo')
 //dependancies
 const env = require('dotenv').config();
 const createError = require('http-errors');
@@ -15,7 +15,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const url = require('url');
 const flash = require('express-flash')
-const config = require('./config/config_noco')
+const config = require('./config/config')
 //views to individual pages
 const indexRouter = require('./index');
 const routesRouter = require('./routes/index');
@@ -26,6 +26,7 @@ app.set('view engine', 'ejs',{async:true});
 //MIDDLEWARES
 global.config = config
 //hit DB before middlewares
+initDB();
 connectDB();
 //possible apache dependancies
 app.enable("trust proxy")

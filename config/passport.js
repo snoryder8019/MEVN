@@ -67,8 +67,8 @@ async (accessToken, refreshToken, profile, done) => {
    
       }
       try{
-        console.log()
         let user = await User.findOne({email:profile.emails[0].value})
+        console.log(`user: ${user}`)
         if(user){
           console.log('if user true')
           done(null,user)
